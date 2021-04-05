@@ -83,9 +83,16 @@ def pocket_loader_gen(
 class PocketDataset(Dataset):
     """Dataset to generate single pocket graphs for inference/testing."""
 
-    def __init__(self, pockets, pocket_dir, pop_dir, smiles_dict, features_to_use, vocab, vocab_path):
+    def __init__(self,
+                 pockets,
+                 pocket_dir,
+                 pop_dir,
+                 smiles_dict,
+                 features_to_use,
+                 vocab,
+                 vocab_path):
         """
-        pocket: a list of pockets to include. Split the the pockets into train/test outside this class.
+        pocket: a list of pockets to include.
         pockect_dir: directoy of pockets and the .profile files.
         pop_dir: directory of the sasa files.
         smiles_dict: a python dictionary of pocket-smiles pairs
@@ -96,7 +103,9 @@ class PocketDataset(Dataset):
         self.pocket_dir = pocket_dir
         self.pop_dir = pop_dir
         self.smiles_dict = smiles_dict
-        self.threshold = 4.5  # distance threshold to form an undirected edge between two atoms
+
+        # distance threshold to form an undirected edge between two atoms
+        self.threshold = 4.5
 
         # hard coded info to generate 2 node features
         self.hydrophobicity = {'ALA': 1.8, 'ARG': -4.5, 'ASN': -3.5, 'ASP': -3.5,
@@ -139,9 +148,15 @@ class PocketDataset(Dataset):
             '/' + pocket[0:-2] + '.profile'
         pop_dir = self.pop_dir + pocket[0:-2] + '.pops'
 
-        x, edge_index, edge_attr = read_pocket(pocket_dir, profile_dir, pop_dir,
-                                               self.hydrophobicity, self.binding_probability,
-                                               self.features_to_use, self.threshold)
+        x, edge_index, edge_attr = read_pocket(
+            pocket_dir,
+            profile_dir,
+            pop_dir,
+            self.hydrophobicity,
+            self.binding_probability,
+            self.features_to_use,
+            self.threshold
+        )
         data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
         # read the smile data
@@ -156,7 +171,13 @@ class PocketDataset(Dataset):
         return data
 
 
-def read_pocket(mol_path, profile_path, pop_path, hydrophobicity, binding_probability, features_to_use, threshold):
+def read_pocket(mol_path,
+                profile_path,
+                pop_path,
+                hydrophobicity,
+                binding_probability,
+                features_to_use,
+                threshold):
     """
     Read the mol2 file as a dataframe.
     """
