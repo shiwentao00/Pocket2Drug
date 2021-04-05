@@ -105,16 +105,17 @@ if __name__ == "__main__":
                 padding_value=PADDING_IDX
             ).to(device)
 
-            # forward
-            preds = model(data, smiles)
-
             # the lengths are decreased by 1 because we don't
             # use <eos> for input and we don't need <sos> for
             # output during traning.
             lengths = [len(x) - 1 for x in smiles]
 
+            # forward
+            preds = model(data, smiles, lengths)
+
             # The <sos> token is removed before packing, because
             # we don't need <sos> of output during training.
+            # Note that the lengths are already decreased by 1.
             targets = pack_padded_sequence(
                 smiles[:, 1:],
                 lengths,
