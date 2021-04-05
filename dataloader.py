@@ -1,7 +1,4 @@
-"""
-Dataloader modules
-"""
-import yaml
+# Copyright: Wentao Shi, 2021
 import numpy as np
 import pandas as pd
 import statistics
@@ -17,10 +14,27 @@ from scipy.spatial import distance
 import utils
 
 
-def pocket_loader_gen(pockets, pocket_dir, pop_dir, smile_dir, features_to_use,
-                      vocab, vocab_path, batch_size,
-                      shuffle=False, test_split=0.1, num_workers=1):
-    """Dataloader used to wrap PocketDataset."""
+def pocket_loader_gen(
+        pockets, pocket_dir, pop_dir,
+        smiles_dict, features_to_use,
+        vocab, vocab_path, batch_size,
+        shuffle=False, test_split=0.1, num_workers=1):
+    """
+    Dataloader used to wrap PocketDataset.
+
+    Arguments:
+        pockets - a list of strings which are pocket names
+        pocket_dir - root directory of the pockets
+        pop_dir - root directory of the popsa files
+        smiles_dict - a python dictionary of pocket-smiles pairs
+        features_to_use - which node features to use
+        vocab - which vocabulary to use
+        vocab_path - path to load the vocabular
+        batch_size - size of the mini-batch for training
+        shuffle - whether to shuffle the dataset druing training
+        test_split - ratio of test data of entire dataset
+        num_workers - number of worker threads to load the data
+    """
     # split pockets into train/test split
     random.shuffle(pockets)
     num_pockets = len(pockets)
@@ -28,46 +42,60 @@ def pocket_loader_gen(pockets, pocket_dir, pop_dir, smile_dir, features_to_use,
     test_pockests = pockets[0:num_test_pockets]
     train_pockets = pockets[num_test_pockets:]
 
-    trainset = PocketDataset(pockets=train_pockets,
-                             pocket_dir=pocket_dir,
-                             pop_dir=pop_dir,
-                             smile_dir=smile_dir,
-                             features_to_use=features_to_use,
-                             vocab=vocab,
-                             vocab_path=vocab_path)
+    trainset = PocketDataset(
+        pockets=train_pockets,
+        pocket_dir=pocket_dir,
+        pop_dir=pop_dir,
+        smiles_dict=smiles_dict,
+        features_to_use=features_to_use,
+        vocab=vocab,
+        vocab_path=vocab_path
+    )
 
-    valset = PocketDataset(pockets=test_pockests,
-                           pocket_dir=pocket_dir,
-                           pop_dir=pop_dir,
-                           smile_dir=smile_dir,
-                           features_to_use=features_to_use,
-                           vocab=vocab,
-                           vocab_path=vocab_path)
+    valset = PocketDataset(
+        pockets=test_pockests,
+        pocket_dir=pocket_dir,
+        pop_dir=pop_dir,
+        smiles_dict=smiles_dict,
+        features_to_use=features_to_use,
+        vocab=vocab,
+        vocab_path=vocab_path
+    )
 
-    trainloader = DataLoader(trainset, batch_size=batch_size,
-                             shuffle=shuffle, num_workers=num_workers, drop_last=False)
+    trainloader = DataLoader(
+        trainset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=num_workers,
+        drop_last=False
+    )
 
-    valloader = DataLoader(valset, batch_size=1,
-                           shuffle=False, num_workers=num_workers, drop_last=False)
+    valloader = DataLoader(
+        valset,
+        batch_size=1,
+        shuffle=False,
+        num_workers=num_workers,
+        drop_last=False
+    )
     return trainloader, valloader, len(trainset), len(valset)
 
 
 class PocketDataset(Dataset):
     """Dataset to generate single pocket graphs for inference/testing."""
 
-    def __init__(self, pockets, pocket_dir, pop_dir, smile_dir, features_to_use, vocab, vocab_path):
+    def __init__(self, pockets, pocket_dir, pop_dir, smiles_dict, features_to_use, vocab, vocab_path):
         """
         pocket: a list of pockets to include. Split the the pockets into train/test outside this class.
         pockect_dir: directoy of pockets and the .profile files.
         pop_dir: directory of the sasa files.
-        smile_dir: directory of smile files
+        smiles_dict: a python dictionary of pocket-smiles pairs
         features_to_use: which node features to use. 
         vocab: which vocabulary to use. options: ['char', 'selfies']
         """
         self.pockets = pockets
         self.pocket_dir = pocket_dir
         self.pop_dir = pop_dir
-        self.smile_dir = smile_dir
+        self.smiles_dict = smiles_dict
         self.threshold = 4.5  # distance threshold to form an undirected edge between two atoms
 
         # hard coded info to generate 2 node features
@@ -117,9 +145,7 @@ class PocketDataset(Dataset):
         data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
         # read the smile data
-        smile_dir = self.smile_dir + pocket + '.out'
-        with open(smile_dir, 'r') as file:
-            smile = file.read().replace('\n', '')
+        smile = self.smiles_dict[pocket]
 
         # convert the smiles to integers according to vocab
         smile = self.vocab.tokenize_smiles(smile)
