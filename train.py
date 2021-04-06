@@ -6,8 +6,10 @@ import torch.nn as nn
 from torch.nn.utils.rnn import pad_sequence
 from torch.nn.utils.rnn import pack_padded_sequence
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from tqdm import tqdm
+
 from dataloader import pocket_loader_gen
-from model import NeuralDrug
+from model import Pocket2Drug
 
 
 if __name__ == "__main__":
@@ -32,13 +34,14 @@ if __name__ == "__main__":
         yaml.dump(config, f)
 
     # training data files
-    pocket_list_dir = config['pocket_list_dir']
-    with open(pocket_list_dir) as f:
-        pockets = yaml.full_load(f)
     pocket_dir = config['pocket_dir']
     pop_dir = config['pop_dir']
-    smile_dir = config['smile_dir']
     features_to_use = config['features_to_use']
+
+    # load the pocket-smiles pairs
+    smiles_dir = config['smiles_dir']
+    with open(smiles_dir, 'r') as f:
+        smiles_dict = yaml.full_load(f)
 
     # dataloaders
     batch_size = config['batch_size']
@@ -46,10 +49,9 @@ if __name__ == "__main__":
     num_workers = int(min(batch_size, num_workers))
     print('number of workers to load data: ', num_workers)
     trainloader, valloader, train_size, val_size = pocket_loader_gen(
-        pockets,
+        smiles_dict,
         pocket_dir,
         pop_dir,
-        smile_dir,
         features_to_use,
         vocab=config['vocab'],
         vocab_path=config['vocab_path'],
@@ -61,16 +63,24 @@ if __name__ == "__main__":
     # model and training configuration
     encoder_config = config['encoder_config']
     decoder_config = config['decoder_config']
-    model = NeuralDrug(encoder_config, decoder_config, device).to(device)
+    model = Pocket2Drug(encoder_config, decoder_config).to(device)
     learning_rate = config['learning_rate']
     weight_decay = config['weight_decay']
     loss_function = nn.CrossEntropyLoss(reduction='sum')
+
+    # the optimizer
     optimizer = torch.optim.Adam(
         model.parameters(),
         lr=learning_rate,
         weight_decay=weight_decay,
         amsgrad=True
     )
+    for name, param in model.named_parameters():
+        if param.requires_grad:
+            # print(name, param.data)
+            print(name, param)
+
+    # the learning rate scheduler
     scheduler = ReduceLROnPlateau(
         optimizer,
         mode='min',
@@ -89,14 +99,20 @@ if __name__ == "__main__":
     val_losses = []
     best_val_loss, best_val_epoch = float('inf'), None
     num_epoch = config['num_epoch']
+    print('begin training...')
     for epoch in range(1, 1 + num_epoch):
         # train
         model.train()
         train_loss = 0
-        for data in trainloader:
+        for data in tqdm(trainloader):
             optimizer.zero_grad()
             data = data.to(device)
             smiles = data.y
+
+            # the lengths are decreased by 1 because we don't
+            # use <eos> for input and we don't need <sos> for
+            # output during traning.
+            lengths = [len(x) - 1 for x in smiles]
 
             # pad the sequences
             smiles = [torch.tensor(x) for x in smiles]
@@ -104,11 +120,6 @@ if __name__ == "__main__":
                 smiles, batch_first=True,
                 padding_value=PADDING_IDX
             ).to(device)
-
-            # the lengths are decreased by 1 because we don't
-            # use <eos> for input and we don't need <sos> for
-            # output during traning.
-            lengths = [len(x) - 1 for x in smiles]
 
             # forward
             preds = model(data, smiles, lengths)
@@ -128,7 +139,7 @@ if __name__ == "__main__":
             optimizer.step()
             train_loss += loss.item() * data.num_graphs
         train_losses.append(train_loss / train_size)
-"""
+
         # validation
         model.eval()
         val_loss = 0
@@ -136,20 +147,30 @@ if __name__ == "__main__":
             data = data.to(device)
             smiles = data.y
 
-            preds = model(data)
-
             # the lengths are decreased by 1 because we don't
             # use <eos> for input and we don't need <sos> for
             # output during traning.
-            lengths = [len(smile) - 1 for smile in smiles]
-            smiles = [torch.tensor(smile) for smile in smiles]
-            smiles = pad_sequence(smiles, batch_first=True,
-                                  padding_value=PADDING_IDX).to(device)
+            lengths = [len(x) - 1 for x in smiles]
+
+            # pad the sequences
+            smiles = [torch.tensor(x) for x in smiles]
+            smiles = pad_sequence(
+                smiles, batch_first=True,
+                padding_value=PADDING_IDX
+            ).to(device)
+
+            # forward
+            preds = model(data, smiles, lengths)
 
             # The <sos> token is removed before packing, because
             # we don't need <sos> of output during training.
+            # Note that the lengths are already decreased by 1.
             targets = pack_padded_sequence(
-                smiles[:, 1:], lengths, batch_first=True, enforce_sorted=False).data
+                smiles[:, 1:],
+                lengths,
+                batch_first=True,
+                enforce_sorted=False
+            ).data
 
             loss = loss_function(preds, targets)
             val_loss += loss.item() * data.num_graphs
@@ -170,4 +191,3 @@ if __name__ == "__main__":
     loss_history = [train_losses, val_losses]
     with open(out_dir + 'loss.yaml', 'w') as f:
         yaml.dump(loss_history, f)
-"""

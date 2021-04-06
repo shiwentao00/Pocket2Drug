@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
@@ -7,14 +6,12 @@ from torch.nn import Sequential, Linear, LeakyReLU, ELU
 from torch.nn import ModuleList
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import Set2Set
-from torch.nn.utils.rnn import pad_sequence
 from torch.nn.utils.rnn import pack_padded_sequence
-from torch.nn.utils.rnn import pad_packed_sequence
 
 
-class NeuralDrug(torch.nn.Module):
-    def __init__(self, encoder_config, decoder_config, device):
-        super(NeuralDrug, self).__init__()
+class Pocket2Drug(torch.nn.Module):
+    def __init__(self, encoder_config, decoder_config):
+        super(Pocket2Drug, self).__init__()
         # use a graph neural network as encoder
         self.encoder = JKMCNWMEmbeddingNet(
             num_features=encoder_config['num_features'],
@@ -26,7 +23,7 @@ class NeuralDrug(torch.nn.Module):
         )
 
         # use a recurrent neural network as decoder
-        self.decoder = RNNDecoder(decoder_config, device)
+        self.decoder = RNNDecoder(decoder_config)
 
     def forward(self, data, smiles, lengths):
         graph_embedding, _, _ = self.encoder(
@@ -57,9 +54,8 @@ class NeuralDrug(torch.nn.Module):
 
 
 class RNNDecoder(torch.nn.Module):
-    def __init__(self, decoder_config, device):
+    def __init__(self, decoder_config):
         super(RNNDecoder, self).__init__()
-        self.device = device
 
         self.embedding_layer = nn.Embedding(
             num_embeddings=decoder_config['num_embeddings'],
@@ -95,10 +91,14 @@ class RNNDecoder(torch.nn.Module):
         # Use graph_embedding as input to pre-condition
         # the RNN.
         graph_embedding = graph_embedding.unsqueeze(1)
+        # print('graph_embedding: ', graph_embedding.size())
+
         _, hidden = self.rnn(graph_embedding)
+        # print('hidden: ', hidden)
 
         # feed tokens to embedding layer
         x = self.embedding_layer(smiles)
+        # print('x size: ', x.size())
 
         # pack the padded input
         x = pack_padded_sequence(
@@ -112,9 +112,12 @@ class RNNDecoder(torch.nn.Module):
         # Tearcher-forcing is used here, so we directly feed
         # the whole sequence to model.
         x, _ = self.rnn(x, hidden)
+        # print('x size: ', x.data.size())
 
         # linear layer to generate input of softmax
         x = self.linear(x.data)
+        # print('x size: ', x.size())
+        # print('----------------------------------------')
 
         # return the packed representation for backpropagation,
         # the targets will also be packed.

@@ -14,19 +14,23 @@ from scipy.spatial import distance
 import utils
 
 
-def pocket_loader_gen(
-        pockets, pocket_dir, pop_dir,
-        smiles_dict, features_to_use,
-        vocab, vocab_path, batch_size,
-        shuffle=False, test_split=0.1, num_workers=1):
+def pocket_loader_gen(smiles_dict,
+                      pocket_dir,
+                      pop_dir,
+                      features_to_use,
+                      vocab,
+                      vocab_path,
+                      batch_size,
+                      shuffle=False,
+                      test_split=0.1,
+                      num_workers=1):
     """
     Dataloader used to wrap PocketDataset.
 
     Arguments:
-        pockets - a list of strings which are pocket names
+        smiles_dict - a python dictionary of pocket-smiles pairs
         pocket_dir - root directory of the pockets
         pop_dir - root directory of the popsa files
-        smiles_dict - a python dictionary of pocket-smiles pairs
         features_to_use - which node features to use
         vocab - which vocabulary to use
         vocab_path - path to load the vocabular
@@ -36,6 +40,7 @@ def pocket_loader_gen(
         num_workers - number of worker threads to load the data
     """
     # split pockets into train/test split
+    pockets = list(smiles_dict.keys())
     random.shuffle(pockets)
     num_pockets = len(pockets)
     num_test_pockets = int(num_pockets * test_split)

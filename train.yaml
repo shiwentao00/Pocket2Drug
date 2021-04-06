@@ -1,10 +1,9 @@
 ---
- out_dir: '../results/run_5/'
- pocket_list_dir: "../smiles/pocket_that_has_popsa_list.yaml"
- pocket_dir: "../googlenet-dataset/"
- pop_dir: "../pops-googlenet/"
- smile_dir: "../smiles/smile_files/"
- test_split: 0.02
+ out_dir: '../results/run_1/'
+ smiles_dir: "./data/pocket-smiles.yaml"
+ pocket_dir: "../data/googlenet-dataset/"
+ pop_dir: "../data/pops-googlenet/"
+ test_split: 0.05
  seed: 666
  features_to_use:
   - 'x'
@@ -41,9 +40,9 @@
   input_size: 256 # size of the recurrent neural network
   hidden_size: 512
   num_layers: 3
-  dropout: 0.6
+  dropout: 0
 
  batch_size: 256
- num_epoch: 300
- learning_rate: 0.003
- weight_decay: 0.0005
+ num_epoch: 100
+ learning_rate: 0.002
+ weight_decay: 0.0003
