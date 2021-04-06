@@ -191,6 +191,7 @@ if __name__ == "__main__":
             best_val_epoch = epoch
             best_val_loss = val_losses[-1]
             torch.save(model.state_dict(), trained_model_dir)
+            print('model saved at epoch {}'.format(epoch))
 
         scheduler.step(val_losses[-1])
 
