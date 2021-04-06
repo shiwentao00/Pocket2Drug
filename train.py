@@ -43,6 +43,13 @@ if __name__ == "__main__":
     with open(smiles_dir, 'r') as f:
         smiles_dict = yaml.full_load(f)
 
+    # exclude pockets used in case study
+    excluded_pockets = config['excluded_pockets']
+    with open(excluded_pockets, 'r') as f:
+        excluded_pockets = yaml.full_load(f)
+    for pocket in excluded_pockets:
+        smiles_dict.pop(pocket)
+
     # dataloaders
     batch_size = config['batch_size']
     num_workers = os.cpu_count()

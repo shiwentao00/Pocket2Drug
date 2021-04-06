@@ -131,14 +131,26 @@ class JKMCNWMEmbeddingNet(torch.nn.Module):
     The GNN layers are now MCNWMConv layer
     """
 
-    def __init__(self, num_features, dim, train_eps, num_edge_attr, num_layers, num_channels=1, layer_aggregate='max'):
+    def __init__(self,
+                 num_features,
+                 dim,
+                 train_eps,
+                 num_edge_attr,
+                 num_layers,
+                 num_channels=1,
+                 layer_aggregate='max'):
         super(JKMCNWMEmbeddingNet, self).__init__()
         self.num_layers = num_layers
         self.layer_aggregate = layer_aggregate
 
         # first layer
-        self.conv0 = MCNWMConv(in_dim=num_features, out_dim=dim, num_channels=num_channels,
-                               num_edge_attr=num_edge_attr, train_eps=train_eps)
+        self.conv0 = MCNWMConv(
+            in_dim=num_features,
+            out_dim=dim,
+            num_channels=num_channels,
+            num_edge_attr=num_edge_attr,
+            train_eps=train_eps
+        )
         self.bn0 = torch.nn.BatchNorm1d(dim)
 
         # rest of the layers
@@ -179,10 +191,19 @@ class MCNWMConv(torch.nn.Module):
     Multi-channel neural weighted message module.
     """
 
-    def __init__(self, in_dim, out_dim, num_channels, num_edge_attr=1, train_eps=True, eps=0):
+    def __init__(self,
+                 in_dim,
+                 out_dim,
+                 num_channels,
+                 num_edge_attr=1,
+                 train_eps=True,
+                 eps=0):
         super(MCNWMConv, self).__init__()
-        self.nn = Sequential(Linear(in_dim * num_channels,
-                                    out_dim), LeakyReLU(), Linear(out_dim, out_dim))
+        self.nn = Sequential(
+            Linear(in_dim * num_channels, out_dim),
+            LeakyReLU(),
+            Linear(out_dim, out_dim)
+        )
         self.NMMs = ModuleList()
 
         # add the message passing modules
@@ -207,8 +228,9 @@ class MCNWMConv(torch.nn.Module):
 
 class NWMConv(MessagePassing):
     """
-    The neural weighted message (NWM) layer. output of multiple instances of this
-    will produce multi-channel output.
+    The neural weighted message (NWM) layer. output of 
+    multiple instances of this will produce multi-channel 
+    output.
     """
 
     def __init__(self, num_edge_attr=1, train_eps=True, eps=0):
@@ -228,7 +250,12 @@ class NWMConv(MessagePassing):
             x = (x, x)  # x: OptPairTensor
 
         # propagate_type: (x: OptPairTensor)
-        out = self.propagate(edge_index, x=x, edge_attr=edge_attr, size=size)
+        out = self.propagate(
+            edge_index,
+            x=x,
+            edge_attr=edge_attr,
+            size=size
+        )
 
         x_r = x[1]
         if x_r is not None:
@@ -241,7 +268,8 @@ class NWMConv(MessagePassing):
 
         # message size: num_features or dim
         # weight size: 1
-        # all the dimensions in a node masked by one weight generated from edge attribute
+        # all the dimensions in a node masked by one weight
+        # generated from edge attribute
         return x_j * weight
 
     def __repr__(self):

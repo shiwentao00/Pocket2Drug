@@ -19,6 +19,7 @@
   - 'sequence_entropy'   
  vocab: "char"
  vocab_path: "./vocab/char_vocab.yaml"
+ excluded_pockets: "./data/excluded_pockets.yaml"
 
  encoder_config:
   dim: 128 # size of the graph neural network
