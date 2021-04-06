@@ -75,10 +75,10 @@ if __name__ == "__main__":
         weight_decay=weight_decay,
         amsgrad=True
     )
-    for name, param in model.named_parameters():
-        if param.requires_grad:
-            # print(name, param.data)
-            print(name, param)
+    # for name, param in model.named_parameters():
+    #    if param.requires_grad:
+    #        # print(name, param.data)
+    #        print(name, param)
 
     # the learning rate scheduler
     scheduler = ReduceLROnPlateau(
