@@ -1,5 +1,5 @@
 ---
- out_dir: '../results/run_1/'
+ out_dir: '../p2d_results/run_1/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
@@ -44,5 +44,5 @@
 
  batch_size: 256
  num_epoch: 100
- learning_rate: 0.002
- weight_decay: 0.0003
+ learning_rate: 0.003
+ weight_decay: 0.0005
