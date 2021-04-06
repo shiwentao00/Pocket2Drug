@@ -137,7 +137,7 @@ if __name__ == "__main__":
             loss = loss_function(preds, targets)
             loss.backward()
             optimizer.step()
-            train_loss += loss.item() * data.num_graphs
+            train_loss += loss.item()  # * data.num_graphs
         train_losses.append(train_loss / train_size)
 
         # validation
@@ -173,7 +173,7 @@ if __name__ == "__main__":
             ).data
 
             loss = loss_function(preds, targets)
-            val_loss += loss.item() * data.num_graphs
+            val_loss += loss.item()  # * data.num_graphs
         val_losses.append(val_loss / val_size)
 
         print('epoch {}, train loss: {}, val loss: {}.'.format(
