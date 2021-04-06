@@ -47,6 +47,8 @@ if __name__ == "__main__":
     excluded_pockets = config['excluded_pockets']
     with open(excluded_pockets, 'r') as f:
         excluded_pockets = yaml.full_load(f)
+    print('the following pockets are exluded for case studies:\n')
+    print(excluded_pockets)
     for pocket in excluded_pockets:
         smiles_dict.pop(pocket)
 
@@ -93,7 +95,7 @@ if __name__ == "__main__":
         mode='min',
         factor=0.5,
         patience=5,
-        cooldown=20,
+        cooldown=15,
         min_lr=0.0001,
         verbose=True
     )

@@ -7,6 +7,7 @@ from torch.nn import ModuleList
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import Set2Set
 from torch.nn.utils.rnn import pack_padded_sequence
+from torch.nn.functional import softmax
 
 
 class Pocket2Drug(torch.nn.Module):
@@ -37,20 +38,24 @@ class Pocket2Drug(torch.nn.Module):
 
         return out
 
-    def step_rnn(self, int_token, hidden):
-        """
-        Run one step of the rnn of the decoder.
-        Arguments:
-        int_token - integer
-        hidden - tuple of (h, c)
-        """
-        x = self.decoder.embedding_layer(
-            torch.tensor(int_token).unsqueeze(0).unsqueeze(0))
-        x, hidden = self.decoder.rnn(x, hidden)
-        x = self.decoder.linear(x)
-        x = F.softmax(x, dim=-1)
-        x = torch.multinomial(x.squeeze(), 1)
-        return x.item(), hidden
+    def sample_from_pocket(self, data, batch_size,
+                           vocab, device):
+        """Sample SMILES from the a pocket"""
+        graph_embedding, _, _ = self.encoder(
+            data.x,
+            data.edge_index,
+            data.edge_attr,
+            data.batch
+        )
+
+        out = self.decoder.conditioned_sample(
+            graph_embedding,
+            batch_size,
+            vocab,
+            device,
+            max_length=140
+        )
+        return out
 
 
 class RNNDecoder(torch.nn.Module):
@@ -91,16 +96,14 @@ class RNNDecoder(torch.nn.Module):
         # Use graph_embedding as input to pre-condition
         # the RNN.
         graph_embedding = graph_embedding.unsqueeze(1)
-        # print('graph_embedding: ', graph_embedding.size())
-
         _, hidden = self.rnn(graph_embedding)
-        # print('hidden: ', hidden)
 
         # feed tokens to embedding layer
         x = self.embedding_layer(smiles)
-        # print('x size: ', x.size())
 
-        # pack the padded input
+        # Pack the padded input, not that the lengths are
+        # decreased by 1 so the last tokens (<eos> or <pad>)
+        # are not included.
         x = pack_padded_sequence(
             input=x,
             lengths=lengths,
@@ -112,32 +115,80 @@ class RNNDecoder(torch.nn.Module):
         # Tearcher-forcing is used here, so we directly feed
         # the whole sequence to model.
         x, _ = self.rnn(x, hidden)
-        # print('x size: ', x.data.size())
 
         # linear layer to generate input of softmax
         x = self.linear(x.data)
-        # print('x size: ', x.size())
-        # print('----------------------------------------')
 
         # return the packed representation for backpropagation,
         # the targets will also be packed.
         return x
 
+    def conditioned_sample(self, graph_embedding,
+                           batch_size, vocab,
+                           device, max_length):
+        """Sample a mini-batch from the RNN which is conditioned on 
+        the graph_embedding"""
+        # Use graph_embedding as input to pre-condition
+        # the RNN.
+        graph_embedding = graph_embedding.unsqueeze(1)
+        _, hidden = self.rnn(graph_embedding)
+
+        # get integer of "start of sequence"
+        start_int = vocab.vocab['<sos>']
+
+        # create a tensor of shape [batch_size, seq_step=1]
+        sos = torch.ones(
+            [batch_size, 1],
+            dtype=torch.long,
+            device=device
+        )
+        sos = sos * start_int
+
+        # sample first output
+        output = []
+        x = self.embedding_layer(sos)
+        x, hidden = self.rnn(x, hidden)
+        x = self.linear(x)
+        x = softmax(x, dim=-1)
+        x = torch.multinomial(x.squeeze(), 1)
+        output.append(x)
+
+        # a tensor to indicate if the <eos> token is found
+        # for all data in the mini-batch
+        finish = torch.zeros(batch_size, dtype=torch.bool).to(device)
+
+        # sample until every sequence in the mini-batch
+        # has <eos> token
+        for _ in range(max_length):
+            # forward rnn
+            x = self.embedding_layer(x)
+            x, hidden = self.rnn(x, hidden)
+            x = self.linear(x)
+            x = softmax(x, dim=-1)
+
+            # sample
+            x = torch.multinomial(x.squeeze(), 1)
+            output.append(x)
+
+            # terminate if <eos> is found for every data
+            eos_sampled = (x == vocab.vocab['<eos>']).data
+            finish = torch.logical_or(finish, eos_sampled.squeeze())
+            if torch.all(finish):
+                return torch.cat(output, -1)
+
+        return torch.cat(output, -1)
+
 
 class JKMCNWMEmbeddingNet(torch.nn.Module):
     """
-    Jumping knowledge embedding net inspired by the paper "Representation Learning on
-    Graphs with Jumping Knowledge Networks".
-    The GNN layers are now MCNWMConv layer
+    Jumping knowledge embedding net inspired by the paper "Representation 
+    Learning on Graphs with Jumping Knowledge Networks".
+    The GNN layers are now MCNWMConv layer.
     """
 
-    def __init__(self,
-                 num_features,
-                 dim,
-                 train_eps,
-                 num_edge_attr,
-                 num_layers,
-                 num_channels=1,
+    def __init__(self, num_features,
+                 dim, train_eps, num_edge_attr,
+                 num_layers, num_channels=1,
                  layer_aggregate='max'):
         super(JKMCNWMEmbeddingNet, self).__init__()
         self.num_layers = num_layers
@@ -235,10 +286,12 @@ class NWMConv(MessagePassing):
 
     def __init__(self, num_edge_attr=1, train_eps=True, eps=0):
         super(NWMConv, self).__init__(aggr='add')
-        self.edge_nn = Sequential(Linear(num_edge_attr, 8),
-                                  LeakyReLU(),
-                                  Linear(8, 1),
-                                  ELU())
+        self.edge_nn = Sequential(
+            Linear(num_edge_attr, 8),
+            LeakyReLU(),
+            Linear(8, 1),
+            ELU()
+        )
         if train_eps:
             self.eps = torch.nn.Parameter(torch.Tensor([eps]))
         else:
@@ -273,4 +326,6 @@ class NWMConv(MessagePassing):
         return x_j * weight
 
     def __repr__(self):
-        return '{}(edge_nn={})'.format(self.__class__.__name__, self.edge_nn)
+        return '{}(edge_nn={})'.format(
+            self.__class__.__name__, self.edge_nn
+        )
