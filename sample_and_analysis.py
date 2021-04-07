@@ -229,7 +229,7 @@ if __name__ == "__main__":
             fill=False
         )
         ax.legend(loc='upper left')
-        ax.set_xlabel('Ligand Similarities')
+        ax.set_xlabel('Tanimoto Similarity with Target Ligand')
         ax.set_ylabel('Ligand Count')
         ax.set_title('Pocket name: {}'.format(pocket_name))
         plt.savefig(
