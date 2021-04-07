@@ -1,14 +1,21 @@
 """
 Sample from the RNN of the model.
 """
+from dataloader import PocketDataset
+from model import Pocket2Drug
 import yaml
 import argparse
 import torch
 from tqdm import tqdm
 from torch_geometric.data import DataLoader
+from rdkit import Chem
+from rdkit.Chem import MACCSkeys
+from rdkit.DataStructs import FingerprintSimilarity
+import matplotlib.pyplot as plt
 
-from model import Pocket2Drug
-from dataloader import PocketDataset
+# suppress rdkit error
+from rdkit import rdBase
+rdBase.DisableLog('rdApp.error')
 
 
 def get_args():
@@ -118,14 +125,23 @@ if __name__ == "__main__":
         drop_last=False
     )
 
-    # sample
+    # get same number of random molecules as control group
+
+    # sample SMILES for each pocket
+    # dataloader has batch_size of 1
     for data in trainloader:
         data = data.to(device)
         pocket_name = data.pocket_name[0]
-        print(
-            'sampe SMILES for pocket {}...'.format(pocket_name)
-        )
-        smiles = data.y
+        print('sampe SMILES for pocket {}...'.format(pocket_name))
+        target_smiles_ints = data.y[0]
+        target_smiles = []
+        for x in target_smiles_ints:
+            if dataset.vocab.int2tocken[x] == '<eos>':
+                break
+            else:
+                target_smiles.append(dataset.vocab.int2tocken[x])
+        target_smiles = "".join(target_smiles[1:])
+        print('target SMILES: ', target_smiles)
 
         # sample
         molecules = model.sample_from_pocket(
@@ -134,8 +150,40 @@ if __name__ == "__main__":
             device
         )
 
+        # filter out invalid SMILES
+        num_valid, num_invalid = 0, 0
+        valid_molecules = []
+        sampled_similarity = []
+        target_mol = Chem.MolFromSmiles(target_smiles)
+        target_maccs = MACCSkeys.GenMACCSKeys(target_mol)
+        for smiles in molecules:
+            mol = Chem.MolFromSmiles(smiles)
+            if mol is None:
+                num_invalid += 1
+            else:
+                num_valid += 1
+                valid_molecules.append(smiles)
+                mol_maccs = MACCSkeys.GenMACCSKeys(mol)
+                sampled_similarity.append(
+                    FingerprintSimilarity(target_maccs, mol_maccs)
+                )
+
         # save sampled SMILES
         out_path = result_dir + pocket_name + '_sampled.yaml'
         with open(out_path, 'w') as f:
-            yaml.dump(molecules, f)
+            yaml.dump(valid_molecules, f)
+
+        # compute the Tanimoto coefficients of
+        # random molecules with the target ligand
+
+        # plot the distributions of the Tanimoto coefficients
+        fig, axs = plt.subplots(1, 1)
+        print(sampled_similarity)
+        axs.hist(
+            sampled_similarity, bins=50,
+            histtype='step', stacked=True,
+            fill=False
+        )
+        axs.set_title('Ligand Similarities')
+        plt.savefig("{}_similarity.png".format(pocket_name), dpi=150)
         break
