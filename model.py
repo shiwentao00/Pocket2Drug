@@ -8,6 +8,7 @@ from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import Set2Set
 from torch.nn.utils.rnn import pack_padded_sequence
 from torch.nn.functional import softmax
+import selfies as sf
 
 
 class Pocket2Drug(torch.nn.Module):
@@ -38,8 +39,8 @@ class Pocket2Drug(torch.nn.Module):
 
         return out
 
-    def sample_from_pocket(self, data, batch_size,
-                           vocab, device):
+    def sample_from_pocket(self, data, num_batches,
+                           batch_size, vocab, device):
         """Sample SMILES from the a pocket"""
         graph_embedding, _, _ = self.encoder(
             data.x,
@@ -48,14 +49,34 @@ class Pocket2Drug(torch.nn.Module):
             data.batch
         )
 
-        out = self.decoder.conditioned_sample(
-            graph_embedding,
-            batch_size,
-            vocab,
-            device,
-            max_length=140
-        )
-        return out
+        # sample num_batches mini-batches
+        all_molelcules = []
+        for _ in range(num_batches):
+            sampled_ints = self.decoder.conditioned_sample(
+                graph_embedding,
+                batch_size,
+                vocab,
+                device,
+                max_length=140
+            )
+
+            molecules = []
+            sampled_ints = sampled_ints.tolist()
+            for ints in sampled_ints:
+                molecule = []
+                for x in ints:
+                    if vocab.int2tocken[x] == '<eos>':
+                        break
+                    else:
+                        molecule.append(vocab.int2tocken[x])
+                molecules.append("".join(molecule))
+
+            # convert SELFIES back to SMILES
+            if vocab.name == 'selfies':
+                molecules = [sf.decoder(x) for x in molecules]
+
+            all_molelcules.extend(molecules)
+        return all_molelcules
 
 
 class RNNDecoder(torch.nn.Module):
@@ -132,6 +153,10 @@ class RNNDecoder(torch.nn.Module):
         # the RNN.
         graph_embedding = graph_embedding.unsqueeze(1)
         _, hidden = self.rnn(graph_embedding)
+
+        # Hidden is of shape [num_layers, 1, dim],
+        # we need to replicate this tensor to shape [num_layers, batch, dim]
+        hidden = hidden.repeat(1, batch_size, 1)
 
         # get integer of "start of sequence"
         start_int = vocab.vocab['<sos>']

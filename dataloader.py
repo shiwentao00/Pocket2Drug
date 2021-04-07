@@ -103,6 +103,7 @@ class PocketDataset(Dataset):
         smiles_dict: a python dictionary of pocket-smiles pairs
         features_to_use: which node features to use. 
         vocab: which vocabulary to use. options: ['char', 'selfies']
+        vocab_path: path of the pre-computed vocab file
         """
         self.pockets = pockets
         self.pocket_dir = pocket_dir
