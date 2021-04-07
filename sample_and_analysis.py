@@ -5,8 +5,8 @@ from dataloader import PocketDataset
 from model import Pocket2Drug
 import yaml
 import argparse
+import random
 import torch
-from tqdm import tqdm
 from torch_geometric.data import DataLoader
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
@@ -28,13 +28,13 @@ def get_args():
 
     parser.add_argument("-batch_size",
                         required=False,
-                        default=8,
+                        default=2048,
                         help="number of samples to generate per mini-batch"
                         )
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=2,
+                        default=100,
                         help="number of batches to generate"
                         )
 
@@ -57,17 +57,40 @@ def get_args():
                         help="the directory of popsa files associated with the pockets"
                         )
 
+    parser.add_argument("-random_molecule_path",
+                        required=False,
+                        default="../mol-rnn-sampled/run_34/sampled_molecules.out",
+                        help="the directory of popsa files associated with the pockets"
+                        )
+
     return parser.parse_args()
+
+
+def read_random_pockets(mol_path, num):
+    """read num pockets randomly from the input file"""
+    with open(mol_path, 'r') as f:
+        mols = f.readlines()
+    mols = [x.strip('\n') for x in mols]
+    assert (num <= len(mols))
+    sampled = random.sample(mols, num)
+    return sampled
+
+
+def compute_similarity(target_maccs, mol):
+    """compute the similarity between two smiles"""
+    mol_maccs = MACCSkeys.GenMACCSKeys(mol)
+    return FingerprintSimilarity(target_maccs, mol_maccs)
 
 
 if __name__ == "__main__":
     args = get_args()
     result_dir = args.result_dir
-    batch_size = args.batch_size
-    num_batches = args.num_batches
+    batch_size = int(args.batch_size)
+    num_batches = int(args.num_batches)
     pocket_list = args.pocket_list
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
+    random_molecule_path = args.random_molecule_path
 
     # load the configuartion file in output
     config_dir = result_dir + "config.yaml"
@@ -126,6 +149,10 @@ if __name__ == "__main__":
     )
 
     # get same number of random molecules as control group
+    random_molecules = read_random_pockets(
+        random_molecule_path,
+        num_batches * batch_size
+    )
 
     # sample SMILES for each pocket
     # dataloader has batch_size of 1
@@ -163,9 +190,8 @@ if __name__ == "__main__":
             else:
                 num_valid += 1
                 valid_molecules.append(smiles)
-                mol_maccs = MACCSkeys.GenMACCSKeys(mol)
                 sampled_similarity.append(
-                    FingerprintSimilarity(target_maccs, mol_maccs)
+                    compute_similarity(target_maccs, mol)
                 )
 
         # save sampled SMILES
@@ -175,15 +201,38 @@ if __name__ == "__main__":
 
         # compute the Tanimoto coefficients of
         # random molecules with the target ligand
+        random_similarity = []
+        for smiles in random_molecules:
+            mol = Chem.MolFromSmiles(smiles)
+            if mol is not None:
+                mol_maccs = MACCSkeys.GenMACCSKeys(mol)
+                random_similarity.append(
+                    FingerprintSimilarity(target_maccs, mol_maccs)
+                )
 
         # plot the distributions of the Tanimoto coefficients
-        fig, axs = plt.subplots(1, 1)
-        print(sampled_similarity)
-        axs.hist(
-            sampled_similarity, bins=50,
-            histtype='step', stacked=True,
+        fig, ax = plt.subplots(1, 1)
+        ax.hist(
+            sampled_similarity,
+            bins=100,
+            label='model based on pocket',
+            histtype='step',
+            stacked=True,
             fill=False
         )
-        axs.set_title('Ligand Similarities')
-        plt.savefig("{}_similarity.png".format(pocket_name), dpi=150)
-        break
+        ax.hist(
+            random_similarity,
+            bins=100,
+            label='model based on chembl28',
+            histtype='step',
+            stacked=True,
+            fill=False
+        )
+        ax.legend(loc='upper left')
+        ax.set_xlabel('Ligand Similarities')
+        ax.set_ylabel('Ligand Count')
+        ax.set_title('Pocket name: {}'.format(pocket_name))
+        plt.savefig(
+            result_dir + "{}_similarity.png".format(pocket_name),
+            dpi=150
+        )

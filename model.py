@@ -9,6 +9,7 @@ from torch_geometric.nn import Set2Set
 from torch.nn.utils.rnn import pack_padded_sequence
 from torch.nn.functional import softmax
 import selfies as sf
+from tqdm import tqdm
 
 
 class Pocket2Drug(torch.nn.Module):
@@ -51,7 +52,7 @@ class Pocket2Drug(torch.nn.Module):
 
         # sample num_batches mini-batches
         all_molelcules = []
-        for _ in range(num_batches):
+        for _ in tqdm(range(num_batches)):
             sampled_ints = self.decoder.conditioned_sample(
                 graph_embedding,
                 batch_size,
