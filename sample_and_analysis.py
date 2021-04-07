@@ -34,7 +34,7 @@ def get_args():
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=100,
+                        default=200,
                         help="number of batches to generate"
                         )
 
@@ -193,6 +193,10 @@ if __name__ == "__main__":
                 sampled_similarity.append(
                     compute_similarity(target_maccs, mol)
                 )
+        print('sampled {} SMILES, {}% of which are valid'.format(
+            num_valid + num_invalid,
+            num_valid / (num_valid + num_invalid)
+        ))
 
         # save sampled SMILES
         out_path = result_dir + pocket_name + '_sampled.yaml'

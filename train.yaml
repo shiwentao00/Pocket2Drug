@@ -1,5 +1,5 @@
 ---
- out_dir: '../p2d_results/run_2/'
+ out_dir: '../p2d_results/run_3/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
