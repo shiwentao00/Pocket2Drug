@@ -233,7 +233,7 @@ if __name__ == "__main__":
         fig, ax = plt.subplots(1, 1)
         ax.hist(
             sampled_similarity,
-            bins=50,
+            bins=20,
             label='model based on pocket',
             histtype='step',
             stacked=True,
@@ -241,7 +241,7 @@ if __name__ == "__main__":
         )
         ax.hist(
             random_similarity,
-            bins=50,
+            bins=20,
             label='model based on chembl28',
             histtype='step',
             stacked=True,
