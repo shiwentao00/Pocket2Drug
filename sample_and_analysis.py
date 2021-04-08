@@ -160,7 +160,7 @@ if __name__ == "__main__":
     for data in trainloader:
         data = data.to(device)
         pocket_name = data.pocket_name[0]
-        print('sampe SMILES for pocket {}...'.format(pocket_name))
+        print('sampling SMILES for pocket {}...'.format(pocket_name))
         target_smiles_ints = data.y[0]
         target_smiles = []
         for x in target_smiles_ints:
