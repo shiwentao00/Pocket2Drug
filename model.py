@@ -91,6 +91,7 @@ class RNNDecoder(torch.nn.Module):
         )
 
         if decoder_config['which_rnn'] == 'LSTM':
+            self.name = 'LSTM'
             self.rnn = nn.LSTM(
                 input_size=decoder_config['input_size'],
                 hidden_size=decoder_config['hidden_size'],
@@ -99,12 +100,17 @@ class RNNDecoder(torch.nn.Module):
                 dropout=decoder_config['dropout']
             )
         elif decoder_config['which_rnn'] == 'GRU':
+            self.name = 'GRU'
             self.rnn = nn.GRU(
                 input_size=decoder_config['input_size'],
                 hidden_size=decoder_config['hidden_size'],
                 num_layers=decoder_config['num_layers'],
                 batch_first=True,
                 dropout=decoder_config['dropout']
+            )
+        else:
+            raise ValueError(
+                "which_rnn should be either 'LSTM' or 'GRU'."
             )
 
         # softmax output does not include <sos> and <pad>, so
@@ -157,7 +163,13 @@ class RNNDecoder(torch.nn.Module):
 
         # Hidden is of shape [num_layers, 1, dim],
         # we need to replicate this tensor to shape [num_layers, batch, dim]
-        hidden = hidden.repeat(1, batch_size, 1)
+        if self.name == 'GRU':
+            hidden = hidden.repeat(1, batch_size, 1)
+        elif self.name == 'LSTM':
+            hidden = (
+                hidden[0].repeat(1, batch_size, 1),
+                hidden[1].repeat(1, batch_size, 1)
+            )
 
         # get integer of "start of sequence"
         start_int = vocab.vocab['<sos>']
