@@ -1,5 +1,5 @@
 ---
- out_dir: '../p2d_results/run_4/'
+ out_dir: '../p2d_results/run_3/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
@@ -37,7 +37,7 @@
   embedding_dim: 256
 
   # rnn
-  which_rnn: 'LSTM' # 'GRU' or 'LSTM'
+  which_rnn: 'GRU' # 'GRU' or 'LSTM'
   input_size: 256 # size of the recurrent neural network
   hidden_size: 512
   num_layers: 3
