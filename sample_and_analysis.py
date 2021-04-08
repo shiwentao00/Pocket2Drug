@@ -1,3 +1,4 @@
+# Copyright: Wentao Shi, 2021
 """
 Sample from the RNN of the model.
 """
@@ -72,6 +73,9 @@ def read_random_pockets(mol_path, num):
     with open(mol_path, 'r') as f:
         mols = f.readlines()
     mols = [x.strip('\n') for x in mols]
+    print('number of molecules from Chembl28 RNN: ', len(mols))
+    mols = list(set(mols))
+    print('number of molecules after removing duplicates: ', len(mols))
     assert (num <= len(mols))
     sampled = random.sample(mols, num)
     return sampled
@@ -178,6 +182,14 @@ if __name__ == "__main__":
             device
         )
 
+        # remove duplicate samples
+        print('removing duplicates...')
+        original_num = len(molecules)
+        molecules = list(set(molecules))
+        print('unique ratio after sampling: {}%'.format(
+            len(molecules) * 100.0 / original_num
+        ))
+
         # filter out invalid SMILES
         print('filtering out invalid sampled SMILES and computing similarities...')
         num_valid, num_invalid = 0, 0
@@ -195,9 +207,9 @@ if __name__ == "__main__":
                 sampled_similarity.append(
                     compute_similarity(target_maccs, mol)
                 )
-        print('sampled {} SMILES, {}% of which are valid'.format(
+        print('sampled {} unique SMILES, {}% of which are valid'.format(
             num_valid + num_invalid,
-            num_valid / (num_valid + num_invalid)
+            num_valid * 100.0 / (num_valid + num_invalid)
         ))
 
         # save sampled SMILES
@@ -221,7 +233,7 @@ if __name__ == "__main__":
         fig, ax = plt.subplots(1, 1)
         ax.hist(
             sampled_similarity,
-            bins=100,
+            bins=50,
             label='model based on pocket',
             histtype='step',
             stacked=True,
@@ -229,7 +241,7 @@ if __name__ == "__main__":
         )
         ax.hist(
             random_similarity,
-            bins=100,
+            bins=50,
             label='model based on chembl28',
             histtype='step',
             stacked=True,
