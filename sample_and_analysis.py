@@ -11,6 +11,7 @@ from torch_geometric.data import DataLoader
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
 from rdkit.DataStructs import FingerprintSimilarity
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 # suppress rdkit error
@@ -178,12 +179,13 @@ if __name__ == "__main__":
         )
 
         # filter out invalid SMILES
+        print('filtering out invalid sampled SMILES and computing similarities...')
         num_valid, num_invalid = 0, 0
         valid_molecules = []
         sampled_similarity = []
         target_mol = Chem.MolFromSmiles(target_smiles)
         target_maccs = MACCSkeys.GenMACCSKeys(target_mol)
-        for smiles in molecules:
+        for smiles in tqdm(molecules):
             mol = Chem.MolFromSmiles(smiles)
             if mol is None:
                 num_invalid += 1
@@ -205,8 +207,9 @@ if __name__ == "__main__":
 
         # compute the Tanimoto coefficients of
         # random molecules with the target ligand
+        print('computing similarities of random moldecules with target ligand...')
         random_similarity = []
-        for smiles in random_molecules:
+        for smiles in tqdm(random_molecules):
             mol = Chem.MolFromSmiles(smiles)
             if mol is not None:
                 mol_maccs = MACCSkeys.GenMACCSKeys(mol)
