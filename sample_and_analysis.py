@@ -73,9 +73,9 @@ def read_random_pockets(mol_path, num):
     with open(mol_path, 'r') as f:
         mols = f.readlines()
     mols = [x.strip('\n') for x in mols]
-    print('number of molecules from Chembl28 RNN: ', len(mols))
+    # print('number of molecules from Chembl28 RNN: ', len(mols))
     mols = list(set(mols))
-    print('number of molecules after removing duplicates: ', len(mols))
+    # print('number of molecules after removing duplicates: ', len(mols))
     assert (num <= len(mols))
     sampled = random.sample(mols, num)
     return sampled
@@ -153,12 +153,6 @@ if __name__ == "__main__":
         drop_last=False
     )
 
-    # get same number of random molecules as control group
-    random_molecules = read_random_pockets(
-        random_molecule_path,
-        num_batches * batch_size
-    )
-
     # sample SMILES for each pocket
     # dataloader has batch_size of 1
     for data in trainloader:
@@ -216,6 +210,12 @@ if __name__ == "__main__":
         out_path = result_dir + pocket_name + '_sampled.yaml'
         with open(out_path, 'w') as f:
             yaml.dump(valid_molecules, f)
+
+        # get same number of random molecules as control group
+        random_molecules = read_random_pockets(
+            random_molecule_path,
+            len(valid_molecules)
+        )
 
         # compute the Tanimoto coefficients of
         # random molecules with the target ligand
