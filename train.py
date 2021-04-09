@@ -81,6 +81,8 @@ if __name__ == "__main__":
             )
         )
         print('loaded pretrained RNN for decoder.')
+    else:
+        print('no pretraining for decoder RNN')
 
     # the optimizer
     learning_rate = config['learning_rate']
@@ -101,8 +103,8 @@ if __name__ == "__main__":
         optimizer,
         mode='min',
         factor=0.5,
-        patience=5,
-        cooldown=15,
+        patience=3,
+        cooldown=10,
         min_lr=0.0001,
         verbose=True
     )

@@ -22,6 +22,8 @@
  excluded_pockets: "./data/excluded_pockets.yaml"
 
  encoder_config:
+  pretrain: True
+  pretrained_model: "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt"
   dim: 128 # size of the graph neural network
   num_layers: 6
   num_channels: 3 # number of neural message masking channels form jknmm
@@ -46,6 +48,6 @@
   dropout: 0
 
  batch_size: 256
- num_epoch: 40
+ num_epoch: 30
  learning_rate: 0.003
  weight_decay: 0.0005
