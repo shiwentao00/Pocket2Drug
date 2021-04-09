@@ -69,15 +69,22 @@ if __name__ == "__main__":
         num_workers=num_workers
     )
 
-    # model and training configuration
+    # model initialization
     encoder_config = config['encoder_config']
     decoder_config = config['decoder_config']
     model = Pocket2Drug(encoder_config, decoder_config).to(device)
-    learning_rate = config['learning_rate']
-    weight_decay = config['weight_decay']
-    loss_function = nn.CrossEntropyLoss(reduction='sum')
+    if decoder_config['pretrain']:
+        model.decoder.load_state_dict(
+            torch.load(
+                "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt",
+                map_location=torch.device(device)
+            )
+        )
+        print('loaded pretrained RNN for decoder.')
 
     # the optimizer
+    learning_rate = config['learning_rate']
+    weight_decay = config['weight_decay']
     optimizer = torch.optim.Adam(
         model.parameters(),
         lr=learning_rate,
@@ -99,6 +106,8 @@ if __name__ == "__main__":
         min_lr=0.0001,
         verbose=True
     )
+
+    loss_function = nn.CrossEntropyLoss(reduction='sum')
 
     # get the index of padding
     PADDING_IDX = config['decoder_config']['num_embeddings'] - 1

@@ -1,5 +1,5 @@
 ---
- out_dir: '../p2d_results/run_3/'
+ out_dir: '../p2d_results/run_5/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
@@ -30,6 +30,8 @@
   num_features: 11 # has to be consistent with features_to_use
  
  decoder_config:
+  pretrain: True
+  pretrained_model: "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt"
   # embedding
   # number of tokens + <sos> + <eos> + <pad>
   # char: 48
