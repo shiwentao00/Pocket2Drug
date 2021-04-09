@@ -16,7 +16,7 @@ class Pocket2Drug(torch.nn.Module):
     def __init__(self, encoder_config, decoder_config):
         super(Pocket2Drug, self).__init__()
         # use a graph neural network as encoder
-        self.encoder = JKMCNWMEmbeddingNet(
+        self.embedding_net = JKMCNWMEmbeddingNet(
             num_features=encoder_config['num_features'],
             dim=encoder_config['dim'],
             train_eps=encoder_config['train_eps'],

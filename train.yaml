@@ -1,5 +1,5 @@
 ---
- out_dir: '../p2d_results/run_5/'
+ out_dir: '../p2d_results/run_6/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
@@ -22,8 +22,8 @@
  excluded_pockets: "./data/excluded_pockets.yaml"
 
  encoder_config:
-  pretrain: True
-  pretrained_model: "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt"
+  pretrain: False
+  pretrained_model: "../p2d_pretrained_models/gnn/trained_classifier_model_63.pt"
   dim: 128 # size of the graph neural network
   num_layers: 6
   num_channels: 3 # number of neural message masking channels form jknmm

@@ -73,16 +73,30 @@ if __name__ == "__main__":
     encoder_config = config['encoder_config']
     decoder_config = config['decoder_config']
     model = Pocket2Drug(encoder_config, decoder_config).to(device)
+
+    # load pretrained encoder
+    if encoder_config['pretrain']:
+        loaded_gnn = torch.load(
+            encoder_config['pretrained_model'],
+            map_location=torch.device(device)
+        )
+        model.embedding_net.load_state_dict(loaded_gnn)
+        # print(loaded_gnn)
+        print('Pretrained GNN for encoder is loaded.')
+    else:
+        print('No pretraining for encoder GNN.')
+
+    # load pretrained decoder
     if decoder_config['pretrain']:
         model.decoder.load_state_dict(
             torch.load(
-                "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt",
+                decoder_config['pretrained_model'],
                 map_location=torch.device(device)
             )
         )
-        print('loaded pretrained RNN for decoder.')
+        print('Pretrained RNN for decoder is loaded.')
     else:
-        print('no pretraining for decoder RNN')
+        print('No pretraining for decoder RNN')
 
     # the optimizer
     learning_rate = config['learning_rate']
