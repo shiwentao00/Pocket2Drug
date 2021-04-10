@@ -76,18 +76,20 @@ if __name__ == "__main__":
 
     # load pretrained encoder
     if encoder_config['pretrain']:
+        print('loading pretrained GNN as encoder...')
         loaded_gnn = torch.load(
             encoder_config['pretrained_model'],
             map_location=torch.device(device)
         )
-        model.embedding_net.load_state_dict(loaded_gnn)
-        # print(loaded_gnn)
+        load_info = model.load_state_dict(loaded_gnn, strict=False)
+        print(load_info)
         print('Pretrained GNN for encoder is loaded.')
     else:
         print('No pretraining for encoder GNN.')
 
     # load pretrained decoder
     if decoder_config['pretrain']:
+        print('loading pretrained RNN as decoder...')
         model.decoder.load_state_dict(
             torch.load(
                 decoder_config['pretrained_model'],

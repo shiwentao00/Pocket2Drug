@@ -29,7 +29,7 @@ class Pocket2Drug(torch.nn.Module):
         self.decoder = RNNDecoder(decoder_config)
 
     def forward(self, data, smiles, lengths):
-        graph_embedding, _, _ = self.encoder(
+        graph_embedding, _, _ = self.embedding_net(
             data.x,
             data.edge_index,
             data.edge_attr,
@@ -43,7 +43,7 @@ class Pocket2Drug(torch.nn.Module):
     def sample_from_pocket(self, data, num_batches,
                            batch_size, vocab, device):
         """Sample SMILES from the a pocket"""
-        graph_embedding, _, _ = self.encoder(
+        graph_embedding, _, _ = self.embedding_net(
             data.x,
             data.edge_index,
             data.edge_attr,
