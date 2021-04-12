@@ -59,7 +59,6 @@ if __name__ == "__main__":
     pocket_list = args.pocket_list
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
-    random_molecule_path = args.random_molecule_path
 
     # load the configuartion file in output
     config_dir = result_dir + "config.yaml"
