@@ -41,7 +41,8 @@ class Pocket2Drug(torch.nn.Module):
         return out
 
     def sample_from_pocket(self, data, num_batches,
-                           batch_size, vocab, device):
+                           batch_size, temperature,
+                           vocab, device):
         """Sample SMILES from the a pocket"""
         graph_embedding, _, _ = self.embedding_net(
             data.x,
@@ -56,6 +57,7 @@ class Pocket2Drug(torch.nn.Module):
             sampled_ints = self.decoder.conditioned_sample(
                 graph_embedding,
                 batch_size,
+                temperature,
                 vocab,
                 device,
                 max_length=140
@@ -152,8 +154,8 @@ class RNNDecoder(torch.nn.Module):
         return x
 
     def conditioned_sample(self, graph_embedding,
-                           batch_size, vocab,
-                           device, max_length):
+                           batch_size, temperature,
+                           vocab, device, max_length):
         """Sample a mini-batch from the RNN which is conditioned on 
         the graph_embedding"""
         # Use graph_embedding as input to pre-condition
@@ -187,7 +189,7 @@ class RNNDecoder(torch.nn.Module):
         x = self.embedding_layer(sos)
         x, hidden = self.rnn(x, hidden)
         x = self.linear(x)
-        x = softmax(x, dim=-1)
+        x = softmax(x / temperature, dim=-1)
         x = torch.multinomial(x.squeeze(), 1)
         output.append(x)
 

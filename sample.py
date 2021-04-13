@@ -32,6 +32,11 @@ def get_args():
                         default=200,
                         help="number of batches to generate")
 
+    parser.add_argument("-temperature",
+                        required=False,
+                        default=1.0,
+                        help="the temperature paramter used to reshape softmax")
+
     parser.add_argument("-pocket_list",
                         required=False,
                         default="./data/excluded_pockets.yaml",
@@ -56,6 +61,7 @@ if __name__ == "__main__":
     result_dir = args.result_dir
     batch_size = int(args.batch_size)
     num_batches = int(args.num_batches)
+    temperature = float(args.temperature)
     pocket_list = args.pocket_list
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
@@ -134,8 +140,11 @@ if __name__ == "__main__":
 
         # sample
         molecules = model.sample_from_pocket(
-            data, num_batches,
-            batch_size, dataset.vocab,
+            data,
+            num_batches,
+            batch_size,
+            temperature,
+            dataset.vocab,
             device
         )
 
@@ -164,6 +173,7 @@ if __name__ == "__main__":
         print("unique valid rate {}%".format(unique_rate * 100))
 
         # save sampled SMILES
-        out_path = result_dir + pocket_name + '_sampled.yaml'
+        out_path = result_dir + pocket_name + \
+            '_sampled_temp{}.yaml'.format(temperature)
         with open(out_path, 'w') as f:
             yaml.dump(mol_dict, f)
