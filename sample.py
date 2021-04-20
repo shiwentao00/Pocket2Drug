@@ -51,7 +51,8 @@ def get_args():
     parser.add_argument("-popsa_dir",
                         required=False,
                         default="../data/pops-googlenet/",
-                        help="the directory of popsa files associated with the pockets")
+                        help="the directory of popsa files associated with \
+                            the pockets")
 
     return parser.parse_args()
 
