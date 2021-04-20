@@ -51,6 +51,8 @@ if __name__ == "__main__":
     print(excluded_pockets)
     for pocket in excluded_pockets:
         smiles_dict.pop(pocket)
+    for pocket in excluded_pockets:
+        print(pocket in smiles_dict)
 
     # dataloaders
     batch_size = config['batch_size']
