@@ -28,7 +28,7 @@ def get_args():
 
     parser.add_argument("-th",
                         required=False,
-                        default=0.9,
+                        default=0.94,
                         help="the threshold of tanimoto similarity to select ligands for docking")
 
     return parser.parse_args()
@@ -102,7 +102,8 @@ if __name__ == "__main__":
     temperature = str(args.temperature)
     th = float(args.th)
     assert(0 <= th <= 1.0)
-    pockets = ['5yhzA00', '4jdwA00', '6bwhB00', '1t5cA01', '2hs0A00']
+    #pockets = ['5yhzA00', '4jdwA00', '6bwhB00', '1t5cA01', '2hs0A00']
+    pockets = ['2hs0A00']
 
     # dict of target SMILES
     smiles_dir = "../data/pocket-smiles.yaml"

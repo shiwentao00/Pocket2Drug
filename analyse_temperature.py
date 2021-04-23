@@ -121,7 +121,7 @@ if __name__ == "__main__":
         target_maccs = MACCSkeys.GenMACCSKeys(target_mol)
 
         # load the sampled smiles of the pocket
-        sampled_smiles_path = result_dir + pocket + '_sampled.yaml'
+        sampled_smiles_path = result_dir + pocket + '_sampled_temp1.0.yaml'
         with open(sampled_smiles_path, 'r') as f:
             sampled_smiles = yaml.full_load(f)
         print("{} unique SMILES sampled".format(len(sampled_smiles.keys())))

@@ -10,13 +10,14 @@ def get_args():
 
     parser.add_argument("-docking_result",
                         required=False,
-                        default="../../p2d_results/run_5/selective_docking_6bwhB004.0/6bwhB00_docking_score_th0.9.yaml",
+                        default="../../p2d_results/run_9/selective_docking_2hs0A004.0/2hs0A00_docking_score_th0.94.yaml",
                         help="directory sampled SMILES and their docking scores")
 
     parser.add_argument("-smiles_dict",
                         required=False,
-                        default="../../p2d_results/run_5/6bwhB00_sampled_temp4.0.yaml",
+                        default="../../p2d_results/run_9/2hs0A00_sampled_temp4.0.yaml",
                         help="directory sampled SMILES and their frequencies")
+                        
     return parser.parse_args()
 
 

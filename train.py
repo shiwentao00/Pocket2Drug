@@ -27,6 +27,7 @@ if __name__ == "__main__":
     out_dir = config['out_dir']
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
+    print('results saved in {}.'.format(out_dir))
     trained_model_dir = out_dir + 'trained_model.pt'
 
     # save the configuration file for future reference
@@ -47,12 +48,12 @@ if __name__ == "__main__":
     excluded_pockets = config['excluded_pockets']
     with open(excluded_pockets, 'r') as f:
         excluded_pockets = yaml.full_load(f)
-    print('the following pockets are exluded for case studies:\n')
+    print('the following pockets are exluded for case studies:')
     print(excluded_pockets)
     for pocket in excluded_pockets:
         smiles_dict.pop(pocket)
-    for pocket in excluded_pockets:
-        print(pocket in smiles_dict)
+    #for pocket in excluded_pockets:
+    #    print(pocket in smiles_dict)
 
     # dataloaders
     batch_size = config['batch_size']
