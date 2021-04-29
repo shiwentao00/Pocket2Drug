@@ -1,3 +1,4 @@
+import argparse
 import yaml
 import os
 import random
@@ -8,11 +9,58 @@ from torch.nn.utils.rnn import pack_padded_sequence
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
 
-from dataloader import pocket_loader_gen
+from dataloader import pocket_single_loader_gen
 from model import Pocket2Drug
 
 
+def get_args():
+    parser = argparse.ArgumentParser("python")
+
+    parser.add_argument("-val_fold",
+                        required=False,
+                        default=0,
+                        help="which fold used for validation")
+
+    parser.add_argument("-out_dir",
+                        required=False,
+                        default="../p2d_results/cross_val_fold_0/",
+                        help="which fold used for validation")
+
+    return parser.parse_args()
+
+
+def read_folds(val_fold, data_dir="./cross_validation/folds/"):
+    # train folds
+    folds = list(range(10))
+    folds.pop(val_fold)
+
+    # put the data in train folds together
+    train_dict = {}
+    for fold in folds:
+        with open(data_dir + 'pockets_fold{}.yaml'.format(fold), 'r') as f:
+            fold_dict = yaml.full_load(f)
+        train_dict.update(fold_dict)
+    
+    # load the validation dict
+    with open(data_dir + 'pockets_fold{}.yaml'.format(val_fold), 'r') as f:
+        val_dict = yaml.full_load(f)
+
+    return train_dict, val_dict
+    
+
 if __name__ == "__main__":
+    args = get_args()
+    val_fold = int(args.val_fold)
+    assert val_fold in list(range(10))
+    print('training for cross-validation, validation fold {}.'.format(val_fold))
+
+    # directory for results
+    out_dir = args.out_dir
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+    print('results saved in {}.'.format(out_dir))
+    trained_model_dir = out_dir + 'trained_model.pt'
+
     # detect cpu or gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('device: ', device)
@@ -22,13 +70,6 @@ if __name__ == "__main__":
         config = yaml.full_load(f)
 
     random.seed(config['seed'])
-
-    # directory for results
-    out_dir = config['out_dir']
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
-    print('results saved in {}.'.format(out_dir))
-    trained_model_dir = out_dir + 'trained_model.pt'
 
     # save the configuration file for future reference
     with open(out_dir + 'config.yaml', 'w') as f:
@@ -40,37 +81,36 @@ if __name__ == "__main__":
     features_to_use = config['features_to_use']
 
     # load the pocket-smiles pairs
-    smiles_dir = config['smiles_dir']
-    with open(smiles_dir, 'r') as f:
-        smiles_dict = yaml.full_load(f)
-
-    # exclude pockets used in case study
-    excluded_pockets = config['excluded_pockets']
-    with open(excluded_pockets, 'r') as f:
-        excluded_pockets = yaml.full_load(f)
-    print('the following pockets are exluded for case studies:')
-    print(excluded_pockets)
-    for pocket in excluded_pockets:
-        smiles_dict.pop(pocket)
-    #for pocket in excluded_pockets:
-    #    print(pocket in smiles_dict)
+    smiles_train_dict, smiles_val_dict = read_folds(val_fold=val_fold)
 
     # dataloaders
     batch_size = config['batch_size']
     num_workers = os.cpu_count()
     num_workers = int(min(batch_size, num_workers))
     print('number of workers to load data: ', num_workers)
-    trainloader, valloader, train_size, val_size = pocket_loader_gen(
-        smiles_dict,
+    trainloader, train_size = pocket_single_loader_gen(
+        smiles_train_dict,
         pocket_dir,
         pop_dir,
         features_to_use,
         vocab=config['vocab'],
         vocab_path=config['vocab_path'],
         batch_size=batch_size, shuffle=False,
-        test_split=config['test_split'],
         num_workers=num_workers
     )
+    print('size of train set: ', train_size)
+
+    valloader, val_size = pocket_single_loader_gen(
+        smiles_val_dict,
+        pocket_dir,
+        pop_dir,
+        features_to_use,
+        vocab=config['vocab'],
+        vocab_path=config['vocab_path'],
+        batch_size=batch_size, shuffle=False,
+        num_workers=num_workers
+    )
+    print('size of val set: ', val_size)
 
     # model initialization
     encoder_config = config['encoder_config']
@@ -112,10 +152,6 @@ if __name__ == "__main__":
         weight_decay=weight_decay,
         amsgrad=True
     )
-    # for name, param in model.named_parameters():
-    #    if param.requires_grad:
-    #        # print(name, param.data)
-    #        print(name, param)
 
     # the learning rate scheduler
     scheduler = ReduceLROnPlateau(

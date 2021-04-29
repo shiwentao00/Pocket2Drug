@@ -14,6 +14,54 @@ from scipy.spatial import distance
 import utils
 
 
+def pocket_single_loader_gen(smiles_dict,
+                             pocket_dir,
+                             pop_dir,
+                             features_to_use,
+                             vocab,
+                             vocab_path,
+                             batch_size,
+                             shuffle=False,
+                             num_workers=1):
+    """
+    Dataloader used to wrap PocketDataset. Generate only one dataloader
+
+    Arguments:
+        smiles_dict - a python dictionary of pocket-smiles pairs
+        pocket_dir - root directory of the pockets
+        pop_dir - root directory of the popsa files
+        features_to_use - which node features to use
+        vocab - which vocabulary to use
+        vocab_path - path to load the vocabular
+        batch_size - size of the mini-batch for training
+        shuffle - whether to shuffle the dataset druing training
+        test_split - ratio of test data of entire dataset
+        num_workers - number of worker threads to load the data
+    """
+    # split pockets into train/test split
+    pockets = list(smiles_dict.keys())
+    random.shuffle(pockets)
+
+    dataset = PocketDataset(
+        pockets=pockets,
+        pocket_dir=pocket_dir,
+        pop_dir=pop_dir,
+        smiles_dict=smiles_dict,
+        features_to_use=features_to_use,
+        vocab=vocab,
+        vocab_path=vocab_path
+    )
+
+    dataloader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=num_workers,
+        drop_last=False
+    )
+
+    return dataloader, len(dataset)
+
 def pocket_loader_gen(smiles_dict,
                       pocket_dir,
                       pop_dir,
@@ -25,7 +73,8 @@ def pocket_loader_gen(smiles_dict,
                       test_split=0.1,
                       num_workers=1):
     """
-    Dataloader used to wrap PocketDataset.
+    Dataloader used to wrap PocketDataset. Generate both train and validation
+    dataloaders.
 
     Arguments:
         smiles_dict - a python dictionary of pocket-smiles pairs
