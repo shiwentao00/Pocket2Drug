@@ -1,0 +1,102 @@
+1	AA2AR	3eml	Adenosine A2a receptor	By Hand	3057	482
+2	ABL1	2hzi	Tyrosine-protein kinase ABL	Auto	409	182
+3	ACE	3bkl	Angiotensin-converting enzyme	Auto	749	282
+4	ACES	1e66	Acetylcholinesterase	Auto	1581	453
+5	ADA	2e1w	Adenosine deaminase	Auto	98	93
+6	ADA17	2oi0	ADAM17	By Hand	1341	532
+7	ADRB1	2vt4	Beta-1 adrenergic receptor	By Hand	648	247
+8	ADRB2	3ny8	Beta-2 adrenergic receptor	Auto	602	231
+9	AKT1	3cqw	Serine/threonine-protein kinase AKT	By Hand	585	293
+10	AKT2	3d0e	Serine/threonine-protein kinase AKT2	By Hand	234	117
+11	ALDR	2hv5	Aldose reductase	Auto	604	159
+12	AMPC	1l2s	Beta-lactamase	By Hand	48	48
+13	ANDR	2am9	Androgen Receptor	Auto	1046	269
+14	AOFB	1s3b	Monoamine oxidase B	By Hand	438	122
+15	BACE1	3l5d	Beta-secretase 1	Auto	595	283
+16	BRAF	3d4q	Serine/threonine-protein kinase B-raf	Auto	317	152
+17	CAH2	1bcd	Carbonic anhydrase II	Auto	1924	492
+18	CASP3	2cnk	Caspase-3	By Hand	470	199
+19	CDK2	1h00	Cyclin-dependent kinase 2	By Hand	1310	474
+20	COMT	3bwm	Catechol O-methyltransferase	By Hand	41	41
+21	CP2C9	1r9o	Cytochrome P450 2C9	By Hand	145	120
+22	CP3A4	3nxu	Cytochrome P450 3A4	By Hand	302	170
+23	CSF1R	3krj	Macrophage colony stimulating factor receptor	By Hand	385	166
+24	CXCR4	3odu	C-X-C chemokine receptor type 4	By Hand	40	40
+25	DEF	1lru	Peptide deformylase	By Hand	171	102
+26	DHI1	3frj	11-beta-hydroxysteroid dehydrogenase 1	By Hand	836	387
+27	DPP4	2i78	Dipeptidyl peptidase IV	Auto	1939	533
+28	DRD3	3pbl	Dopamine D3 receptor	By Hand	2113	480
+29	DYR	3nxo	Dihydrofolate reductase	Auto	1082	231
+30	EGFR	2rgp	Epidermal growth factor receptor erbB1	By Hand	1612	542
+31	ESR1	1sj0	Estrogen receptor alpha	Auto	1297	383
+32	ESR2	2fsz	Estrogen receptor beta	Auto	1343	367
+33	FA10	3kl6	Coagulation factor X	Auto	3090	537
+34	FA7	1w7x	Coagulation factor VII	Auto	303	114
+35	FABP4	2nnq	Fatty acid binding protein adipocyte	Auto	47	47
+36	FAK1	3bz3	Focal adhesion kinase 1	Auto	101	100
+37	FGFR1	3c4f	Fibroblast growth factor receptor 1	Auto	327	139
+38	FKB1A	1j4h	FK506-binding protein 1A	Auto	159	111
+39	FNTA	3e37	Protein farnesyltransferase/geranylgeranyltransferase type I alpha subunit	By Hand	1430	592
+40	FPPS	1zw5	Farnesyl diphosphate synthase	By Hand	85	85
+41	GCR	3bqd	Glucocorticoid receptor	Auto	972	258
+42	GLCM	2v3f	Beta-glucocerebrosidase	Auto	54	54
+43	GRIA2	3kgc	Glutamate receptor ionotropic, AMPA 2	By Hand	476	158
+44	GRIK1	1vso	Glutamate receptor ionotropic kainate 1	Auto	136	101
+45	HDAC2	3max	Histone deacetylase 2	By Hand	407	185
+46	HDAC8	3f07	Histone deacetylase 8	By Hand	309	170
+47	HIVINT	3nf7	Human immunodeficiency virus type 1 integrase	By Hand	167	100
+48	HIVPR	1xl2	Human immunodeficiency virus type 1 protease	By Hand	1468	536
+49	HIVRT	3lan	Human immunodeficiency virus type 1 reverse transcriptase	Auto	1178	338
+50	HMDH	3ccw	HMG-CoA reductase	Auto	527	170
+51	HS90A	1uyg	Heat shock protein HSP 90-alpha	By Hand	88	88
+52	HXK4	3f9m	Hexokinase type IV	Auto	136	92
+53	IGF1R	2oj9	Insulin-like growth factor I receptor	Auto	370	148
+54	INHA	2h7l	Enoyl-[acyl-carrier-protein] reductase	Auto	44	44
+55	ITAL	2ica	Leukocyte adhesion glycoprotein LFA-1 alpha	Auto	324	138
+56	JAK2	3lpb	Tyrosine-protein kinase JAK2	By Hand	246	130
+57	KIF11	3cjo	Kinesin-like protein 1	Auto	272	116
+58	KIT	3g0e	Stem cell growth factor receptor	By Hand	378	166
+59	KITH	2b8t	Thymidine kinase	Auto	57	57
+60	KPCB	2i0e	Protein kinase C beta	By Hand	331	135
+61	LCK	2of2	Tyrosine-protein kinase LCK	Auto	916	420
+62	LKHA4	3chp	Leukotriene A4 hydrolase	By Hand	343	171
+63	MAPK2	3m2w	MAP kinase-activated protein kinase 2	By Hand	184	101
+64	MCR	2aa2	Mineralocorticoid receptor	Auto	201	94
+65	MET	3lq8	Hepatocyte growth factor receptor	Auto	333	166
+66	MK01	2ojg	MAP kinase ERK2	Auto	79	79
+67	MK10	2zdt	c-Jun N-terminal kinase 3	Auto	199	104
+68	MK14	2qd9	MAP kinase p38 alpha	Auto	2205	578
+69	MMP13	830c	Matrix metalloproteinase 13	Auto	1632	572
+70	MP2K1	3eqh	Dual specificity mitogen-activated protein kinase kinase 1	By Hand	308	121
+71	NOS1	1qw6	Nitric-oxide synthase, brain	By Hand	311	100
+72	NRAM	1b9v	Neuraminidase	Auto	200	98
+73	PA2GA	1kvo	Phospholipase A2 group IIA	By Hand	173	99
+74	PARP1	3l3m	Poly [ADP-ribose] polymerase-1	By Hand	1031	508
+75	PDE5A	1udt	Phosphodiesterase 5A	By Hand	958	398
+76	PGH1	2oyu	Cyclooxygenase-1	By Hand	534	195
+77	PGH2	3ln1	Cyclooxygenase-2	By Hand	1707	435
+78	PLK1	2owb	Serine/threonine-protein kinase PLK1	By Hand	227	107
+79	PNPH	3bgs	Purine nucleoside phosphorylase	Auto	225	103
+80	PPARA	2p54	Peroxisome proliferator-activated receptor alpha	Auto	1040	373
+81	PPARD	2znp	Peroxisome proliferator-activated receptor delta	Auto	699	240
+82	PPARG	2gtk	Peroxisome proliferator-activated receptor gamma	By Hand	1245	484
+83	PRGR	3kba	Progesterone receptor	Auto	1114	293
+84	PTN1	2azr	Protein-tyrosine phosphatase 1B	Auto	264	130
+85	PUR2	1njs	GAR transformylase	Auto	50	50
+86	PYGM	1c8k	Muscle glycogen phosphorylase	By Hand	77	77
+87	PYRD	1d3g	Dihydroorotate dehydrogenase	Auto	226	111
+88	RENI	3g6z	Renin	Auto	391	104
+89	ROCK1	2etr	Rho-associated protein kinase 1	Auto	216	100
+90	RXRA	1mv9	Retinoid X receptor alpha	Auto	298	131
+91	SAHH	1li4	Adenosylhomocysteinase	Auto	63	63
+92	SRC	3el8	Tyrosine-protein kinase SRC	By Hand	1269	524
+93	TGFR1	3hmm	TGF-beta receptor type I	Auto	235	133
+94	THB	1q4x	Thyroid hormone receptor beta-1	Auto	246	103
+95	THRB	1ype	Thrombin	By Hand	2109	461
+96	TRY1	2ayw	Trypsin I	Auto	924	449
+97	TRYB1	2zec	Tryptase beta-1	Auto	216	148
+98	TYSY	1syn	Thymidylate synthase	By Hand	390	109
+99	UROK	1sqt	Urokinase-type plasminogen activator	Auto	372	162
+100	VGFR2	2p2i	Vascular endothelial growth factor receptor 2	Auto	2320	409
+101	WEE1	3biz	Serine/threonine-protein kinase WEE1	Auto	221	102
+102	XIAP	3hl5	Inhibitor of apoptosis protein 3	By Hand	100	100
