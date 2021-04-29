@@ -179,7 +179,7 @@ if __name__ == "__main__":
         # train
         model.train()
         train_loss = 0
-        for data in tqdm(trainloader):
+        for data in trainloader:
             optimizer.zero_grad()
             data = data.to(device)
             smiles = data.y
