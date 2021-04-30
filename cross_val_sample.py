@@ -7,6 +7,7 @@ a dictionary in yaml format.
 """
 from dataloader import PocketDataset
 from model import Pocket2Drug
+import os
 import yaml
 import argparse
 import torch
@@ -29,19 +30,25 @@ def get_args():
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=200,
+                        default=4,
                         help="number of batches to generate")
 
     parser.add_argument("-temperature",
                         required=False,
-                        default=1.0,
+                        default=2.0,
                         help="the temperature paramter used to reshape softmax")
-
-    parser.add_argument("-pocket_list",
+    
+    parser.add_argument("-fold",
                         required=False,
-                        default="./data/excluded_pockets.yaml",
-                        help="the pocket name used to condition the RNN. If None. \
-                            a random vector will be used.")
+                        default=0,
+                        help="which fold to sample")
+    
+    parser.add_argument("-pocket_folds_dir",
+                        required=False,
+                        default="./cross_validation/folds/",
+                        help="The directory of yaml files contains a dictionary of a fold of pockets \
+                              to sample. The keys are the pocket names and the values are \
+                              the target SMILES.")
 
     parser.add_argument("-pocket_dir",
                         required=False,
@@ -52,7 +59,7 @@ def get_args():
                         required=False,
                         default="../data/pops-googlenet/",
                         help="the directory of popsa files associated with \
-                            the pockets")
+                              the pockets")
 
     return parser.parse_args()
 
@@ -62,10 +69,16 @@ if __name__ == "__main__":
     result_dir = args.result_dir
     batch_size = int(args.batch_size)
     num_batches = int(args.num_batches)
+    fold = int(args.fold)
     temperature = float(args.temperature)
-    pocket_list = args.pocket_list
+    pocket_folds_dir = args.pocket_folds_dir
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
+
+    # directory to store the sampled molecules
+    sampled_mols_dir = result_dir + '/val_pockets_sample/'
+    if not os.path.exists(sampled_mols_dir):
+        os.makedirs(sampled_mols_dir)
 
     # load the configuartion file in output
     config_dir = result_dir + "config.yaml"
@@ -93,9 +106,11 @@ if __name__ == "__main__":
     )
     model.eval()
 
-    # load the list of pockets
-    with open(pocket_list, 'r') as f:
-        test_pockets = yaml.full_load(f)
+    # load the list of pockets in the validation fold
+    val_pockets = pocket_folds_dir + 'pockets_fold{}.yaml'.format(fold)
+    with open(val_pockets, 'r') as f:
+        val_pockets = yaml.full_load(f)
+    val_pockets = list(val_pockets.keys())
 
     # load the dictionary of SMILES
     smiles_dir = config['smiles_dir']
@@ -105,7 +120,7 @@ if __name__ == "__main__":
     # create a dataset of the case study pockets
     features_to_use = config['features_to_use']
     dataset = PocketDataset(
-        pockets=test_pockets,
+        pockets=val_pockets,
         pocket_dir=pocket_dir,
         pop_dir=popsa_dir,
         smiles_dict=smiles_dict,
@@ -155,7 +170,7 @@ if __name__ == "__main__":
         # filter out invalid SMILES
         print('filtering out invalid sampled SMILES...')
         num_valid, num_invalid = 0, 0
-        for smiles in tqdm(molecules):
+        for smiles in molecules:
             mol = Chem.MolFromSmiles(smiles)
             if mol is None:
                 num_invalid += 1
@@ -174,7 +189,7 @@ if __name__ == "__main__":
         print("unique valid rate {}%".format(unique_rate * 100))
 
         # save sampled SMILES
-        out_path = result_dir + pocket_name + \
+        out_path = sampled_mols_dir + pocket_name + \
             '_sampled_temp{}.yaml'.format(temperature)
         with open(out_path, 'w') as f:
             yaml.dump(mol_dict, f)
