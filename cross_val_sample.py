@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # sample SMILES for each pocket
     # dataloader has batch_size of 1
-    for data in trainloader:
+    for data in tqdm(trainloader):
         data = data.to(device)
         pocket_name = data.pocket_name[0]
         print('sampling SMILES for pocket {}...'.format(pocket_name))
