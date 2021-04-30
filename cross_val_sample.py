@@ -12,7 +12,6 @@ import yaml
 import argparse
 import torch
 from torch_geometric.data import DataLoader
-from tqdm import tqdm
 from rdkit import Chem
 
 
@@ -111,6 +110,7 @@ if __name__ == "__main__":
     with open(val_pockets, 'r') as f:
         val_pockets = yaml.full_load(f)
     val_pockets = list(val_pockets.keys())
+    num_val_pockets = len(val_pockets)
 
     # load the dictionary of SMILES
     smiles_dir = config['smiles_dir']
@@ -140,19 +140,19 @@ if __name__ == "__main__":
 
     # sample SMILES for each pocket
     # dataloader has batch_size of 1
-    for data in tqdm(trainloader):
+    for i, data in enumerate(trainloader):
         data = data.to(device)
         pocket_name = data.pocket_name[0]
         print('sampling SMILES for pocket {}...'.format(pocket_name))
-        target_smiles_ints = data.y[0]
-        target_smiles = []
-        for x in target_smiles_ints:
-            if dataset.vocab.int2tocken[x] == '<eos>':
-                break
-            else:
-                target_smiles.append(dataset.vocab.int2tocken[x])
-        target_smiles = "".join(target_smiles[1:])
-        print('target SMILES: ', target_smiles)
+        # target_smiles_ints = data.y[0]
+        # target_smiles = []
+        # for x in target_smiles_ints:
+            # if dataset.vocab.int2tocken[x] == '<eos>':
+                # break
+            # else:
+                # target_smiles.append(dataset.vocab.int2tocken[x])
+        # target_smiles = "".join(target_smiles[1:])
+        # print('target SMILES: ', target_smiles)
 
         # sample
         molecules = model.sample_from_pocket(
@@ -187,6 +187,8 @@ if __name__ == "__main__":
         num_unique = len(list(mol_dict.keys()))
         unique_rate = float(num_unique / (num_valid + num_invalid))
         print("unique valid rate {}%".format(unique_rate * 100))
+
+        print('{}/{} pockets sampled.'.format(i + 1, num_val_pockets))
 
         # save sampled SMILES
         out_path = sampled_mols_dir + pocket_name + \
