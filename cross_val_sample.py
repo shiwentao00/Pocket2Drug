@@ -29,7 +29,7 @@ def get_args():
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=4,
+                        default=10,
                         help="number of batches to generate")
 
     parser.add_argument("-temperature",
