@@ -87,3 +87,7 @@ if __name__ == "__main__":
         picker = MaxMinPicker()
         subset_smiles = subset(sampled_smiles, picker, 100)
 
+        subset_path = join(out_dir, pocket_name + '_subset.yaml')
+        with open(subset_path, 'w') as f:
+            yaml.dump(subset_path, f)
+
