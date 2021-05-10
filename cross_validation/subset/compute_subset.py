@@ -7,7 +7,6 @@ import os
 from os import listdir
 from os.path import isfile, join
 import yaml
-from tqdm import tqdm
 from rdkit import Chem
 # from rdkit.Chem.rdMolDescriptors import GetMorganFingerprint
 from rdkit.Chem import MACCSkeys
@@ -78,12 +77,14 @@ if __name__ == "__main__":
     out_dir = args.out_dir
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
+    print('input dir:', mol_dir)
+    print('output dir', out_dir)
 
     # for each pocket file, read the SMILES of the sampled molecules
     pocket_files = [f for f in listdir(
         mol_dir) if isfile(join(mol_dir, f))]
 
-    for pocket_file in tqdm(pocket_files):
+    for pocket_file in pocket_files:
         pocket_name = pocket_file.split('_')[0]
         sampled_mol_path = join(mol_dir, pocket_file)
         with open(sampled_mol_path, 'r') as f:
