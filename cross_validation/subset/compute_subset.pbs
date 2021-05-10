@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -q work
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=72:00:00
+#PBS -A hpc_michal01
+#PBS -j oe
+
+cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/subset/
+
+mol_dir="../../../p2d_results/cross_val_fold_${FOLD}/val_pockets_sample/"
+
+out_dir="../../../p2d_results/cross_val_fold_${FOLD}/val_pockets_sample_clustered/"
+
+singularity exec --nv -B /work,/project,/usr/lib64 /work/derick/singularities/pytorch171.simg python compute_subset.py -mol_dir mol_dir -out_dir out_dir 
+

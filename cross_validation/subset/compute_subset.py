@@ -24,12 +24,12 @@ def get_args():
 
     parser.add_argument("-mol_dir",
                         required=False,
-                        default="../../p2d_results/cross_val_fold_0/val_pockets_sample/",
+                        default="../../../p2d_results/cross_val_fold_0/val_pockets_sample/",
                         help="directory of yaml files where each yaml is a list of sampled SMILES")
 
     parser.add_argument("-out_dir",
                         required=False,
-                        default="../../p2d_results/cross_val_fold_0/val_pockets_sample_clustered/",
+                        default="../../../p2d_results/cross_val_fold_0/val_pockets_sample_clustered/",
                         help="directory of yaml files after being selected by clustering algorithm")
 
     return parser.parse_args()
@@ -46,10 +46,12 @@ def subset(smiles_list, picker, subset_size):
     mol_list = []
     valid_smiles = []
     for smiles in smiles_list:
-        mol = Chem.MolFromSmiles(smiles) 
-        if mol:
-            valid_smiles.append(smiles)
-            mol_list.append(mol)
+        if len(smiles) > 0:
+            mol = Chem.MolFromSmiles(smiles) 
+            if mol:
+                valid_smiles.append(smiles)
+                mol_list.append(mol)
+    
     # fingerprints = [GetMorganFingerprint(x, 3) for x in mol_list]
     fingerprints = [MACCSkeys.GenMACCSKeys(x) for x in mol_list]
     num_fingerprints = len(fingerprints)
@@ -62,10 +64,12 @@ def subset(smiles_list, picker, subset_size):
         # is the Tanimoto similarity.
         return 1-DataStructs.FingerprintSimilarity(fps[i], fps[j])
 
-    pickIndices = picker.LazyPick(
+    pick_indices = picker.LazyPick(
         distij, num_fingerprints, subset_size, seed=23)
-    pickSmiles = [valid_smiles[i] for i in pickIndices]
-    return pickSmiles
+    
+    pick_smiles = [valid_smiles[i] for i in pick_indices]
+
+    return pick_smiles
 
 
 if __name__ == "__main__":
@@ -78,6 +82,7 @@ if __name__ == "__main__":
     # for each pocket file, read the SMILES of the sampled molecules
     pocket_files = [f for f in listdir(
         mol_dir) if isfile(join(mol_dir, f))]
+
     for pocket_file in tqdm(pocket_files):
         pocket_name = pocket_file.split('_')[0]
         sampled_mol_path = join(mol_dir, pocket_file)
@@ -89,5 +94,5 @@ if __name__ == "__main__":
 
         subset_path = join(out_dir, pocket_name + '_subset.yaml')
         with open(subset_path, 'w') as f:
-            yaml.dump(subset_path, f)
+            yaml.dump(subset_smiles, f)
 
