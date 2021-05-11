@@ -7,7 +7,7 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 	4. Train the model 10 times for the 10 folds.
 	5. Sample 20480 molecules for each pocket in the validation foldes.
     6. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin picking algorithm is used. It is implemented in RdKit. 
-	<!-- 6. Compute the binary string of sampled molecules for each pocket in the validation folds.
+	<!-- 6. Compute the binary string of sampled molecules for each pocket in the validation folds. -->
 	7. For each pocket, cluster the molecules using the subset algorithm, select representative molecules and save them. -->
 	7. Compute molecular weight for each of the selected molecules.
 	8. Prepare pdbqt files for all the pockets in the dataset.
@@ -19,6 +19,30 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 		iii. Collect the docking scores.
 		iv. Normalize the docking scores with molecular weight.
 		v. Save both normalized and unnormalized docking scores.
+	The folder structure of each fold looks like this:
+	```
+    .
+    ├── p2d_results      
+        ├── cv_results
+            ├── cross_val_fold_0
+				├── val_pockets_sample
+				├── val_pockets_sample_clustered
+				├── val_pockets_sample_clustered_pdbqt
+					├── 1a3eB01
+						├── 1.pdbqt
+						├── 2.pdbqt
+		            	├── ...
+            			└── 100.pdbqt
+					├── 2hr7A02
+					├── ...
+					└──	8icsC00
+            ├── cross_val_fold_1
+            ├── ...
+            └── cross_val_fold_9
+	└──	random_drugs
+		├── smiles
+		└── pdbqt
+	```
 	Draw the distributions of random and our model.
 Repeat step 7 for the rest validation folds.
 
