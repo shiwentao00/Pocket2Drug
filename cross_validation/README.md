@@ -11,12 +11,13 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 8. Prepare pdbqt files for all the pockets in the dataset.
 9. Prepare a large dataset of random drugs from Zinc/Chembl.
 10. For fold 0, develop a set of procedures to perform docking and collect results:
-For each pocket in validation fold 0,
-	i. Dock the sampled molecules
-	ii. Get the same number of random molecules from Zinc, dock them.
-	iii. Collect the docking scores.
-	iv. Normalize the docking scores with molecular weight.
-	v. Save both normalized and unnormalized docking scores.   
+For each pocket in validation fold 0,   
+	i. Dock the sampled molecules    
+	ii. Get the same number of random molecules from Zinc, dock them.   
+	iii. Collect the docking scores.    
+	iv. Normalize the docking scores with molecular weight.   
+	v. Save both normalized and unnormalized docking scores.      
+	iv. Draw the distributions of random and our model.   
 
 The folder structure of each fold looks like this:
 ```
@@ -24,17 +25,17 @@ The folder structure of each fold looks like this:
     ├── p2d_results      
         ├── cv_results
             ├── cross_val_fold_0
-			    ├── val_pockets_sample
-			    ├── val_pockets_sample_clustered
-			    ├── val_pockets_sample_clustered_pdbqt
-					├── 1a3eB01
-						├── 1.pdbqt
-						├── 2.pdbqt
-		            	├── ...
-            			└── 100.pdbqt
-					├── 2hr7A02
-					├── ...
-					└──	8icsC00
+	        ├── val_pockets_sample
+                ├── val_pockets_sample_clustered
+		├── val_pockets_sample_clustered_pdbqt
+		    ├── 1a3eB01
+		        ├── 1.pdbqt
+			├── 2.pdbqt
+			├── ...
+			└── 100.pdbqt
+                    ├── 2hr7A02
+		    ├── ...
+		    └── 8icsC00
             ├── cross_val_fold_1
             ├── ...
             └── cross_val_fold_9
@@ -42,8 +43,8 @@ The folder structure of each fold looks like this:
 	    ├── smiles
 	    └── pdbqt
 ```
-	Draw the distributions of random and our model.
-Repeat step 7 for the rest validation folds.
+
+11.Repeat step 10 for the rest validation folds.
 
 ### Docking
 The docking script has the following steps:
