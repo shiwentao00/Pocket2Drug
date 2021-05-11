@@ -24,9 +24,9 @@ The folder structure of each fold looks like this:
     ├── p2d_results      
         ├── cv_results
             ├── cross_val_fold_0
-				├── val_pockets_sample
-				├── val_pockets_sample_clustered
-				├── val_pockets_sample_clustered_pdbqt
+			    ├── val_pockets_sample
+			    ├── val_pockets_sample_clustered
+			    ├── val_pockets_sample_clustered_pdbqt
 					├── 1a3eB01
 						├── 1.pdbqt
 						├── 2.pdbqt
@@ -38,9 +38,9 @@ The folder structure of each fold looks like this:
             ├── cross_val_fold_1
             ├── ...
             └── cross_val_fold_9
-	└──	random_drugs
-		├── smiles
-		└── pdbqt
+	└── random_drugs
+	    ├── smiles
+	    └── pdbqt
 ```
 	Draw the distributions of random and our model.
 Repeat step 7 for the rest validation folds.
