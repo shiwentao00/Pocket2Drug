@@ -8,7 +8,7 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 	5. Sample 20480 molecules for each pocket in the validation foldes.
     6. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin picking algorithm is used. It is implemented in RdKit. 
 	<!-- 6. Compute the binary string of sampled molecules for each pocket in the validation folds. -->
-	7. For each pocket, cluster the molecules using the subset algorithm, select representative molecules and save them. -->
+	6. For each pocket, cluster the molecules using the subset algorithm, select representative molecules and save them.
 	7. Compute molecular weight for each of the selected molecules.
 	8. Prepare pdbqt files for all the pockets in the dataset.
 	9. Prepare a large dataset of random drugs from Zinc/Chembl.
