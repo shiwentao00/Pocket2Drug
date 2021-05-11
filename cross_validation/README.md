@@ -35,9 +35,9 @@ The folder structure of each fold looks like this:
                 ├── val_pockets_sample_clustered_pdbqt
                     ├── 1a3eB01
                         ├── 1a3eB01-1.pdbqt
-                	    ├── 1a3eB01-2.pdbqt
-                	    ├── ...
-                	    └── 1a3eB01-100.pdbqt
+                        ├── 1a3eB01-2.pdbqt
+                        ├── ...
+                        └── 1a3eB01-100.pdbqt
                     ├── 2hr7A02
                     ├── ...
                     └── 8icsC00
