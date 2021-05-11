@@ -27,6 +27,15 @@ The folder structure of each fold looks like this:
             ├── cross_val_fold_0
 	        ├── val_pockets_sample
                 ├── val_pockets_sample_clustered
+		├── val_pockets_sample_clustered_smi
+		    ├── 1a3eB01
+		        ├── 1.smi
+			├── 2.smi
+			├── ...
+			└── 100.smi
+                    ├── 2hr7A02
+		    ├── ...
+		    └── 8icsC00
 		├── val_pockets_sample_clustered_pdbqt
 		    ├── 1a3eB01
 		        ├── 1.pdbqt
