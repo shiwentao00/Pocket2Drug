@@ -42,6 +42,11 @@ def get_args():
                         default="../mol-rnn-sampled/run_34/sampled_molecules.out",
                         help="the directory of popsa files associated with the pockets")
 
+    parser.add_argument("-temperature",
+                        required=False,
+                        default=1.0,
+                        help="the temperature paramter used to reshape softmax")
+
     return parser.parse_args()
 
 
@@ -77,6 +82,7 @@ if __name__ == "__main__":
     pocket_list = args.pocket_list
     pocket_dir = args.pocket_dir
     random_molecule_path = args.random_molecule_path
+    temperature = args.temperature
 
     # load the configuartion file in output
     config_dir = result_dir + "config.yaml"
@@ -104,7 +110,8 @@ if __name__ == "__main__":
         target_maccs = MACCSkeys.GenMACCSKeys(target_mol)
 
         # load the sampled smiles of the pocket
-        sampled_smiles_path = result_dir + pocket + '_sampled.yaml'
+        sampled_smiles_path = result_dir + pocket + \
+            '_sampled_temp{}.yaml'.format(temperature)
         with open(sampled_smiles_path, 'r') as f:
             sampled_smiles = yaml.full_load(f)
         print("{} unique SMILES sampled".format(len(sampled_smiles.keys())))
