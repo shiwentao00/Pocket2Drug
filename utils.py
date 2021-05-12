@@ -133,16 +133,16 @@ class SELFIESVocab:
 
         self.int2tocken = {value: key for key, value in self.vocab.items()}
 
-    def tokenize_smiles(self, mol):
+    def tokenize_smiles(self, smiles):
         """convert the smiles to selfies, then return 
         integer tokens."""
         ints = [self.vocab['<sos>']]
 
-        #encoded_selfies = sf.encoder(smiles)
-        selfies_list = list(sf.split_selfies(mol))
+        encoded_selfies = sf.encoder(smiles)
+        
+        selfies_list = list(sf.split_selfies(encoded_selfies))
         for token in selfies_list:
             ints.append(self.vocab[token])
-
         ints.append(self.vocab['<eos>'])
 
         return ints
