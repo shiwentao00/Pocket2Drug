@@ -1,5 +1,5 @@
 ---
- out_dir: '../p2d_results/run_9/'
+ out_dir: '../p2d_results_selfie/run_1/'
  smiles_dir: "./data/pocket-smiles.yaml"
  pocket_dir: "../data/googlenet-dataset/"
  pop_dir: "../data/pops-googlenet/"
@@ -18,7 +18,7 @@
   - 'binding_probability'
   - 'sequence_entropy'   
  vocab: "char"
- vocab_path: "./vocab/char_vocab.yaml"
+ vocab_path: "./vocab/selfies_merged_vocab.yaml"
  excluded_pockets: "./data/excluded_pockets.yaml"
 
  encoder_config:
@@ -33,11 +33,11 @@
  
  decoder_config:
   pretrain: True
-  pretrained_model: "../p2d_pretrained_models/rnn/pretrained_rnn_34.pt"
+  pretrained_model: "../p2d_pretrained_models/rnn/pretrained_rnn_35_selfies.pt"
   # embedding
   # number of tokens + <sos> + <eos> + <pad>
   # char: 48
-  num_embeddings: 48 
+  num_embeddings: 79 
   embedding_dim: 256
 
   # rnn
