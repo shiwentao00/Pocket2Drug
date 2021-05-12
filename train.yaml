@@ -17,7 +17,7 @@
   - 'hydrophobicity'
   - 'binding_probability'
   - 'sequence_entropy'   
- vocab: "char"
+ vocab: "selfies" # char, selfies, or regex
  vocab_path: "./vocab/selfies_merged_vocab.yaml"
  excluded_pockets: "./data/excluded_pockets.yaml"
 
