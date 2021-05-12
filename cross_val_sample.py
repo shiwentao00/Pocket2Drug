@@ -34,7 +34,7 @@ def get_args():
 
     parser.add_argument("-temperature",
                         required=False,
-                        default=2.0,
+                        default=1.0,
                         help="the temperature paramter used to reshape softmax")
     
     parser.add_argument("-fold",
