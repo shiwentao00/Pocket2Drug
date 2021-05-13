@@ -23,12 +23,12 @@ def get_args():
 
     parser.add_argument("-mol_dir",
                         required=False,
-                        default="../../../p2d_results/cross_val_fold_0/val_pockets_sample/",
+                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/",
                         help="directory of yaml files where each yaml is a list of sampled SMILES")
 
     parser.add_argument("-out_dir",
                         required=False,
-                        default="../../../p2d_results/cross_val_fold_0/val_pockets_sample_clustered/",
+                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/",
                         help="directory of yaml files after being selected by clustering algorithm")
 
     return parser.parse_args()

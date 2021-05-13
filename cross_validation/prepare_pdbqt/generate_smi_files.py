@@ -5,6 +5,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 import yaml
+from tqdm import tqdm
 
 
 if __name__ == "__main__":
@@ -15,10 +16,9 @@ if __name__ == "__main__":
 
     pocket_subset_files = [f for f in listdir(in_dir) if isfile(join(in_dir, f))]
 
-    for pocket_subset_file in pocket_subset_files:
+    for pocket_subset_file in tqdm(pocket_subset_files):
         pocket_name = pocket_subset_file.split('_')[0]
-        pocket_out_path = join(out_dir, pocket_name + "-.smi")
-
+        pocket_out_path = join(out_dir, pocket_name + ".smi")
 
         with open(join(in_dir, pocket_subset_file), 'r') as f:
             smiles_list = yaml.full_load(f)
@@ -27,4 +27,3 @@ if __name__ == "__main__":
             for smiles in smiles_list:
                 f.write(smiles + '\n')
             
-        break 
