@@ -7,9 +7,9 @@
 
 cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/subset/
 
-mol_dir="../../../p2d_results/cross_val_fold_${FOLD}/val_pockets_sample/"
+mol_dir="../../../p2d_results_selfie/cv_results/cross_val_fold_${FOLD}/val_pockets_sample/"
 
-out_dir="../../../p2d_results/cross_val_fold_${FOLD}/val_pockets_sample_clustered/"
+out_dir="../../../p2d_results_selfie/cv_results/cross_val_fold_${FOLD}/val_pockets_sample_clustered/"
 
 log_dir="./fold${FOLD}_log.txt"
 

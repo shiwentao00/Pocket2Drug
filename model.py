@@ -79,6 +79,7 @@ class Pocket2Drug(torch.nn.Module):
                 molecules = [sf.decoder(x) for x in molecules]
 
             all_molelcules.extend(molecules)
+
         return all_molelcules
 
 

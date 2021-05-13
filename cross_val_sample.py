@@ -171,6 +171,10 @@ if __name__ == "__main__":
         print('filtering out invalid sampled SMILES...')
         num_valid, num_invalid = 0, 0
         for smiles in molecules:
+            if smiles is None:
+                print('SMILES of None value in sample')
+                num_invalid += 1
+                continue
             mol = Chem.MolFromSmiles(smiles)
             if mol is None:
                 num_invalid += 1
