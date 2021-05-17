@@ -103,12 +103,12 @@ if __name__ == "__main__":
     p2d_char_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
     p2d_selfies_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
 
-    # chembl28_dataset = read_smiles_file(chembl28_dataset_path)
-    # compute_all_scores(
-        # chembl28_dataset, 
-        # "./chembl28_qed_scores.yaml", 
-        # "./chembl28_sa_scores.yaml"
-    # )
+    chembl28_dataset = read_smiles_file(chembl28_dataset_path)
+    compute_all_scores(
+        chembl28_dataset, 
+        "./chembl28_qed_scores.yaml", 
+        "./chembl28_sa_scores.yaml"
+    )
 
     p2d_char_dataset = load_sampled_smiles(p2d_char_dataset_path)
     compute_all_scores(
