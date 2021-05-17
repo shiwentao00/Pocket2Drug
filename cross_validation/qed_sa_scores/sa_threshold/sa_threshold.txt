@@ -1,0 +1,40 @@
+percentage of chembl28 data: 0.9999, threshold: 7.87403550156254
+percentage of p2d dataset: 0.9995260757094054
+percentage of p2d char model: 0.9998336986024743
+percentage of p2d selfies model: 0.9996399604352126
+-----------------------------------------------------
+percentage of chembl28 data: 0.999, threshold: 7.188309894957493
+percentage of p2d dataset: 0.9955372129302344
+percentage of p2d char model: 0.9991882907977914
+percentage of p2d selfies model: 0.9971454005934718
+-----------------------------------------------------
+percentage of chembl28 data: 0.99, threshold: 5.812985580820492
+percentage of p2d dataset: 0.9475128848166505
+percentage of p2d char model: 0.9806120287384653
+percentage of p2d selfies model: 0.9543996043521266
+-----------------------------------------------------
+percentage of chembl28 data: 0.98, threshold: 5.212354183074975
+percentage of p2d dataset: 0.8901285519638238
+percentage of p2d char model: 0.9477793813983968
+percentage of p2d selfies model: 0.8808189910979228
+-----------------------------------------------------
+percentage of chembl28 data: 0.95, threshold: 4.57797330097117
+percentage of p2d dataset: 0.7986414170336289
+percentage of p2d char model: 0.8771864179272907
+percentage of p2d selfies model: 0.7349277942631058
+-----------------------------------------------------
+percentage of chembl28 data: 0.9, threshold: 4.089634176052231
+percentage of p2d dataset: 0.6601962836436879
+percentage of p2d char model: 0.7845367417200712
+percentage of p2d selfies model: 0.5907814045499505
+-----------------------------------------------------
+percentage of chembl28 data: 0.85, threshold: 3.799259496714824
+percentage of p2d dataset: 0.5892853616634742
+percentage of p2d char model: 0.7134290358280523
+percentage of p2d selfies model: 0.5018595450049456
+-----------------------------------------------------
+percentage of chembl28 data: 0.8, threshold: 3.5999014364167348
+percentage of p2d dataset: 0.5359886258170258
+percentage of p2d char model: 0.6591098519719584
+percentage of p2d selfies model: 0.4403738872403561
+-----------------------------------------------------

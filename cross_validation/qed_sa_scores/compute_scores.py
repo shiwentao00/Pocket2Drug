@@ -4,12 +4,11 @@ Analyse the Synthetic Accessibility scores of:
     2. Molecules sampled from fold 0 pockets by Pocket2Drug, (char-level tokenization)
     3. Molecules sampled from fold 0 pockets by Pocket2Drug, (selfies tokenization)
 """
-import os
 from os import listdir
 from os.path import isfile, join
 from rdkit.Chem.QED import qed
 from rdkit import Chem
-from sascorer import calculateScore
+from rdkit_contrib.sascorer import calculateScore
 import yaml
 from tqdm import tqdm
 
@@ -20,6 +19,12 @@ def read_smiles_file(path):
          smiles = [line.strip("\n") for line in f.readlines()]
     
     return smiles
+
+
+def read_smiles_yaml(path):
+    with open(path, "r") as f:
+        smiles_dict = yaml.full_load(f)
+    return list(smiles_dict.values())
 
 
 def load_sampled_smiles(folder_dir):
@@ -100,6 +105,7 @@ def compute_all_scores(smiles_list, qed_path, sa_path):
 
 if __name__ == "__main__":
     chembl28_dataset_path = "/home/wentao/Desktop/local-workspace/molecule-generator-project/Molecule-RNN/dataset/chembl28-cleaned.smi"
+    p2d_dataset_path = "../../data/pocket-smiles.yaml"
     p2d_char_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
     p2d_selfies_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
 
@@ -108,6 +114,13 @@ if __name__ == "__main__":
         chembl28_dataset, 
         "./chembl28_qed_scores.yaml", 
         "./chembl28_sa_scores.yaml"
+    )
+
+    p2d_dataset = read_smiles_yaml(p2d_dataset_path)
+    compute_all_scores(
+        p2d_dataset,
+        "./p2d_dataset_qed_scores.yaml",
+        "./p2d_dataset_sa_scores.yaml"
     )
 
     p2d_char_dataset = load_sampled_smiles(p2d_char_dataset_path)

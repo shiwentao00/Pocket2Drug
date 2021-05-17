@@ -2,8 +2,8 @@
 Filter out the SMILES above the threshold and visualize.
 """
 import random
-from compute_scores import load_sampled_smiles, read_smiles_file
-from sascorer import calculateScore
+from compute_scores import load_sampled_smiles, read_smiles_file, read_smiles_yaml
+from rdkit_contrib.sascorer import calculateScore
 from rdkit import Chem
 
 
@@ -29,11 +29,14 @@ if __name__ == "__main__":
     # chembl28_dataset_path = "/home/wentao/Desktop/local-workspace/molecule-generator-project/Molecule-RNN/dataset/chembl28-cleaned.smi"
     # smiles_list = read_smiles_file(chembl28_dataset_path)
 
+    p2d_dataset_path = "../../data/pocket-smiles.yaml"
+    smiles_list = read_smiles_yaml(p2d_dataset_path)
+
     # p2d_char_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
     # smiles_list = load_sampled_smiles(p2d_char_dataset_path)
     
-    p2d_selfies_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
-    smiles_list = load_sampled_smiles(p2d_selfies_dataset_path)
+    # p2d_selfies_dataset_path = "/home/wentao/Desktop/local-workspace/pocket2drug-project/p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
+    # smiles_list = load_sampled_smiles(p2d_selfies_dataset_path)
     
 
     random.shuffle(smiles_list)
