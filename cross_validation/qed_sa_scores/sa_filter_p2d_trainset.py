@@ -40,7 +40,10 @@ if __name__ == "__main__":
     sa_6_7 = []
     sa_5_6 = []
     sa_4_5 = []
-    sa_small = []
+    sa_3_4 = []
+    sa_2_3 = []
+    sa_1_2 = []
+    sa_0_1 = []
 
     for pocket in pockets:
         smiles = smiles_dict[pocket]
@@ -61,17 +64,25 @@ if __name__ == "__main__":
                     sa_5_6.append((pocket, smiles))
                 elif 4 < sa_score <= 5:
                     sa_4_5.append((pocket, smiles))
-                else:
-                    sa_small.append((pocket, smiles))
-
+                elif 3 < sa_score <= 4:
+                    sa_3_4.append((pocket, smiles))
+                elif 2 < sa_score <= 3:
+                    sa_2_3.append((pocket, smiles))
+                elif 1 < sa_score <= 2:
+                    sa_1_2.append((pocket, smiles))
+                elif 0 <= sa_score <= 1:
+                    sa_0_1.append((pocket, smiles))
+                
         if len(sa_9_10) > 20 and \
            len(sa_8_9) > 20 and \
            len(sa_7_8) > 20 and \
            len(sa_6_7) > 20 and \
            len(sa_5_6) > 20 and \
            len(sa_4_5) > 20 and \
-           len(sa_small) > 20:
-            break
+           len(sa_3_4) > 20 and \
+           len(sa_2_3) > 20 and \
+           len(sa_1_2) > 20 and \
+           len(sa_0_1) > 20: break
 
     print("sa score 9-10: ")
     show_smiles_list(sa_9_10)
@@ -91,5 +102,14 @@ if __name__ == "__main__":
     print("sa score 4-5: ")
     show_smiles_list(sa_4_5)
 
-    print("sa score below 4: ")
-    show_smiles_list(sa_small)
+    print("sa score 3-4: ")
+    show_smiles_list(sa_3_4)
+
+    print("sa score 2-3: ")
+    show_smiles_list(sa_2_3)
+
+    print("sa score 1-2: ")
+    show_smiles_list(sa_1_2)
+
+    print("sa score 0-1: ")
+    show_smiles_list(sa_0_1)
