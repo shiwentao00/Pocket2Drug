@@ -10,6 +10,19 @@ This script prepare the data for a 10-fold cross validation.
 """
 import yaml
 import random
+from rdkit import Chem
+from qed_sa_scores.rdkit_contrib.sascorer import calculateScore
+
+
+def compute_sa_score(mol):
+    try:
+        sa_score = calculateScore(mol)
+    except:
+        print("Something went wrong when computing SA.")
+        sa_score = None
+
+    return sa_score
+
 
 if __name__ == "__main__":
     # all pockets
@@ -30,14 +43,25 @@ if __name__ == "__main__":
     for pocket in pockets:
         if pocket[0:4] not in to_exclude:
             new_pockets.append(pocket)
-    # print(len(pockets))
-    # print(len(new_pockets))
+    
+    # filter with SA score
+    new_pockets_sa_1_6 = []
+    for pocket in new_pockets:
+        smiles = smiles_dict[pocket]
+        mol = Chem.MolFromSmiles(smiles)
+        sa_score = compute_sa_score(mol)
+        if sa_score and 1 <= sa_score <= 6:
+            new_pockets_sa_1_6.append(pocket)
+
+    print("number of pockets in original dataset: ", len(pockets))
+    print("number of pockets after exclusing DUDE and case study pockets: ", len(new_pockets))
+    print("number of pockets after filtering by SA score: ", len(new_pockets_sa_1_6))
 
     # shuffle
-    random.shuffle(new_pockets)
+    random.shuffle(new_pockets_sa_1_6)
 
     # divide into 10 folds
-    num_pockets = len(new_pockets)
+    num_pockets = len(new_pockets_sa_1_6)
     fold_len = int(num_pockets / 10)
 
     # for each fold
@@ -51,7 +75,7 @@ if __name__ == "__main__":
         # the dictionary to save
         # key is pocket name, value is the target SMILES
         pocket_smiles_dict = {}
-        for pocket in new_pockets[start:end]:
+        for pocket in new_pockets_sa_1_6[start:end]:
             pocket_smiles_dict[pocket] = smiles_dict[pocket]
         
         # save the pocket name - SMILES pairs of this fold
