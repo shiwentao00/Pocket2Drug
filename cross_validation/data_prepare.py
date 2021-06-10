@@ -2,8 +2,11 @@
 This script prepare the data for a 10-fold cross validation. 
  1. The proteins from the DUD-E dataset is excluded.
  2. The pockets used in previous case studies are excluded.
- 3. The pockets are shuffled and divided into 10 folds.
- 4. Each fold is saved
+ 3. Filter the dataset with Synthetic Accessibility (SA) score. 
+    We keep the pockets that have binding molecules of SA scores 
+    between 1 to 6.
+ 4. The pockets are shuffled and divided into 10 folds.
+ 5. Each fold is saved
 """
 import yaml
 import random
