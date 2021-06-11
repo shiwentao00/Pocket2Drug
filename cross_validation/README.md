@@ -6,7 +6,7 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 3. Filter the dataset with Synthetic Accessibility (SA) score. We keep the pockets that have binding molecules of SA scores between 1 to 6.
 4. Divide the dataset into 10 folds.
 5. Train the model 10 times for the 10 folds.
-6. Sample 20480 molecules for each pocket in the validation foldes.
+6. Sample 20480 molecules for each pocket in the validation foldes. Filter the molecules with SA score range 1 to 6.
 7. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin pickingalgorithm is used. It is implemented in RdKit. 
 8. Compute molecular weight for each of the selected molecules.
 9. Prepare pdbqt files for all the pockets in the dataset.
