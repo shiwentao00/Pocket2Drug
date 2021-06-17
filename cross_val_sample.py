@@ -104,12 +104,13 @@ if __name__ == "__main__":
     vocab, vocab_path = config["vocab"], config["vocab_path"]
 
     # load the model
+    model_path = result_dir + "trained_model.pt"
     encoder_config = config['encoder_config']
     decoder_config = config['decoder_config']
     model = Pocket2Drug(encoder_config, decoder_config).to(device)
     model.load_state_dict(
         torch.load(
-            config['out_dir'] + 'trained_model.pt',
+            model_path,
             map_location=torch.device(device)
         )
     )
