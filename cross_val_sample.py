@@ -14,7 +14,6 @@ import torch
 from torch_geometric.data import DataLoader
 from rdkit import Chem
 from cross_validation.qed_sa_scores.rdkit_contrib.sascorer import calculateScore
-from cross_validation.data_prepare import compute_sa_score
 
 def get_args():
     parser = argparse.ArgumentParser("python")
@@ -62,6 +61,16 @@ def get_args():
                               the pockets")
 
     return parser.parse_args()
+
+
+def compute_sa_score(mol):
+    try:
+        sa_score = calculateScore(mol)
+    except:
+        print("Something went wrong when computing SA.")
+        sa_score = None
+
+    return sa_score
 
 
 if __name__ == "__main__":
