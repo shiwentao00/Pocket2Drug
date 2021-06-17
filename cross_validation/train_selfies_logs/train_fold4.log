@@ -1,0 +1,51 @@
+training for cross-validation, validation fold 4.
+results saved in ../p2d_results_selfie/cv_results/cross_val_fold_4/.
+device:  cuda
+number of workers to load data:  36
+size of train set:  43529
+size of val set:  4836
+No pretraining for encoder GNN.
+loading pretrained RNN as decoder...
+Pretrained RNN for decoder is loaded.
+begin training...
+epoch 1, train loss: 26.86936974765902, val loss: 22.801780429332094.
+model saved at epoch 1
+epoch 2, train loss: 21.374194686550673, val loss: 22.633420226394488.
+model saved at epoch 2
+epoch 3, train loss: 20.154809738432952, val loss: 21.59804023130557.
+model saved at epoch 3
+epoch 4, train loss: 19.402444066661534, val loss: 20.97255073843957.
+model saved at epoch 4
+epoch 5, train loss: 18.913040092776914, val loss: 20.520746298916976.
+model saved at epoch 5
+epoch 6, train loss: 18.507009605998906, val loss: 20.64019033275822.
+epoch 7, train loss: 18.26946196025566, val loss: 20.686227702226788.
+epoch 8, train loss: 18.146652229216365, val loss: 20.388168044677936.
+model saved at epoch 8
+epoch 9, train loss: 18.074666089046946, val loss: 20.791228768448875.
+epoch 10, train loss: 18.093811641595753, val loss: 20.659772369662427.
+epoch 11, train loss: 18.075211377187568, val loss: 20.76051753369908.
+epoch 12, train loss: 18.091268108830374, val loss: 20.654618660017317.
+Epoch    12: reducing learning rate of group 0 to 1.5000e-03.
+epoch 13, train loss: 16.367852516650178, val loss: 19.166659144550636.
+model saved at epoch 13
+epoch 14, train loss: 15.05323822351696, val loss: 18.661947775715337.
+model saved at epoch 14
+epoch 15, train loss: 14.253393576210843, val loss: 18.600317514070902.
+model saved at epoch 15
+epoch 16, train loss: 13.66751853036542, val loss: 18.616250920828165.
+epoch 17, train loss: 13.154407538816447, val loss: 18.71431689897384.
+epoch 18, train loss: 12.749945887894006, val loss: 18.85654814840842.
+epoch 19, train loss: 12.398835759161917, val loss: 18.91449499642977.
+epoch 20, train loss: 12.135223506279074, val loss: 19.073534590829198.
+epoch 21, train loss: 11.91086749416629, val loss: 19.369876429303012.
+epoch 22, train loss: 11.689288892945124, val loss: 19.40760256733354.
+epoch 23, train loss: 11.569065480555505, val loss: 19.506955382644488.
+epoch 24, train loss: 11.403822933239875, val loss: 20.46909652217742.
+epoch 25, train loss: 11.305600682210647, val loss: 20.97154045262743.
+epoch 26, train loss: 11.266975413698866, val loss: 20.957487625361868.
+Epoch    26: reducing learning rate of group 0 to 7.5000e-04.
+epoch 27, train loss: 10.034191582653085, val loss: 19.219138524865592.
+epoch 28, train loss: 8.849663134109129, val loss: 19.25236578121769.
+epoch 29, train loss: 8.091836866880806, val loss: 19.484580722300844.
+epoch 30, train loss: 7.533638499749241, val loss: 19.716054204872957.
