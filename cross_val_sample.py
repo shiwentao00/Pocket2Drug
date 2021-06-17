@@ -13,7 +13,8 @@ import argparse
 import torch
 from torch_geometric.data import DataLoader
 from rdkit import Chem
-
+from cross_validation.qed_sa_scores.rdkit_contrib.sascorer import calculateScore
+from cross_validation.data_prepare import compute_sa_score
 
 def get_args():
     parser = argparse.ArgumentParser("python")
@@ -117,9 +118,9 @@ if __name__ == "__main__":
     with open(smiles_dir, 'r') as f:
         smiles_dict = yaml.full_load(f)
 
-    # create a dataset of the case study pockets
+    # create a valset of the case study pockets
     features_to_use = config['features_to_use']
-    dataset = PocketDataset(
+    valset = PocketDataset(
         pockets=val_pockets,
         pocket_dir=pocket_dir,
         pop_dir=popsa_dir,
@@ -129,9 +130,9 @@ if __name__ == "__main__":
         vocab_path=vocab_path
     )
 
-    # wrap the dataset with the dataloader
-    trainloader = DataLoader(
-        dataset,
+    # wrap the valset with the dataloader
+    val_loader = DataLoader(
+        valset,
         batch_size=1,
         shuffle=False,
         num_workers=1,
@@ -140,17 +141,17 @@ if __name__ == "__main__":
 
     # sample SMILES for each pocket
     # dataloader has batch_size of 1
-    for i, data in enumerate(trainloader):
+    for i, data in enumerate(val_loader):
         data = data.to(device)
         pocket_name = data.pocket_name[0]
         print('sampling SMILES for pocket {}...'.format(pocket_name))
         # target_smiles_ints = data.y[0]
         # target_smiles = []
         # for x in target_smiles_ints:
-            # if dataset.vocab.int2tocken[x] == '<eos>':
+            # if valset.vocab.int2tocken[x] == '<eos>':
                 # break
             # else:
-                # target_smiles.append(dataset.vocab.int2tocken[x])
+                # target_smiles.append(valset.vocab.int2tocken[x])
         # target_smiles = "".join(target_smiles[1:])
         # print('target SMILES: ', target_smiles)
 
@@ -160,7 +161,7 @@ if __name__ == "__main__":
             num_batches,
             batch_size,
             temperature,
-            dataset.vocab,
+            valset.vocab,
             device
         )
 
@@ -178,12 +179,17 @@ if __name__ == "__main__":
             mol = Chem.MolFromSmiles(smiles)
             if mol is None:
                 num_invalid += 1
-            elif smiles in mol_dict:
-                mol_dict[smiles] += 1
-                num_valid += 1
             else:
-                mol_dict[smiles] = 1
-                num_valid += 1
+                sa_score = compute_sa_score(mol)
+                if sa_score and 1 <= sa_score <= 6:
+                    if smiles in mol_dict:
+                        mol_dict[smiles] += 1
+                        num_valid += 1
+                    else:
+                        mol_dict[smiles] = 1
+                        num_valid += 1
+                else:
+                    num_invalid += 1
 
         valid_rate = float(num_valid / (num_valid + num_invalid))
         print("valid rate: {}%".format(valid_rate * 100))
