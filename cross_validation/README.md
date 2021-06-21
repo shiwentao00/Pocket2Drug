@@ -13,25 +13,23 @@ cd ./subset
 python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/subset/molecules> 
 ```
 8. Compute molecular weight for each of the selected molecules.
-9. Prepare pdbqt files for all the pockets in the dataset.
-    a. Convert `.yaml` files to `.smi` files. Modify the input and outpout directories before running.
+9. Prepare pdbqt files for all the pockets in the dataset.   
+    a. Convert `.yaml` files to `.smi` files. Modify the input and outpout directories before running   
     ```
     cd prepare_pdbqt
     python generate_smi_files.py
     ``` 
-    b. Generate `.pdbqt` files from the `.smi` files. Modify the input and outpout directories before running.
+    b. Generate `.pdbqt` files from the `.smi` files. Modify the input and outpout directories before running   
     ```
     python generate_pdbqt_files.py
     ```
-10. Prepare a large dataset of random drugs from Zinc/Chembl.
-11. For fold 0, develop a set of procedures to perform docking and collect results:
-For each pocket in validation fold 0,   
-	i. Dock the sampled molecules    
-	ii. Get the same number of random molecules from Zinc, dock them.   
-	iii. Collect the docking scores.    
-	iv. Normalize the docking scores with molecular weight.   
-	v. Save both normalized and unnormalized docking scores.      
-	iv. Draw the distributions of random and our model.   
+10. For each pocket in a validation fold, dock the qdbqt files, and save the docking scores    
+    a. Compute the docking boxes of each molecule to dock
+    b. Compute the geometric centers of the pockets in the dataset
+    c. run docking (smina)
+
+11. Prepare a large dataset of random drugs from Zinc/Chembl
+12. Dock the random molecules to the pockets in the validation set   
 
 The folder structure of each fold looks like this:
 ```
