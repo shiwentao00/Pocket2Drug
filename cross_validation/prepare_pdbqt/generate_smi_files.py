@@ -9,8 +9,8 @@ from tqdm import tqdm
 
 
 if __name__ == "__main__":
-    in_dir = "../../../p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
-    out_dir = "../../../p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered_smi/"
+    in_dir = "../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered/"
+    out_dir = "../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_smi/"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 

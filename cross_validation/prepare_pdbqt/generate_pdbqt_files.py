@@ -8,8 +8,8 @@ from tqdm import tqdm
 import subprocess
 
 if __name__ == "__main__":
-    in_dir = "../../../p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered_smi/"
-    out_dir = "../../../p2d_results/cv_results/cross_val_fold_0/val_pockets_sample_clustered_pdbqt/"
+    in_dir = "../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_smi/"
+    out_dir = "../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_pdbqt/"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 

@@ -14,6 +14,15 @@ python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/
 ```
 8. Compute molecular weight for each of the selected molecules.
 9. Prepare pdbqt files for all the pockets in the dataset.
+    a. Convert `.yaml` files to `.smi` files. Modify the input and outpout directories before running.
+    ```
+    cd prepare_pdbqt
+    python generate_smi_files.py
+    ``` 
+    b. Generate `.pdbqt` files from the `.smi` files. Modify the input and outpout directories before running.
+    ```
+    python generate_pdbqt_files.py
+    ```
 10. Prepare a large dataset of random drugs from Zinc/Chembl.
 11. For fold 0, develop a set of procedures to perform docking and collect results:
 For each pocket in validation fold 0,   
