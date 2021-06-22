@@ -25,7 +25,15 @@ python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/
     ```
 10. For each pocket in a validation fold, dock the qdbqt files, and save the docking scores    
     a. Compute the docking boxes of each molecule to dock   
+    ```
+    cd ./docking/docking_box
+    python compute_docking_box.py -fold 0
+    ```
     b. Compute the geometric centers of the pockets in the dataset   
+    ```
+    cd ./docking/docking_center
+    
+    ```
     c. run docking (smina)   
 
 11. Prepare a large dataset of random drugs from Zinc/Chembl

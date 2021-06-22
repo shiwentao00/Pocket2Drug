@@ -1,11 +1,10 @@
 """
 Compute the docking boxes of the 14 label ligands.
 """
+import os
 from os import listdir
 from os.path import isfile, join
 import argparse
-
-import os
 import subprocess
 import yaml
 from tqdm import tqdm
