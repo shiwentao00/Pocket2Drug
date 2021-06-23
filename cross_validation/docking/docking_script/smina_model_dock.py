@@ -108,7 +108,7 @@ if __name__ == "__main__":
                 docking_boxes = yaml.full_load(f)
 
             # for each ligand candidate of this pocket
-            for mol in ligands[0:10]:
+            for mol in ligands:
                 # current ligand path
                 mol_path = pocket_ligand_dir + mol
 
