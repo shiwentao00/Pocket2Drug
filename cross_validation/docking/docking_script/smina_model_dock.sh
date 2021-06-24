@@ -1,11 +1,11 @@
 #!/bin/bash
 fold=0
 start=0
-#total=4836
-total=49
+total=4836
+#total=49
 while (($start < $total))
 do
-    end=$((start + 50))
+    end=$((start + 200))
     if (($end >= $total)); then
         end=$((total - 1))
     fi
