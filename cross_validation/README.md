@@ -1,19 +1,31 @@
 ## Cross Validation
 Docking is the main method used to evaluate the results. The dataset is divided into 10 folds and evaluated by a 10-fold cross validation. In this way, the model is evaluated against all the pockets in the dataset. The cross validation has the following procedures:
-	
-1. Exclude the data points in DUDE dataset. 
-2. Exclude the 5 pockets for case study.
-3. Filter the dataset with Synthetic Accessibility (SA) score. We keep the pockets that have binding molecules of SA scores between 1 to 6.
-4. Divide the dataset into 10 folds.
-5. Train the model 10 times for the 10 folds.
-6. Sample 20480 molecules for each pocket in the validation foldes. Filter the molecules with SA score range 1 to 6.
-7. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin pickingalgorithm is used. It is implemented in RdKit. 
+1. Pre-process the data for cross-validation. The 10 folds of data are saved under `.folds`.   
+	```
+	python data_prepare.py
+	```
+	This code has the following steps:   
+		a. Exclude the data points in DUDE dataset.    
+		b. Exclude the 5 pockets for case study.   
+		c. Filter the dataset with Synthetic Accessibility (SA) score. We keep the pockets that have binding molecules of SA scores between 1 to 6.   
+		d. Divide the dataset into 10 folds.   
+	   
+2. Train the model 10 times for the 10 folds.
+	```
+	cd ../
+	python cross_val_train.py -val_fold 0 -out_dir ../p2d_results_selfie/cross_val_fold_0/
+	```
+4. Sample 20480 molecules for each pocket in the validation foldes. Filter the molecules with SA score range 1 to 6.
+	```
+	python cross_val_sample.py -fold 0 -reresult_dir ../p2d_results_selfie/cross_val_fold_0/val_pockets_sample/
+	```
+6. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin pickingalgorithm is used. It is implemented in RdKit. 
 ```
 cd ./subset
 python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/subset/molecules> 
 ```
-8. Compute molecular weight for each of the selected molecules.
-9. Prepare pdbqt files for all the pockets in the dataset.   
+5. Compute molecular weight for each of the selected molecules.
+6. Prepare pdbqt files for all the pockets in the dataset.   
     a. Convert `.yaml` files to `.smi` files. Modify the input and outpout directories before running   
     ```
     cd prepare_pdbqt
@@ -23,7 +35,7 @@ python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/
     ```
     python generate_pdbqt_files.py
     ```
-10. For each pocket in a validation fold, dock the qdbqt files, and save the docking scores    
+7. For each pocket in a validation fold, dock the qdbqt files, and save the docking scores    
     a. Compute the docking boxes of each molecule to dock   
     ```
     cd ./docking/docking_box
@@ -36,8 +48,8 @@ python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/
     ```
     c. run docking (smina)   
 
-11. Prepare a large dataset of random drugs from Zinc/Chembl
-12. Dock the random molecules to the pockets in the validation set   
+8. Prepare a large dataset of random drugs from Zinc/Chembl
+9. Dock the random molecules to the pockets in the validation set   
 
 The folder structure of each fold looks like this:
 ```
@@ -69,7 +81,7 @@ The folder structure of each fold looks like this:
 	    └── pdbqt
 ```
 
-11.Repeat step 10 for the rest validation folds.
+10.Repeat step 10 for the rest validation folds.
 
 ### Docking
 The docking script has the following steps:
