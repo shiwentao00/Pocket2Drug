@@ -15,15 +15,16 @@ Docking is the main method used to evaluate the results. The dataset is divided 
 	cd ../
 	python cross_val_train.py -val_fold 0 -out_dir ../p2d_results_selfie/cross_val_fold_0/
 	```
-4. Sample 20480 molecules for each pocket in the validation foldes. Filter the molecules with SA score range 1 to 6.
+3. Sample 20480 molecules for each pocket in the validation foldes. Filter the molecules with SA score range 1 to 6.
 	```
 	python cross_val_sample.py -fold 0 -reresult_dir ../p2d_results_selfie/cross_val_fold_0/val_pockets_sample/
 	```
-6. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin pickingalgorithm is used. It is implemented in RdKit. 
-```
-cd ./subset
-python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/subset/molecules> 
-```
+4. Compute a representative subset from the sampled molecules of each pocket. Right now the Maxmin pickingalgorithm is used. It is implemented in RdKit. 
+	```
+	cd ./subset
+	python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/subset/molecules> 
+	```
+	Here, the subset molecules are saved under `../p2d_results_selfie/cross_val_fold_0/val_pockets_sample_clustered/`.     
 5. Compute molecular weight for each of the selected molecules.
 6. Prepare pdbqt files for all the pockets in the dataset.   
     a. Convert `.yaml` files to `.smi` files. Modify the input and outpout directories before running   
@@ -44,8 +45,9 @@ python compute_subset.py -mol_dir <path/to/sampled/molecules> -out_dir <path/of/
     b. Compute the geometric centers of the pockets in the dataset   
     ```
     cd ./docking/docking_center
-    
+    python compute_docking_center.py
     ```
+	The docking centers of all the pockets are saved in `./docking/docking_center/pocket_center.pickle`.   
     c. run docking (smina)   
 
 8. Prepare a large dataset of random drugs from Zinc/Chembl
