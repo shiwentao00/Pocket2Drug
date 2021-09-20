@@ -51,6 +51,10 @@ Docking is the main method used to evaluate the results. The dataset is divided 
     c. run docking (smina)   
 
 8. Prepare a large dataset of random drugs from Zinc/Chembl
+    ```
+    cd ./zinc_sampler/
+    python sample_zinc.py
+    ```
 9. Dock the random molecules to the pockets in the validation set   
 
 The folder structure of each fold looks like this:
