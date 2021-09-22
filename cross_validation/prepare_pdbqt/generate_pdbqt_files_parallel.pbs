@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=72:00:00
+#PBS -A hpc_michal01
+#PBS -j oe
+
+cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/prepare_pdbqt/
+
+singularity exec --nv -B /work,/project,/usr/lib64 /work/derick/singularities/pytorch171.simg python generate_pdbqt_files_parallel.py -num_workers 20
