@@ -19,12 +19,12 @@ def get_args():
 
     parser.add_argument("-in_dir",
                         required=False,
-                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_smi/",
+                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_smi/",
                         help="directory of smi files after being selected by clustering algorithm")
 
     parser.add_argument("-out_dir",
                         required=False,
-                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_pdbqt/",
+                        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt/",
                         help="directory of pdbqt files of sampled SMILES")
 
     return parser.parse_args()
