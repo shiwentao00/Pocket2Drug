@@ -7,4 +7,6 @@
 
 cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/prepare_pdbqt/
 
-singularity exec --nv -B /work,/project,/usr/lib64 /work/derick/singularities/pytorch171.simg python generate_pdbqt_files_parallel.py -num_workers 20
+conda activate myenv
+
+python generate_pdbqt_files_parallel.py -num_workers 20
