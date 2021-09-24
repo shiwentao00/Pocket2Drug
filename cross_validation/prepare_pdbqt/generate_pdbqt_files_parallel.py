@@ -5,7 +5,6 @@ import argparse
 import os
 from os import listdir
 from os.path import isfile, join
-from tqdm import tqdm
 import subprocess
 from multiprocessing import Pool
 
