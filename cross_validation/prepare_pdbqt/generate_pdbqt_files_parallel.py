@@ -90,4 +90,4 @@ if __name__ == "__main__":
 
     # parallel processing
     with Pool(num_workers) as p:
-        p.map(worker_func, in_tuples)
+        p.map(worker_func, in_tuple_list)
