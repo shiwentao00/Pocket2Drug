@@ -7,6 +7,6 @@
 
 cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/prepare_pdbqt/
 
-conda activate myenv
+source activate myenv
 
 python generate_pdbqt_files_parallel.py -num_workers 20
