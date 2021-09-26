@@ -29,12 +29,12 @@ def get_args():
 
     parser.add_argument("-ligand_dir",
                         required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_pdbqt/",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt/",
                         help="pdbqt files of ligands for docking")
 
     parser.add_argument("-dock_box_dir",
                         required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_clustered_pdbqt_dock_box/",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt_dock_box/",
                         help="pre-computed docking box sizes for docking")
 
     parser.add_argument("-docking_center_path",
@@ -44,7 +44,7 @@ def get_args():
 
     parser.add_argument("-out_dir",
                         required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/docking_results/",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_docking_results/",
                         help="output directory for docking results")
     return parser.parse_args()
 

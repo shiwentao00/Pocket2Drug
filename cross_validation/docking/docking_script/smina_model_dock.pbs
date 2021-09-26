@@ -9,6 +9,6 @@ source activate myenv
 
 cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation/docking/docking_script
 
-log_path="/work/derick/siamese-monet-project/p2d_results_selfie/cv_results/docking_logs/docking-fold${FOLD}-${START}-${END}"
+log_path="/work/derick/siamese-monet-project/p2d_results_selfie/cv_results/docking_logs/zinc-docking-fold${FOLD}-${START}-${END}"
 
 python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} > ${log_path} 2>&1
