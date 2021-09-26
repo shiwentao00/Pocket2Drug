@@ -13,15 +13,15 @@ from tqdm import tqdm
 def get_args():
     parser = argparse.ArgumentParser("python")
 
-    parser.add_argument("-fold",
+    parser.add_argument("-in_dir",
                         required=False,
-                        default=0,
-                        help="which fold used for validation")
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt/",
+                        help="input directory of the pdbqt files")
 
-    parser.add_argument("-work_dir",
+    parser.add_argument("-out_dir",
                         required=False,
-                        default="../../../../p2d_results_selfie/cv_results/",
-                        help="which fold used for validation")
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt_dockbox/",
+                        help="output directory of the docking boxes")
 
     return parser.parse_args()
 
@@ -32,28 +32,21 @@ if __name__ == "__main__":
 
     # input and output directories
     args = get_args()
-    fold = args.fold
-    work_dir = args.work_dir
-    in_dir = work_dir + \
-        "cross_val_fold_{}/val_pockets_sample_clustered_pdbqt/".format(fold)
-    out_dir = work_dir + \
-        "cross_val_fold_{}/val_pockets_sample_clustered_pdbqt_dock_box/".format(
-            fold)
+    in_dir = args.in_dir
+    out_dir = args.out_dir
+
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     print("Input directory: ", in_dir)
     print("Output directory: ", out_dir)
 
-    pocket_fold_dir = yaml.full_load(
-        "../../folds/pockets_fold{}.yaml".format(fold))
-    with open(pocket_fold_dir, "r") as f:
-        pockets = yaml.full_load(f)
-    pockets = pockets.keys()
+    # list of pocket folders, where each folder contains multiple pdbqt files
+    pockets = [pocket for pocket in os.listdir(in_dir) if os.path.isdir(os.path.join(in_dir, pocket))]
 
     for pocket in tqdm(pockets):
-        # for each pocket
-        pocket_dir = in_dir + pocket + "/"
         docking_boxes = {}
+
+        pocket_dir = os.path.join(in_dir, pocket) 
 
         # lsit of sampled molecules
         mols = [f for f in listdir(pocket_dir) if isfile(join(pocket_dir, f))]
