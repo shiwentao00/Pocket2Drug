@@ -7,7 +7,6 @@ from os.path import isfile, join
 import argparse
 import subprocess
 import yaml
-from tqdm import tqdm
 
 
 def get_args():
@@ -42,6 +41,6 @@ if __name__ == "__main__":
         pdbqt_files = [f for f in listdir(pocket_folder) if isfile(join(pocket_folder, f))]
         if len(pdbqt_files) != 100:
             print(pocket_folder, len(pdbqt_files))
-            
+
 
     
