@@ -8,7 +8,7 @@ from os.path import isfile, join
 from tqdm import tqdm
 import yaml
 import matplotlib.pyplot as plt
-
+from statistics import median
 
 def get_args():
     parser = argparse.ArgumentParser("python")
@@ -48,7 +48,7 @@ if __name__=="__main__":
         
         if zinc_docking_scores and model_docking_scores:
             best_docking_scores.append(
-                (min(zinc_docking_scores.values()), min(model_docking_scores.values()))
+                (median(zinc_docking_scores.values()), median(model_docking_scores.values()))
             )
         else:
             num_problematic_pocket += 1 
@@ -74,7 +74,7 @@ if __name__=="__main__":
     line2 = ax.scatter(zinc_docking_scores, model_docking_scores, marker='.')
 
     # Plot the docking scores
-    plt.savefig("best_docking_scores.png", dpi=300)
+    plt.savefig("median_docking_scores.png", dpi=300)
 
     # simple statistics
     zinc_better = 0 
