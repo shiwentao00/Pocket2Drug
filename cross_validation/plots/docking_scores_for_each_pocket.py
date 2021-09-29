@@ -65,6 +65,7 @@ if __name__=="__main__":
             ax.hist(zinc_docking_scores.values(), histtype='bar', bins=30, alpha=0.5, color="grey", label="Zinc")
             ax.legend()
             plt.savefig(join(output_images_dir, docking_file.split('_')[0] + ".png"), dpi=300)
+            plt.close()
         else:
             num_problematic_pocket += 1
 
