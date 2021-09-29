@@ -35,38 +35,62 @@ if __name__=="__main__":
 
     # tuples of docking scores
     best_docking_scores = []
+    num_problematic_pocket = 0
     print("loading docking scores...")
-    #for docking_file in tqdm(model_docking_score_files):
+    for docking_file in tqdm(model_docking_score_files):
         # docking scores of model molecules 
-        #with open(join(model_mols_dir, docking_file), "r") as f:
-        #    model_docking_scores = yaml.full_load(f)
+        with open(join(model_mols_dir, docking_file), "r") as f:
+            model_docking_scores = yaml.full_load(f)
         
         # docking scores of random zinc molecules
-        #with open(join(zinc_mols_dir, docking_file), "r") as f:
-        #    zinc_docking_scores = yaml.full_load(f)
+        with open(join(zinc_mols_dir, docking_file), "r") as f:
+            zinc_docking_scores = yaml.full_load(f)
         
-        #best_docking_scores.append(
-        #    (min(zinc_docking_scores), min(model_docking_scores))
-        #)
+        if zinc_docking_scores and model_docking_scores:
+            best_docking_scores.append(
+                (min(zinc_docking_scores.values()), min(model_docking_scores.values()))
+            )
+        else:
+            num_problematic_pocket += 1 
+
+    print("loading finished, number of problematic pocket: ", num_problematic_pocket)
 
     # sort the scores according to the zinc docking scores
     best_docking_scores.sort(key=lambda x: x[0])
+    fig, ax = plt.subplots()
+    ax.set_title('Docking Scores')
+    ax.set_xlabel('Zinc docking scores')
+    ax.set_ylabel('Model docking scores')
 
     # Plot a line y = x. If the plot is above this line, it means that
     # model is better than random, and worse than random if plot is below
     # this line. 
-    fig, ax = plt.subplots()
-    ax.set_xlabel('Zinc docking scores')
-    ax.set_ylabel('Model docking scores')
-    
-    #x = [best_docking_scores[0][0], best_docking_scores[-1][-1]]
-    x = [0, 1]
-    line21 = ax.plot(x, x, dashes=[6, 2], color='grey')
+    x = [best_docking_scores[0][0], best_docking_scores[-1][0]]
+    line1 = ax.plot(x, x, dashes=[6, 2], color='grey')
+
+    # plot the model docking score vs the random docking score
+    zinc_docking_scores = [x[0] for x in best_docking_scores]
+    model_docking_scores = [x[1] for x in best_docking_scores]
+    line2 = ax.scatter(zinc_docking_scores, model_docking_scores, marker='.')
 
     # Plot the docking scores
+    plt.savefig("best_docking_scores.png", dpi=300)
 
-    plt.show()
+    # simple statistics
+    zinc_better = 0 
+    model_better = 0
+    tie = 0
+    for x in best_docking_scores:
+        if x[0] < x[1]:
+            zinc_better += 1
+        elif x[0] > x[1]:
+            model_better += 1 
+        else:
+            tie += 1
 
+    print("number of pockets where zinc is better: ", zinc_better)
+    print("number of pockets where model is better: ", model_better)
+    print("number of ties: ", tie)
 
 
         
