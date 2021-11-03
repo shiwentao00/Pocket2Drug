@@ -66,8 +66,8 @@ class PreparePDBQT:
         self.in_files = [f for f in listdir(in_dir) if isfile(join(in_dir, f))]
 
     def prepare_pdbqt(self):
-        self.prepare_pdbqt_single_proc(self.in_files[0])
-        pass
+        with Pool(self.num_workers) as p:
+            p.map(self.prepare_pdbqt_single_proc, self.in_files)
 
     def prepare_pdbqt_single_proc(self, in_file):
         """
@@ -85,8 +85,8 @@ class PreparePDBQT:
         smiles.sort(key=lambda x: x[0], reverse=True)
         
         # take the SMILES with highest frequencies
-        # write them into a .smi file
         smi_path = join(self.smi_dir, pocket + '.smi')
+        # write them into a .smi file
         self.write_smi_file(smiles, smi_path)
 
         # convert the .smi file to pdbqt files
@@ -94,7 +94,6 @@ class PreparePDBQT:
         self.gen_pdbqt(smi_path, pocket_pdbqt_dir, pocket)
 
         # compute the docking boxes of the pdbqt files
-        #pocket_dock_box_dir = join(self.dock_box_dir, pocket)
         self.compute_dock_box(pocket_pdbqt_dir, self.dock_box_dir, pocket)
 
 
@@ -153,17 +152,22 @@ class PreparePDBQT:
             yaml.dump(docking_boxes, f)
 
 
-
-
 if __name__ == '__main__':
     args = get_args()
     in_dir = args.in_dir
     smi_dir = args.smi_dir
     pdbqt_dir = args.pdbqt_dir
     dock_box_dir = args.dock_box_dir
-    
+    num_workers = args.num_workers
 
-    pp = PreparePDBQT(in_dir, smi_dir, pdbqt_dir, dock_box_dir)
+    pp = PreparePDBQT(
+        in_dir=in_dir, 
+        smi_dir=smi_dir,
+        pdbqt_dir=pdbqt_dir,
+        dock_box_dir=dock_box_dir,
+        num_workers=num_workers
+    )
+
     pp.prepare_pdbqt()
 
     
