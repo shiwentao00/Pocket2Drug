@@ -11,10 +11,10 @@ cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/docking/do
 
 log_path="/work/derick/siamese-monet-project/p2d_results_selfie/cv_results/docking_logs/model-ranked-mols-docking-fold${FOLD}-${START}-${END}"
 
-ligand_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_pdbqt/"
+ligand="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_pdbqt/"
 
-dock_box_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_dock_box/"
+dock_box="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_dock_box/"
 
-out_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_docking_results/"
+out="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_docking_results/"
 
-python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} -ligand_dir ${ligand_dir} -dock_box_dir ${dock_box_dir} -out_dir ${out_dir} -> ${log_path} 2>&1
+python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} -ligand_dir ${ligand} -dock_box_dir ${dock_box} -out_dir ${out} -> ${log_path} 2>&1
