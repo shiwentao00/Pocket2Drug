@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=72:00:00
+#PBS -A hpc_michal01
+#PBS -j oe
+
+source activate myenv
+
+cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/docking/docking_script
+
+log_path="/work/derick/siamese-monet-project/p2d_results_selfie/cv_results/docking_logs/model-ranked-mols-docking-fold${FOLD}-${START}-${END}"
+
+ligand_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_pdbqt/"
+
+dock_box_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_dock_box/"
+
+out_dir="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_docking_results/"
+
+python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} -ligand_dir ${ligand_dir} -dock_box_dir ${dock_box_dir} -out_dir ${out_dir} -> ${log_path} 2>&1
