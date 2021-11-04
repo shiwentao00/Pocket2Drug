@@ -3,6 +3,7 @@ Docking script for ligands sampled by the P2D model.
 """
 import argparse
 import pickle
+from posix import times_result
 import yaml
 import os
 from os import listdir
@@ -66,13 +67,13 @@ def get_args():
                         help='end index of pocket')
 
     parser.add_argument("-ligand_dir",
-                        required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt/",
+                        required=True,
+                        #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt/",
                         help="pdbqt files of ligands for docking")
 
     parser.add_argument("-dock_box_dir",
-                        required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt_dock_box/",
+                        required=True,
+                        #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_pdbqt_dock_box/",
                         help="pre-computed docking box sizes for docking")
 
     parser.add_argument("-docking_center_path",
@@ -81,8 +82,8 @@ def get_args():
                         help="pre-computed docking ceters for docking")
 
     parser.add_argument("-out_dir",
-                        required=False,
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_docking_results/",
+                        required=True,
+                        #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_sampled_docking_results/",
                         help="output directory for docking results")
     return parser.parse_args()
 
