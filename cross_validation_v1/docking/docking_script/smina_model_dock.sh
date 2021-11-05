@@ -2,7 +2,6 @@
 fold=0
 start=0
 total=4836
-#total=49
 while (($start < $total))
 do
     end=$((start + 200))
