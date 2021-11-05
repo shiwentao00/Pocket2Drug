@@ -11,4 +11,4 @@ cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/docking/do
 
 log_path="/work/derick/siamese-monet-project/p2d_results_selfie/cv_results/docking_logs/model-ranked-mols-docking-fold${FOLD}-${START}-${END}"
 
-python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} -> ${log_path} 2>&1
+python smina_model_dock.py -fold ${FOLD} -start ${START} -end ${END} > ${log_path} 2>&1
