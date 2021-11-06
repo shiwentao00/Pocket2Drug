@@ -19,22 +19,22 @@ def get_args():
 
     parser.add_argument("-in_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_sampled/",
                         help="directory of smi files after being selected by ranking frequencies")
 
     parser.add_argument("-smi_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_smi/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_smi/",
                         help="directory of smi files of sampled SMILES")
 
     parser.add_argument("-pdbqt_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_pdbqt/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_pdbqt/",
                         help="directory of pdbqt files of sampled SMILES")
 
     parser.add_argument("-dock_box_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_dock_box/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_dock_box/",
                         help="directory of pdbqt files of sampled SMILES")
 
     return parser.parse_args()
@@ -80,9 +80,14 @@ class PreparePDBQT:
         with open(join(in_dir, in_file), 'r') as f:
             smiles_freq = yaml.full_load(f)
 
-        # sort the SMILES according to their frequencies
-        smiles = [(freq, smiles) for smiles, freq in smiles_freq.items()]
-        smiles.sort(key=lambda x: x[0], reverse=True)
+        if type(smiles_freq) == dict:
+            # sort the SMILES according to their frequencies
+            smiles = [(freq, s) for s, freq in smiles_freq.items()]
+            smiles.sort(key=lambda x: x[0], reverse=True)
+        elif type(smiles_freq) == list:
+            smiles = [(0, s) for s in smiles_freq]
+        else:
+            raise Exception("wrong input yaml file type: ", join(in_dir, in_file))
         
         # take the SMILES with highest frequencies
         smi_path = join(self.smi_dir, pocket + '.smi')
