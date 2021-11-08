@@ -4,7 +4,7 @@ start=0
 total=4836
 while (($start < $total))
 do
-    end=$((start + 200))
+    end=$((start + 100))
     if (($end >= $total)); then
         end=$((total - 1))
     fi
