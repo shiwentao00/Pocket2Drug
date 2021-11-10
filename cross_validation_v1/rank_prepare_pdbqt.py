@@ -19,22 +19,22 @@ def get_args():
 
     parser.add_argument("-in_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_sampled/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_sampled/",
                         help="directory of smi files after being selected by ranking frequencies")
 
     parser.add_argument("-smi_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_smi/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_smi/",
                         help="directory of smi files of sampled SMILES")
 
     parser.add_argument("-pdbqt_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_pdbqt/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_pdbqt/",
                         help="directory of pdbqt files of sampled SMILES")
 
     parser.add_argument("-dock_box_dir",
                         required=False,
-                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_dock_box/",
+                        default="../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_dock_box/",
                         help="directory of pdbqt files of sampled SMILES")
 
     return parser.parse_args()
