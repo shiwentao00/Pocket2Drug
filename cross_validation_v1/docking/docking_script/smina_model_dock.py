@@ -69,14 +69,14 @@ def get_args():
                         required=False,
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_pdbqt/",
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_pdbqt/",
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_pdbqt",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_pdbqt/",
                         help="pdbqt files of ligands for docking")
 
     parser.add_argument("-dock_box_dir",
                         required=False,
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_dock_box/",
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_rank_dock_box/",
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_dock_box",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_dock_box/",
                         help="pre-computed docking box sizes for docking")
 
     parser.add_argument("-docking_center_path",
@@ -88,7 +88,7 @@ def get_args():
                         required=False,
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_ranked_docking_results/",
                         #default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/zinc_ranked_docking_results/",
-                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_docking_results",
+                        default="../../../../p2d_results_selfie/cv_results/cross_val_fold_0/mol_rnn_rank_docking_results/",
                         help="output directory for docking results")
     return parser.parse_args()
 
