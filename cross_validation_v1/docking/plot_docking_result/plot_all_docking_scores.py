@@ -44,10 +44,12 @@ if __name__=="__main__":
     args = get_args()
     model_mols_set = get_pocket_set(args.model_mols_dir)
     zinc_mols_set = get_pocket_set(args.zinc_mols_dir)
-    pockets = list(model_mols_set & zinc_mols_set)
+    rnn_mols_set = get_pocket_set(args.rnn_mols_dir)
+    pockets = list(model_mols_set & zinc_mols_set & rnn_mols_set)
 
     all_model_docking_scores = []
     all_zinc_docking_scores = []
+    all_rnn_docking_scores = []
 
     print("loading docking scores...")
     for pocket in tqdm(pockets):
@@ -61,17 +63,25 @@ if __name__=="__main__":
             zinc_docking_scores = yaml.full_load(f)
             all_zinc_docking_scores.extend(list(zinc_docking_scores.values()))
 
+        # docking scores of rnn molecules
+        with open(join(args.rnn_mols_dir, f"{pocket}_docking_score.yaml"), "r") as f:
+            rnn_docking_scores = yaml.full_load(f)
+            all_rnn_docking_scores.extend(list(rnn_docking_scores.values()))
+
     # remove the outliers that are larger than 0
     all_model_docking_scores = [x for x in all_model_docking_scores if x < 0] 
-    all_zinc_docking_scores = [x for x in all_zinc_docking_scores if x < 0] 
+    all_zinc_docking_scores = [x for x in all_zinc_docking_scores if x < 0]
+    all_rnn_docking_scores = [x for x in all_rnn_docking_scores if x < 0]
+    print(len(all_model_docking_scores))
     print(len(all_zinc_docking_scores))
-    print(len(all_zinc_docking_scores))
+    print(len(all_rnn_docking_scores))
 
     fig, ax = plt.subplots()
     ax.set_title('Docking Score Distribution')
     ax.set_xlabel('Docking Score')
     ax.set_ylabel('Count')
     ax.hist(all_model_docking_scores, histtype='step', bins=100, color='red', label="Model")
+    ax.hist(all_rnn_docking_scores, histtype='step', bins=100, color='green', label="RNN")
     ax.hist(all_zinc_docking_scores, histtype='bar', bins=100, alpha=0.5, color="grey", label="Zinc")
     ax.legend()
     plt.savefig(join('./figures/', "total_docking_score_distribution" + ".png"), dpi=300)
