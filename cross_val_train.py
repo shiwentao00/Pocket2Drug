@@ -23,7 +23,7 @@ def get_args():
 
     parser.add_argument("-out_dir",
                         required=False,
-                        default="../p2d_results_selfie/cross_val_fold_0/",
+                        default="../p2d_results_selfie/cv_tune/cross_val_fold_0/",
                         help="which fold used for validation")
 
     return parser.parse_args()
