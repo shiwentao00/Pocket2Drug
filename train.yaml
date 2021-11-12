@@ -26,7 +26,7 @@
   pretrained_model: "../p2d_pretrained_models/gnn/trained_classifier_model_999.pt"
   dim: 128 # size of the graph neural network
   num_layers: 3
-  num_channels: 2 # number of neural message masking channels form jknmm
+  num_channels: 1 # number of neural message masking channels form jknmm
   train_eps: True
   num_edge_attr: 1 # number of edge attributes, only chemical bond
   num_features: 11 # has to be consistent with features_to_use
