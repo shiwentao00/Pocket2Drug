@@ -46,7 +46,7 @@ class TSEvaluation:
                         self.cnt[th] += 1
         print(f"Number of pockets with errors {error_pockets}")
         for th in self.ths:
-            hit_rate = self.cnt[th] / len(self.pocket_files - error_pockets)
+            hit_rate = self.cnt[th] / len(self.pocket_files) - error_pockets
             print(f"Threshold: {th}, hit rate: {hit_rate}")
 
 
