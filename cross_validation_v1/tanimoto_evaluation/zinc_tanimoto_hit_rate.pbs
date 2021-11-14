@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=72:00:00
+#PBS -A hpc_michal01
+#PBS -j oe
+
+cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/tanimoto_evaluation/
+
+source activate myenv
+
+python zinc_tanimoto_hit_rate.py > ./zinc-output-samplesize-20480.txt 2>&1
+
