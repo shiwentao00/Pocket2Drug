@@ -29,7 +29,7 @@ def get_args():
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=10,
+                        default=100,
                         help="number of batches to generate")
 
     parser.add_argument("-temperature",
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     popsa_dir = args.popsa_dir
 
     # directory to store the sampled molecules
-    sampled_mols_dir = result_dir + '/val_pockets_sample/'
+    sampled_mols_dir = result_dir + f"/val_pockets_sample_{batch_size * num_batches}/"
     if not os.path.exists(sampled_mols_dir):
         os.makedirs(sampled_mols_dir)
 
