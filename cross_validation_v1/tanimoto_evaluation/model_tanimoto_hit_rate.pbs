@@ -9,4 +9,4 @@ cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/tanimoto_e
 
 source activate myenv
 
-python model_tanimoto_hit_rate.py > ./model-output-samplesize-20480.txt 2>&1
+python model_tanimoto_hit_rate.py > ./model-output-samplesize-81920.txt 2>&1

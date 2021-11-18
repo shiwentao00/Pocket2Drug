@@ -104,7 +104,7 @@ def get_args():
     parser = argparse.ArgumentParser("python")
     parser.add_argument(
         "-mol_dir",
-        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/",
+        default="../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_81920/",
         required=False,
         help="directory of molecules to evaluate"
     )
