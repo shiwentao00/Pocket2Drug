@@ -26,6 +26,7 @@ class TSEvaluation:
 
         # list of pockects 
         self.pocket_files = [f for f in listdir(mol_dir) if isfile(join(mol_dir, f))]
+        print(f"total number of pockets to evaluate: {len(self.pocket_files)}")
 
         # true label SMILES
         with open(label_smiles_path, 'r') as f:
@@ -53,7 +54,7 @@ class TSEvaluation:
                         self.cnt[th] += 1
         print(f"Number of pockets with errors {error_pockets}")
         for th in self.ths:
-            hit_rate = self.cnt[th] / len(self.pocket_files) - error_pockets
+            hit_rate = self.cnt[th] / (len(self.pocket_files) - error_pockets)
             print(f"Threshold: {th}, hit rate: {hit_rate}")
 
 
