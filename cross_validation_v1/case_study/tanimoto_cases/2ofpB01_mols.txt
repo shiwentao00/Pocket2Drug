@@ -1,0 +1,14 @@
+0.8 <= ts < 0.9
+CC(C)(CO)C(=O)O
+CC(C)(CO)C(O)C(=O)C(O)CO
+CC(C)(CO)C(O)CC(O)C(=O)O
+CC(C)(CO)C1(O)C(=O)C1O
+CC(C)(O)C(O)C(=O)CO
+CC(F)(CO)C(O)C(=O)O
+CC(O)(C)CC(O)C(O)C(=O)O
+CC(O)(CO)C(O)C(=O)O
+CC(O)C(C)(O)C(O)C(=O)CO
+CCC(C)(CO)C(O)C(=O)O
+0.9 <= ts < 1.0
+ts = 1.0
+CC(C)(CO)C(O)C(=O)O

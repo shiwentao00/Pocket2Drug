@@ -1,0 +1,10 @@
+0.8 <= ts < 0.9
+C=CC(O)CC(C)(C)O
+CC(=O)CC(C)(C)O
+CC(=O)CC(C)(O)C(C)C
+CC(C)(O)CC(=O)O
+CCC(O)CC(C)(C)O
+0.9 <= ts < 1.0
+ts = 1.0
+CC(C)(O)CC(C)(C)O
+CC(O)CC(C)(C)O

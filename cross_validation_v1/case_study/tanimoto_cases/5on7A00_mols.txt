@@ -1,0 +1,19 @@
+0.8 <= ts < 0.9
+CCOP(=O)(O)OC1C(O)C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O
+O=P(O)(O)OC1CC(OP(=O)(O)OP(=O)(O)O)C(O)C1O
+O=P(O)(O)OC=C(O)C(O)C1=CC=CC(O)=C1C(=O)O
+0.9 <= ts < 1.0
+COP(=O)(O)OC1C(O)C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O
+O=COC1C(O)C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O
+O=P(O)(O)OC1C(O)C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1OP(=O)(O)O
+O=P(O)(O)OC1C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O
+O=P(O)(O)OC1C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1OP(=O)(O)O
+O=P(O)(O)OC1C(OP(=O)(O)O)C(OP(=O)(O)O)C(O)C1O
+O=P(O)(O)OC1C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O
+O=P(O)(O)OC1C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1OP(=O)(O)O
+O=P(O)(O)OC1C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1OP(=O)(O)OC(O)C(O)C(=O)O
+ts = 1.0
+O=P(O)(O)OC1C(O)C(O)C(O)C(OP(=O)(O)O)C1O
+O=P(O)(O)OC1C(O)C(O)C(O)C(OP(=O)(O)O)C1OP(=O)(O)O
+O=P(O)(O)OC1C(O)C(O)C(OP(=O)(O)O)C(O)C1O
+O=P(O)(O)OC1C(O)C(O)C(OP(=O)(O)O)C(OP(=O)(O)O)C1O

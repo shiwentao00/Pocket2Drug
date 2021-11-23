@@ -1,0 +1,9 @@
+0.8 <= ts < 0.9
+C#CCC(=O)C(=O)O
+CC(=O)C(=O)CC(C(=O)O)CC
+CCC(=O)C(O)C=O
+CCC(=O)C(O)O
+CCC=CC(=O)C(=O)O
+0.9 <= ts < 1.0
+ts = 1.0
+CCC(=O)C(=O)O

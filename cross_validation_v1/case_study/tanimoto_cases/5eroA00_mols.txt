@@ -1,0 +1,33 @@
+0.8 <= ts < 0.9
+C=CC(=O)NCCC(O)(P(=O)(O)O)P(=O)(O)O
+CC(=O)NCCC(O)(P(=O)(O)O)P(=O)(O)O
+CC(C(=O)O)C(=O)NCCC(O)(P(=O)(O)O)P(=O)(O)O
+CC(C)NCCC(O)(P(=O)(O)O)P(=O)(O)O
+CCC(OP(=O)(O)O)C(O)C(O)C(O)CC=CCC(N)
+CNCCC(O)(P(=O)(O)O)P(=O)(O)O
+NCC(O)(P(=O)(O)O)P(=O)(O)O
+NCC(OP(=O)(O)O)C(O)C(O)C(O)COP(=O)(O)O
+NCCCC(O)C(O)C(O)CC(=O)C(O)C(O)COP(=O)(O)O
+NCCCCC(N)(P(=O)(O)O)P(=O)(O)O
+O=P(O)(NCCC(O)C(=O))O
+O=P(O)(O)C(CCCN)C(O)C(O)C(O)CO
+O=P(O)(O)C(CNCCC(O)CO)CP(=O)(O)O
+O=P(O)(O)C(CNCCC(O)CO)OP(=O)(O)O
+O=P(O)(O)C(CO)NCCC(O)C(O)C(O)CO
+O=P(O)(O)C(O)(CC1CCCN1)P(=O)(O)O
+O=P(O)(O)C(O)(CCCNCC1=CC=CC=C1)P(=O)(O)O
+O=P(O)(O)C(O)(CNC1CCCCC1)P(O)O
+O=P(O)(O)C(O)(CNCCC(O)C(O)C)P(=O)(O)O
+O=P(O)(O)C(O)(CNCCC1=CC=CC=C1)P(=O)(O)O
+O=P(O)(O)C(O)(CNCCCC=CC=CC#C)P(=O)(O)O
+O=P(O)(O)C(O)(CNCCCCCO)CC(O)CO
+O=P(O)(O)C(O)(CNCCCCCO)CP(=O)(O)O
+O=P(O)(O)C(O)(CNCCCCCO)P(=O)(O)O
+O=P(O)(O)C(O)(CNCCCCCS)C(O)CS
+O=P(O)(O)C(O)(P(=O)(O)O)CCNC(CO)(CO)CO
+O=P(O)(O)CCNCC(O)C(O)C(O)CO
+0.9 <= ts < 1.0
+NCCCC(O)(P(=O)(O)O)P(=O)(O)O
+O=P(O)(O)C(O)(P(O)(O)O)CCCN
+ts = 1.0
+NCCC(O)(P(=O)(O)O)P(=O)(O)O

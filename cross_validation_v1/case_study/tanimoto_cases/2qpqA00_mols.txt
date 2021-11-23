@@ -1,0 +1,40 @@
+0.8 <= ts < 0.9
+CC(O)(CC(=O)O)C(=O)O
+O=C(CI)CC(O)(CC(=O)O)C(=O)O
+O=C(O)C(=O)CC(O)C(O)C(O)O
+O=C(O)C(O)CC(O)(O)C(=O)O
+O=C(O)C(O)CC(O)C(=O)O
+O=C(O)C(O)CC(O)CC(O)CC(=O)O
+O=C(O)C=CCC(O)(O)C(O)C(=O)O
+O=C(O)CC(=O)C(O)C(O)C(O)=C
+O=C(O)CC(O)(CC(=O)O)C(=O)CCC(=O)O
+O=C(O)CC(O)(CC(=O)O)C(=O)CO
+O=C(O)CC(O)(CC(=O)O)C(O)CP
+O=C(O)CC(O)(CC(=O)O)CC(=O)O
+O=C(O)CC(O)(CC(=S)O)C(=O)O
+O=C(O)CC(O)C(=O)O
+O=C(O)CCC(C(=O)O)C(O)C(=O)O
+O=C(O)CCC(C(O)O)C(O)C(=O)O
+O=C(O)CCC(O)(CC(=O)O)C(=O)O
+O=C(O)CCC(O)C(O)C(=O)O
+O=C(O)CCC(O)C(O)C(O)C(=O)O
+O=C(O)CCCC(=O)C(O)C(O)C(=O)O
+O=C(O)CCCC(O)(O)C(O)C(=O)O
+O=CCC(O)(C(=O)O)C(O)CO
+0.9 <= ts < 1.0
+O=C(O)C(=O)CC(O)C(O)C(=O)O
+O=C(O)C(=O)CC(O)C(O)C(O)C(=O)O
+O=C(O)C(O)(CCC(=O)O)C(=O)O
+O=C(O)C(O)CC(O)C(O)C(=O)O
+O=C(O)C(O)CC(O)CC(=O)O
+O=C(O)CC(C(=O)O)C(O)C(=O)O
+O=C(O)CC(O)(C(O)O)C(O)C(=O)O
+O=C(O)CC(O)(CC(=O)O)C(O)O
+O=C(O)CC(O)C(O)C(=O)O
+O=C(O)CCC(O)(C(=O)O)C(O)C(=O)O
+ts = 1.0
+O=C(O)C(=O)CC(O)(CC(=O)O)C(=O)O
+O=C(O)C(O)CC(O)(CC(=O)O)C(=O)O
+O=C(O)CC(O)(CC(=O)O)C(=O)O
+O=C(O)CC(O)(CC(=O)O)C(O)C(=O)O
+O=CCC(O)(CC(=O)O)C(=O)O

@@ -1,0 +1,8 @@
+0.8 <= ts < 0.9
+O=CCC(O)C(O)CS
+OC(CS)C(O)CO
+0.9 <= ts < 1.0
+O=C(CS)C(O)CS
+ts = 1.0
+OC(CS)C(O)CS
+OC(CS)C(O)C[SH]

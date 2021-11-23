@@ -1,0 +1,18 @@
+0.8 <= ts < 0.9
+CCCC(N)(CO)CC(=O)O
+NC(C(=O)O)CC(CCC(=O)O)CO
+NC(C(=O)O)CC(O)CO
+NC(C(=O)O)CCC(O)CO
+NC(C(=O)O)CCCCO
+NC(CC=O)(CCO)C(=O)O
+NC(CCCCO)C(=O)O
+NC(CCS)C(=O)O
+NC(CO)CCC(=O)O
+NCCCC(O)C(N)C(=O)O
+O=CCC(C(=O)O)NC(CCO)N
+0.9 <= ts < 1.0
+NC(C(=O)O)CCCO
+NC(CCCO)C(=O)O
+ts = 1.0
+NC(C(=O)O)CCO
+NC(CCO)C(=O)O

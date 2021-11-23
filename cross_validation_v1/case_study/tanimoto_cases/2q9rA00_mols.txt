@@ -1,0 +1,13 @@
+0.8 <= ts < 0.9
+C1=CC(C=CC(=O)O)=CC=C1C
+CC1=CC=C(C=CC(=O)O)C=C1
+CC1=CC=CC(C=CC(=O)O)=C1
+0.9 <= ts < 1.0
+C1=CC=C(C(C)C(=O)O)C=C1
+CC1=CC=C(C(=O)O)C=C1
+CC1=CC=CC(C(=O)O)=C1
+O=C(O)C=CC1=CC=CC=C1
+ts = 1.0
+C1=CC=C(C(=O)O)C=C1
+C1=CC=CC(C(=O)O)=C1
+O=C(O)C1=CC=CC=C1
