@@ -2,7 +2,7 @@
 import pickle
 
 if __name__ =="__main__":
-    with open("../../../sequence_identity/mean_seq_id.pickle", "rb") as f:
+    with open("../../../sequence_identity/max_seq_id.pickle", "rb") as f:
         mean_seq_identity = pickle.load(f)
 
     pockets = []
@@ -10,6 +10,6 @@ if __name__ =="__main__":
         pockets.append((mean_seq_identity[pocket], pocket))
 
     pockets.sort()
-    with open("./mean_seq_identities.txt", "w") as f:
+    with open("./max_seq_identities.txt", "w") as f:
         for score, pocket in pockets:
             f.write(f"{score} {pocket}\n")
