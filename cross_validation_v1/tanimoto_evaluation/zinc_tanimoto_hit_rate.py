@@ -12,13 +12,14 @@ from rdkit.DataStructs import FingerprintSimilarity
 from multiprocessing import Pool
 import random
 import pickle
+from collections import defaultdict
 
 # suppress rdkit error
 from rdkit import rdBase
 rdBase.DisableLog('rdApp.error')
 
 class TSEvaluation:
-    def __init__(self, mol_dir, label_smiles_path, control_path, num_workers=20):
+    def __init__(self, mol_dir, label_smiles_path, control_path, seq_identity_path=None, num_workers=20):
         self.mol_dir = mol_dir
         self.num_workers = num_workers
         # tanimoto thresholds for hit
@@ -28,6 +29,26 @@ class TSEvaluation:
         # list of pockects 
         self.pocket_files = [f for f in listdir(mol_dir) if isfile(join(mol_dir, f))]
         print(f"total number of pockets to evaluate: {len(self.pocket_files)}")
+
+        if seq_identity_path:
+            # load sequence identity
+            with open(seq_identity_path, "r") as f:
+                lines = f.readlines()
+            seq_identity = defaultdict(lambda: float("inf"))
+            for line in lines:
+                line = line.rstrip()
+                line = line.split()
+                seq_identity[line[1]] = float(line[0])
+
+            # filter out pockets that have similar pockets in train set
+            temp = []
+            for pocket_file in self.pocket_files:
+                pocket = pocket_file.split('_')[0]
+                protein = pocket[0:-2]
+                seq_identity_score = seq_identity[protein]
+                if seq_identity_score >= 0.5: continue
+                temp.append(pocket_file)
+            self.pocket_files = temp
 
         # true label SMILES
         with open(label_smiles_path, 'r') as f:
@@ -124,6 +145,13 @@ def get_args():
         help="input molecules for molecular weight distribution"
     )
 
+    parser.add_argument(
+        "-seq_identity_path",
+        required=False,
+        default="../case_study/max_seq_identities.txt",
+        help="the label smiles of pockets"
+    )
+
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -131,5 +159,6 @@ if __name__ == '__main__':
     mol_dir = args.mol_dir
     label_smiles_path = args.label_smiles_path
     control_path = args.control_path
-    evaluation = TSEvaluation(mol_dir, label_smiles_path, control_path, 20)
+    seq_identity_path = args.seq_identity_path
+    evaluation = TSEvaluation(mol_dir, label_smiles_path, control_path, seq_identity_path, 20)
     evaluation.compute_hit_rates()

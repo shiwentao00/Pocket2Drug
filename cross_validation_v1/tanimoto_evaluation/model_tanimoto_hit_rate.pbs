@@ -9,4 +9,14 @@ cd /work/derick/siamese-monet-project/Pocket2Drug/cross_validation_v1/tanimoto_e
 
 source activate myenv
 
-python model_tanimoto_hit_rate.py > ./model-output-samplesize-81920.txt 2>&1
+python model_tanimoto_hit_rate.py -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_81920/ > ./results/model-output-samplesize-81920-seq-identity.txt 2>&1
+
+python model_tanimoto_hit_rate.py -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/ > ./results/model-output-samplesize-20480-seq-identity.txt 2>&1
+
+python rnn_tanimoto_hit_rate.py > -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_81920/ ./results/rnn-output-samplesize-81920-seq-identity.txt 2>&1
+
+python rnn_tanimoto_hit_rate.py > -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/ ./results/rnn-output-samplesize-20480-seq-identity.txt 2>&1
+
+python zinc_tanimoto_hit_rate.py > -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample_81920/ ./results/zinc-output-samplesize-81920-seq-identity.txt 2>&1
+
+python zinc_tanimoto_hit_rate.py > -mol_dir ../../../p2d_results_selfie/cv_results/cross_val_fold_0/val_pockets_sample/ ./results/zinc-output-samplesize-20480-seq-identity.txt 2>&1
