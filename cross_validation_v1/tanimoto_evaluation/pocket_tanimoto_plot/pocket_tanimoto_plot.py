@@ -164,29 +164,33 @@ if __name__ == '__main__':
     data = [p2d_ts, rnn_ts, zinc_ts]
 
     #fig = plt.figure(figsize =(10, 7))
-    fig = plt.figure(figsize =(8, 5))
+    fig = plt.figure(figsize =(5, 5))
     ax = fig.add_subplot(111)
     
     # Creating axes instance
-    bp = ax.boxplot(data, patch_artist = True,
-                    notch ='True', vert = 0)
+    bp = ax.boxplot(
+        data, 
+        patch_artist = True,
+        vert = 1,
+        notch ='True'
+    )
     
-    colors = ['#0000FF', '#00FF00','#FFFF00']
+    colors = ['#0000FF', '#00FF00','#f2ca00']
     
     for patch, color in zip(bp['boxes'], colors):
         patch.set_facecolor(color)
     
-    # changing color and linewidth of
-    # whiskers
+    # changing color and linewidth of whiskers
+    #colors = ['#0000FF','#0000FF', '#00FF00','#00FF00', '#FFFF00', '#FFFF00']
     for whisker in bp['whiskers']:
-        whisker.set(color ='#8B008B',
+        whisker.set(color ='#18191a',
                     linewidth = 1.5,
                     linestyle =":")
     
-    # changing color and linewidth of
-    # caps
+    # changing color and linewidth of caps
+    #for cap in bp['caps']:
     for cap in bp['caps']:
-        cap.set(color ='#8B008B',
+        cap.set(color ='#18191a',
                 linewidth = 2)
     
     # changing color and linewidth of
@@ -196,13 +200,14 @@ if __name__ == '__main__':
                    linewidth = 3)
     
     # changing style of fliers
-    for flier in bp['fliers']:
-        flier.set(marker ='D',
-                  color ='#e7298a',
+    for flier, color in zip(bp['fliers'], colors):
+        flier.set(marker ='x',
+                  color = color,
+                  markeredgecolor = color,
                   alpha = 0.5)
 
     # x-axis labels
-    ax.set_yticklabels(['Pocket2Drug', 'RNN', 'Zinc'])
+    ax.set_xticklabels(['Pocket2Drug', 'RNN', 'Zinc'])
     
     # Adding title
     plt.title(f"Tanimoto similarities of pocket {pocket}")
@@ -213,4 +218,4 @@ if __name__ == '__main__':
     ax.get_yaxis().tick_left()
 
     # show plot
-    plt.savefig(f"./{pocket}.png", dpi=500)
+    plt.savefig(f"./{pocket}_vertical.png", dpi=500, bbox_inches='tight')
