@@ -6,6 +6,15 @@ Pocket2Drug is an encoder-decoder deep neural network that predicts binding drug
 
 ## Usage
 ### Dependency
+1. [Pytorch](https://pytorch.org/get-started/locally/)
+2. [Pytorch-geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html)
+3. [Rdkit](https://www.rdkit.org/docs/Install.html)
+4. [SELFIES](https://github.com/aspuru-guzik-group/selfies)
+5. Pandas 
+6. [BioPandas](http://rasbt.github.io/biopandas/)
+7. Numpy
+8. Scipy
+
 ### Dataset
 All the related data can be downloaded [here](). There are two dataset files:
 1. dataset.tar.gz: contains all binding site data in this project.
