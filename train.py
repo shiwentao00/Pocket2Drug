@@ -21,11 +21,6 @@ def get_args():
                         default=0,
                         help="which fold used for validation")
 
-    parser.add_argument("-out_dir",
-                        required=False,
-                        default="../p2d_results_selfie/cv_tune/cross_val_fold_0_run1/",
-                        help="which fold used for validation")
-
     return parser.parse_args()
 
 
@@ -60,7 +55,6 @@ if __name__ == "__main__":
         config = yaml.full_load(f)
 
     # directory for results
-    #out_dir = args.out_dir
     out_dir = config['out_dir']
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
