@@ -54,8 +54,14 @@ if __name__ == "__main__":
     assert val_fold in list(range(10))
     print('training for cross-validation, validation fold {}.'.format(val_fold))
 
+    # load configuration file
+    config_dir = "./train.yaml"
+    with open(config_dir, 'r') as f:
+        config = yaml.full_load(f)
+
     # directory for results
-    out_dir = args.out_dir
+    #out_dir = args.out_dir
+    out_dir = config['out_dir']
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     print('results saved in {}.'.format(out_dir))
@@ -64,10 +70,6 @@ if __name__ == "__main__":
     # detect cpu or gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('device: ', device)
-
-    config_dir = "./train.yaml"
-    with open(config_dir, 'r') as f:
-        config = yaml.full_load(f)
 
     random.seed(config['seed'])
 
