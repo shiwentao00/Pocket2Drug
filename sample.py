@@ -13,7 +13,7 @@ import argparse
 import torch
 from torch_geometric.data import DataLoader
 from rdkit import Chem
-from cross_validation.qed_sa_scores.rdkit_contrib.sascorer import calculateScore
+from rdkit_contrib.sascorer import calculateScore
 
 def get_args():
     parser = argparse.ArgumentParser("python")
