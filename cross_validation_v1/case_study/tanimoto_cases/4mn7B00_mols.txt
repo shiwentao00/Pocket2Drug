@@ -1,7 +1,0 @@
-0.8 <= ts < 0.9
-C[SH](CCC(N)C(=O)O)OP(=O)(O)O
-C[SH](O)CC(N)C(=O)O
-0.9 <= ts < 1.0
-C[SH](O)CCC(N)C(O)O
-ts = 1.0
-C[SH](O)CCC(N)C(=O)O

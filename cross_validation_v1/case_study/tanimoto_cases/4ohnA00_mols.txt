@@ -1,7 +1,0 @@
-0.8 <= ts < 0.9
-NC(C=O)C(O)CC1=CN=C[NH]1
-NC(C=O)CC1=CN=C[NH]1
-NC(CO)CC1=CN=C[NH]1
-0.9 <= ts < 1.0
-ts = 1.0
-NC(CC1=CN=C[NH]1)C(=O)O

@@ -1,7 +1,0 @@
-0.8 <= ts < 0.9
-CC(C)CC(NC=O)C(=O)O
-CC(N)CC(N)C(=O)O
-CCC(N)C(=O)O
-0.9 <= ts < 1.0
-ts = 1.0
-CC(C)CC(N)C(=O)O

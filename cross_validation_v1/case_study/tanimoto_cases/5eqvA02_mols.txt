@@ -1,8 +1,0 @@
-0.8 <= ts < 0.9
-CC(=O)OCC(N)(CO)CO
-NC(CO)C(=O)O
-NC(CO)CO
-0.9 <= ts < 1.0
-NC(C=O)(CO)CO
-ts = 1.0
-NC(CO)(CO)CO

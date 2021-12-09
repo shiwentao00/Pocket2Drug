@@ -1,5 +1,0 @@
-0.8 <= ts < 0.9
-CCC(O)CC(C)(C)O
-0.9 <= ts < 1.0
-ts = 1.0
-CC(O)CC(C)(C)O

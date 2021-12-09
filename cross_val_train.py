@@ -29,7 +29,7 @@ def get_args():
     return parser.parse_args()
 
 
-def read_folds(val_fold, data_dir="./cross_validation/folds/"):
+def read_folds(val_fold, data_dir="./data/folds/"):
     # train folds
     folds = list(range(10))
     folds.pop(val_fold)

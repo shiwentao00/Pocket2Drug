@@ -44,7 +44,7 @@ def get_args():
     
     parser.add_argument("-pocket_folds_dir",
                         required=False,
-                        default="./cross_validation/folds/",
+                        default="./data/folds/",
                         help="The directory of yaml files contains a dictionary of a fold of pockets \
                               to sample. The keys are the pocket names and the values are \
                               the target SMILES.")
