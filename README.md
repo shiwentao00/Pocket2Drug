@@ -18,7 +18,7 @@ python train.py
 ```
 
 ### Inference
-
-
-
-
+After training, the trained model will be saved at ```out_dir```, and we can use it to sample predicted molecules:
+```
+python sample.py -batch_size 1024 -num_batches 1 -pocket_dir path_to_dataset_folder -popsa_dir path_to_pops_folder
+```
