@@ -39,7 +39,7 @@ pip install selfies
 
 ### Dataset
 All the related data can be downloaded [here](https://osf.io/qacwj/). There are two dataset files:
-1. dataset.tar.gz: contains all binding site data in this project.
+1. dataset.tar.gz: contains all ligand-binding site data in this project.
 2. pops.tar.gz: contains information of node feature contact surface area.
 
 ### Train
