@@ -54,5 +54,3 @@ After training, the trained model will be saved at ```out_dir```, and we can use
 ```
 python sample.py -batch_size 1024 -num_batches 2 -pocket_dir path_to_dataset_folder -popsa_dir path_to_pops_folder -result_dir path_to_training_output_folder -fold 0
 ```
-
-### Inference using the trained model
