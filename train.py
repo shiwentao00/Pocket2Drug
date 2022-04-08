@@ -136,7 +136,7 @@ if __name__ == "__main__":
         )
         print('Pretrained RNN for decoder is loaded.')
     else:
-        print('No pretraining for decoder RNN')
+        print('No pretraining for decoder RNN.')
 
     # the optimizer
     learning_rate = config['learning_rate']

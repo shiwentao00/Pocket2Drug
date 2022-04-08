@@ -132,7 +132,7 @@ class RNNDecoder(torch.nn.Module):
         # feed tokens to embedding layer
         x = self.embedding_layer(smiles)
 
-        # Pack the padded input, not that the lengths are
+        # Pack the padded input, note that the lengths are
         # decreased by 1 so the last tokens (<eos> or <pad>)
         # are not included.
         x = pack_padded_sequence(

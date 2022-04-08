@@ -6,7 +6,8 @@ import random
 
 import torch
 from torch_geometric.data import Data, Dataset
-from torch_geometric.data import DataLoader
+#from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 from biopandas.mol2 import PandasMol2
 from scipy.spatial import distance
 

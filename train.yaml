@@ -1,12 +1,12 @@
-batch_size: 64
+batch_size: 32
 decoder_config:
   dropout: 0
   embedding_dim: 256
   hidden_size: 512
   input_size: 256
-  num_embeddings: 79
+  num_embeddings: 96
   num_layers: 3
-  pretrain: true
+  pretrain: false
   pretrained_model: ../p2d_pretrained_models/rnn/pretrained_rnn_35_selfies.pt
   which_rnn: GRU
 encoder_config:
@@ -33,7 +33,7 @@ features_to_use:
 - sequence_entropy
 learning_rate: 0.003
 num_epoch: 30
-out_dir: ../p2d_results_selfie/cv_tune/cross_val_fold_0_run2/
+out_dir: ../p2d_results_selfie/cv_tune/cross_val_fold_0_run3/
 pocket_dir: ../data/googlenet-dataset/
 pop_dir: ../data/pops-googlenet/
 seed: 666

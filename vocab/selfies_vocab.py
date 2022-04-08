@@ -18,9 +18,13 @@ if __name__ == "__main__":
 
     dataset = []
     for smiles in tqdm(smiles_list):
-        selfies = sf.encoder(smiles)
-        if selfies is not None:
-            dataset.append(selfies)
+        try:
+            selfies = sf.encoder(smiles)
+            if selfies is not None:
+                dataset.append(selfies)
+        except:
+            print("invalid:", smiles)
+            continue
     print('{} smiles converted to selfies.'.format(len(dataset)))
 
     vocab = list(sf.get_alphabet_from_selfies(dataset))
