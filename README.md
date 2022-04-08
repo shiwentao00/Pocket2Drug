@@ -4,7 +4,7 @@ Pocket2Drug is an encoder-decoder deep neural network that predicts binding drug
 <img width="820" height="260" src="doc/pipeline.png">
 </p>
 
-If you find this work helpful, please cite our paper:  
+If you find Pocket2Drug helpful, please cite our paper in your work :)  
 Shi, Wentao, et al. "Pocket2Drug: An encoder-decoder deep neural network for the target-based drug design." Frontiers in Pharmacology: 587.
 
 ## Usage
