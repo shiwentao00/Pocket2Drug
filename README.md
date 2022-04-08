@@ -42,8 +42,6 @@ All the related data can be downloaded [here](). There are two dataset files:
 1. dataset.tar.gz: contains all binding site data in this project.
 2. pops.tar.gz: contains information of node feature contact surface area.
 
-### Configuration
-
 ### Train
 The configurations for training can be updated in ```train.yaml```. Modify the ```pocket_dir``` and ```pop_dir``` entries to the paths of the extracted dataset. Modify the ```out_dir``` entry to the folder where you want to save the output results. The other configurations are for hyper-parameter tuning and they are self-explanatory according to their names.
 ```
