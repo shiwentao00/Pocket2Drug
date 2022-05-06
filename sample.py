@@ -60,6 +60,12 @@ def get_args():
                         help="the directory of popsa files associated with \
                               the pockets")
 
+    parser.add_argument("-profile_dir",
+                        required=False,
+                        default="../data/pops-googlenet/",
+                        help="the directory of profile files associated with \
+                              the pockets")
+
     return parser.parse_args()
 
 
@@ -83,6 +89,7 @@ if __name__ == "__main__":
     pocket_folds_dir = args.pocket_folds_dir
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
+    profile_dir = args.profile_dir
 
     # directory to store the sampled molecules
     sampled_mols_dir = result_dir + f"/val_pockets_sample_{batch_size * num_batches}/"
@@ -128,12 +135,13 @@ if __name__ == "__main__":
     with open(smiles_dir, 'r') as f:
         smiles_dict = yaml.full_load(f)
 
-    # create a valset of the case study pockets
+    # create a valset of the pockets
     features_to_use = config['features_to_use']
     valset = PocketDataset(
         pockets=val_pockets,
         pocket_dir=pocket_dir,
         pop_dir=popsa_dir,
+        profile_dir=profile_dir,
         smiles_dict=smiles_dict,
         features_to_use=features_to_use,
         vocab=vocab,

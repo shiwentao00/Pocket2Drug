@@ -73,6 +73,7 @@ if __name__ == "__main__":
     # training data files
     pocket_dir = config['pocket_dir']
     pop_dir = config['pop_dir']
+    profile_dir = config['profile_dir']
     features_to_use = config['features_to_use']
 
     # load the pocket-smiles pairs
@@ -87,6 +88,7 @@ if __name__ == "__main__":
         smiles_train_dict,
         pocket_dir,
         pop_dir,
+        profile_dir,
         features_to_use,
         vocab=config['vocab'],
         vocab_path=config['vocab_path'],
@@ -99,6 +101,7 @@ if __name__ == "__main__":
         smiles_val_dict,
         pocket_dir,
         pop_dir,
+        profile_dir,
         features_to_use,
         vocab=config['vocab'],
         vocab_path=config['vocab_path'],
