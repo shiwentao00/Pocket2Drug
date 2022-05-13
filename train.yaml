@@ -1,4 +1,4 @@
-batch_size: 32
+batch_size: 256
 decoder_config:
   dropout: 0
   embedding_dim: 256
@@ -33,9 +33,10 @@ features_to_use:
 - sequence_entropy
 learning_rate: 0.003
 num_epoch: 30
-out_dir: ../p2d_results_selfie/cv_tune/cross_val_fold_0_run3/
-pocket_dir: ../data/googlenet-dataset/
-pop_dir: ../data/pops-googlenet/
+out_dir: ../p2d_results_selfie/cv_tune/cross_val_fold_0_05122022_0/
+pocket_dir: ../osf_data/pocket-data/
+pop_dir: ../osf_data/protein-data/
+profile_dir: ../osf_data/protein-data/
 seed: 666
 smiles_dir: ./data/pocket-smiles.yaml
 test_split: 0.05

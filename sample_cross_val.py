@@ -1,7 +1,7 @@
 """
-Sample from a trained model for specified pockets, 
-remove the duplicate pockets and save the freuency of each pocket. The output file is
-a dictionary in yaml file.
+Sample from a trained model for the pockets in a validation fold, remove the duplicate 
+pockets and save the freuency of each pocket. The output file is a dictionary in 
+yaml file.
 """
 from dataloader import PocketDataset
 from model import Pocket2Drug
@@ -9,7 +9,7 @@ import os
 import yaml
 import argparse
 import torch
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 from rdkit import Chem
 from rdkit_contrib.sascorer import calculateScore
 
@@ -22,12 +22,12 @@ def get_args():
 
     parser.add_argument("-batch_size",
                         required=False,
-                        default=32,
+                        default=2048,
                         help="number of samples to generate per mini-batch")
 
     parser.add_argument("-num_batches",
                         required=False,
-                        default=2,
+                        default=40,
                         help="number of batches to generate")
 
     parser.add_argument("-temperature",
@@ -35,20 +35,32 @@ def get_args():
                         default=1.0,
                         help="the temperature paramter used to reshape softmax")
     
+    parser.add_argument("-fold",
+                        required=False,
+                        default=0,
+                        help="which fold to sample")
+    
+    parser.add_argument("-pocket_folds_dir",
+                        required=False,
+                        default="./data/folds/",
+                        help="The directory of yaml files contains a dictionary of a fold of pockets \
+                              to sample. The keys are the pocket names and the values are \
+                              the target SMILES.")
+
     parser.add_argument("-pocket_dir",
                         required=False,
-                        default="../test_data/pocket-data/",
+                        default="../data/googlenet-dataset/",
                         help="the directory of pocket files")
 
     parser.add_argument("-popsa_dir",
                         required=False,
-                        default="../test_data/protein-data/",
+                        default="../data/pops-googlenet/",
                         help="the directory of popsa files associated with \
                               the pockets")
 
     parser.add_argument("-profile_dir",
                         required=False,
-                        default="../test_data/protein-data/",
+                        default="../data/pops-googlenet/",
                         help="the directory of profile files associated with \
                               the pockets")
 
@@ -70,7 +82,9 @@ if __name__ == "__main__":
     result_dir = args.result_dir
     batch_size = int(args.batch_size)
     num_batches = int(args.num_batches)
+    fold = int(args.fold)
     temperature = float(args.temperature)
+    pocket_folds_dir = args.pocket_folds_dir
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
     profile_dir = args.profile_dir
@@ -108,14 +122,11 @@ if __name__ == "__main__":
     model.eval()
 
     # load the list of pockets in the validation fold
-    #val_pockets = pocket_folds_dir + 'pockets_fold{}.yaml'.format(fold)
-    #with open(val_pockets, 'r') as f:
-    #    val_pockets = yaml.full_load(f)
-    #val_pockets = list(val_pockets.keys())
-    #num_val_pockets = len(val_pockets)
-    val_pockets = [pocket.name for pocket in os.scandir(pocket_dir) if pocket.is_dir()]
+    val_pockets = pocket_folds_dir + 'pockets_fold{}.yaml'.format(fold)
+    with open(val_pockets, 'r') as f:
+        val_pockets = yaml.full_load(f)
+    val_pockets = list(val_pockets.keys())
     num_val_pockets = len(val_pockets)
-    #print(val_pockets)
 
     # load the dictionary of SMILES
     smiles_dir = config['smiles_dir']
