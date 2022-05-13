@@ -37,20 +37,31 @@ conda install biopandas -c conda-forge
 pip install selfies
 ```
 
+5. Install rdkit:
+```
+conda install rdkit -c conda-forge
+```
+
 ### Dataset
-All the related data can be downloaded [here](https://osf.io/qacwj/). There are two dataset files:
-1. dataset.tar.gz: contains all ligand-binding site data in this project.
-2. pops.tar.gz: contains information of node feature contact surface area.
+All the related data can be downloaded [here](https://osf.io/qacwj/). After extraction, there will be two folders:
+1. pocket-data: files that contain information of the pockets. We will use the ```.mol2``` files.
+2. protein-data: files that contain information of the proteins. We wiil use the ```.pops``` and ```.profile``` files.
 
 ### Train
-The configurations for training can be updated in ```train.yaml```. Modify the ```pocket_dir``` and ```pop_dir``` entries to the paths of the extracted dataset. Modify the ```out_dir``` entry to the folder where you want to save the output results. The other configurations are for hyper-parameter tuning and they are self-explanatory according to their names. The script ```train.py``` trains the model on a 90%-10% split of the dataset, and you can specify which fold is used for validation:  
+The configurations for training can be updated in ```train.yaml```. Set the ```pocket_dir``` to the path of ```pocket-data```, then set ```pop_dir``` and ```profile_dir``` to the path of ```protein-data```. Set the ```out_dir``` the folder where you want to save the output results. The other configurations are for hyper-parameter tuning and they are self-explanatory according to their names. The script ```train.py``` trains the model on a 90%-10% split of the dataset, and you can specify which fold is used for validation:  
 ```
 python train.py -val_fold 0
 ```
+<!---
 Note: the results presented in our research paper were produced with Pytorch v1.7.1 and selfies v1.0, which are far behind current version. There has been a major update for selfies, so the generated token vocabulary of the molecules has changed and the pre-trained RNN can not be used for training (The pre-trained RNN learns the distribution of the chembl database, which improves the performance of the model. I have wrote an exmaple for pretraining RNN [here](https://github.com/shiwentao00/Molecule-RNN)). As a result, the performance of the model will be affected. I will update the configuration once I get a chance to re-do the pretraining and hyper-parameter tuning.
+-->
 
-### Inference
-After training, the trained model will be saved at ```out_dir```, and we can use it to sample predicted molecules for the pockets in the validation fold:  
+### Sample molecules
+After training, the trained model will be saved at ```out_dir```, and we can use it to sample molecules for the pockets in the validation fold:  
 ```
-python sample.py -batch_size 1024 -num_batches 2 -pocket_dir path_to_dataset_folder -popsa_dir path_to_pops_folder -result_dir path_to_training_output_folder -fold 0
+python sample.py -batch_size 1024 -num_batches 2 -pocket_dir path_to_dataset_folder -popsa_dir path_to_pops_folder -profile_dir path_to_profile_folder -result_dir path_to_training_output_folder -fold 0
+```
+Of course, the model can be used to sample molecules for the unseen pockets defined by user. Simply omit the ```-fold``` option, the code will run on the specified input directories:
+```
+python sample.py -batch_size 1024 -num_batches 2 -pocket_dir path_to_dataset_folder -popsa_dir path_to_pops_folder -profile_dir path_to_profile_folder -result_dir path_to_training_output_folder
 ```

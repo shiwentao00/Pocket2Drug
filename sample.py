@@ -9,7 +9,7 @@ import os
 import yaml
 import argparse
 import torch
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 from rdkit import Chem
 from rdkit_contrib.sascorer import calculateScore
 
@@ -35,6 +35,18 @@ def get_args():
                         default=1.0,
                         help="the temperature paramter used to reshape softmax")
     
+    parser.add_argument("-fold",
+                        required=False,
+                        default=42,
+                        help="which fold to sample")
+    
+    parser.add_argument("-pocket_folds_dir",
+                        required=False,
+                        default="./data/folds/",
+                        help="The directory of yaml files contains a dictionary of a fold of pockets \
+                              to sample. The keys are the pocket names and the values are \
+                              the target SMILES.")
+
     parser.add_argument("-pocket_dir",
                         required=False,
                         default="../test_data/pocket-data/",
@@ -70,6 +82,8 @@ if __name__ == "__main__":
     result_dir = args.result_dir
     batch_size = int(args.batch_size)
     num_batches = int(args.num_batches)
+    fold = int(args.fold)
+    pocket_folds_dir = args.pocket_folds_dir    
     temperature = float(args.temperature)
     pocket_dir = args.pocket_dir
     popsa_dir = args.popsa_dir
@@ -107,15 +121,17 @@ if __name__ == "__main__":
     )
     model.eval()
 
-    # load the list of pockets in the validation fold
-    #val_pockets = pocket_folds_dir + 'pockets_fold{}.yaml'.format(fold)
-    #with open(val_pockets, 'r') as f:
-    #    val_pockets = yaml.full_load(f)
-    #val_pockets = list(val_pockets.keys())
-    #num_val_pockets = len(val_pockets)
-    val_pockets = [pocket.name for pocket in os.scandir(pocket_dir) if pocket.is_dir()]
+    # load the list of input pockets 
+    if 0 <= fold <= 9:
+        # input pockets are from the validation fold
+        val_pockets = pocket_folds_dir + 'pockets_fold{}.yaml'.format(fold)
+        with open(val_pockets, 'r') as f:
+            val_pockets = yaml.full_load(f)
+        val_pockets = list(val_pockets.keys())
+    else:
+        # input pockets are from user-defined directory
+        val_pockets = [pocket.name for pocket in os.scandir(pocket_dir) if pocket.is_dir()]
     num_val_pockets = len(val_pockets)
-    #print(val_pockets)
 
     # load the dictionary of SMILES
     smiles_dir = config['smiles_dir']
