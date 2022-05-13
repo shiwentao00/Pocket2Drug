@@ -8,36 +8,28 @@ If you find Pocket2Drug helpful, please cite our paper in your work :)
 Shi, Wentao, et al. "Pocket2Drug: An encoder-decoder deep neural network for the target-based drug design." Frontiers in Pharmacology: 587.
 
 ## Usage
-### Dependencies
-The main denpendencies of Pocket2Drug are listed below:
-1. [Pytorch](https://pytorch.org/get-started/locally/)
-2. [Pytorch-geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html)
-3. [selfies](https://github.com/aspuru-guzik-group/selfies)
-4. [BioPandas](http://rasbt.github.io/biopandas/)
-5. [Rdkit](https://www.rdkit.org/docs/Install.html)
-
-### Installation
-1. Install Pytorch
+### Dependency installation
+1. Install [Pytorch](https://pytorch.org/get-started/locally/):
 ```
 conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 ```
 
-2. Install Pytorch geometric:
+2. Install [Pytorch-geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html):
 ```
 conda install pyg -c pyg
 ```
 
-3. Install Biopandas:
+3. Install [BioPandas](http://rasbt.github.io/biopandas/):
 ```
 conda install biopandas -c conda-forge
 ```
 
-4. Install SELFIES:
+4. Install [selfies](https://github.com/aspuru-guzik-group/selfies):
 ```
 pip install selfies
 ```
 
-5. Install rdkit:
+5. Install [Rdkit](https://www.rdkit.org/docs/Install.html):
 ```
 conda install rdkit -c conda-forge
 ```
