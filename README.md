@@ -14,7 +14,7 @@ The main denpendencies of Pocket2Drug are listed below:
 2. [Pytorch-geometric](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html)
 3. [selfies](https://github.com/aspuru-guzik-group/selfies)
 4. [BioPandas](http://rasbt.github.io/biopandas/)
-5. [Rdkit](https://www.rdkit.org/docs/Install.html) (for inferencing only)
+5. [Rdkit](https://www.rdkit.org/docs/Install.html)
 
 ### Installation
 1. Install Pytorch
@@ -52,6 +52,8 @@ The configurations for training can be updated in ```train.yaml```. Set the ```p
 ```
 python train.py -val_fold 0
 ```
+In addition, you can use a pretrained RNN to initialize the decoder, the pretrained model can be found [here](https://osf.io/qacwj/). The pretrained RNN is trained on the chembl dataset and can improve the performance of the model. I have wrote an exmaple for pretraining RNN [here](https://github.com/shiwentao00/Molecule-RNN)).
+
 <!---
 Note: the results presented in our research paper were produced with Pytorch v1.7.1 and selfies v1.0, which are far behind current version. There has been a major update for selfies, so the generated token vocabulary of the molecules has changed and the pre-trained RNN can not be used for training (The pre-trained RNN learns the distribution of the chembl database, which improves the performance of the model. I have wrote an exmaple for pretraining RNN [here](https://github.com/shiwentao00/Molecule-RNN)). As a result, the performance of the model will be affected. I will update the configuration once I get a chance to re-do the pretraining and hyper-parameter tuning.
 -->
