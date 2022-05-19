@@ -49,18 +49,18 @@ def get_args():
 
     parser.add_argument("-pocket_dir",
                         required=False,
-                        default="../test_data/pocket-data/",
+                        default="../iclr_data/pocket-data/",
                         help="the directory of pocket files")
 
     parser.add_argument("-popsa_dir",
                         required=False,
-                        default="../test_data/protein-data/",
+                        default="../iclr_data/protein-data/",
                         help="the directory of popsa files associated with \
                               the pockets")
 
     parser.add_argument("-profile_dir",
                         required=False,
-                        default="../test_data/protein-data/",
+                        default="../iclr_data/protein-data/",
                         help="the directory of profile files associated with \
                               the pockets")
 
@@ -133,11 +133,6 @@ if __name__ == "__main__":
         val_pockets = [pocket.name for pocket in os.scandir(pocket_dir) if pocket.is_dir()]
     num_val_pockets = len(val_pockets)
 
-    # load the dictionary of SMILES
-    smiles_dir = config['smiles_dir']
-    with open(smiles_dir, 'r') as f:
-        smiles_dict = yaml.full_load(f)
-
     # create a valset of the pockets
     features_to_use = config['features_to_use']
     valset = PocketDataset(
@@ -145,7 +140,7 @@ if __name__ == "__main__":
         pocket_dir=pocket_dir,
         pop_dir=popsa_dir,
         profile_dir=profile_dir,
-        smiles_dict=smiles_dict,
+        smiles_dict=None,
         features_to_use=features_to_use,
         vocab=vocab,
         vocab_path=vocab_path

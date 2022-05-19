@@ -224,12 +224,13 @@ class PocketDataset(Dataset):
         )
         data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
-        # read the smile data
-        smile = self.smiles_dict[pocket]
-
-        # convert the smiles to integers according to vocab
-        smile = self.vocab.tokenize_smiles(smile)
-        data.y = smile
+        if self.smiles_dict is not None:
+            # read the smile data
+            smile = self.smiles_dict[pocket]
+    
+            # convert the smiles to integers according to vocab
+            smile = self.vocab.tokenize_smiles(smile)
+            data.y = smile
 
         # save the pocket name in data
         data.pocket_name = pocket
